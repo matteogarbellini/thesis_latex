@@ -1,10 +1,7 @@
-.DS_Store
-thesis.aux
-thesis.bbl
-thesis.blg
-thesis.fdb_latexmk
-thesis.fls
-thesis.log
-thesis.out
-thesis.synctex.gz
-thesis.toc
+*
+!.gitignore
+!*thesis.pdf
+!*thesis.tex
+!*/bibliography/*
+!*/figures/*
+!*/
