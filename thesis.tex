@@ -5,6 +5,7 @@
 \usepackage{verbatim}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{titlesec}
+\usepackage{setspace} %table of contents spacing
 \usepackage{epsfig}
 \usepackage{subcaption}
 \usepackage{gensymb}
@@ -68,16 +69,16 @@
         \vspace{24pt}
         \hrule
         \vspace{24pt}
-        \textbf{\Large{Quantum Walks with Time-Dependent Hamiltonians}} \\ 
-        
+        \textbf{\Large{Quantum Walks with Time-Dependent Hamiltonians}\\ \large{and their application to the search problem on graph}} \\
+
     \end{center}
     \vspace{120pt}
     \begin{flushleft}
-        Relatore : 
+        Relatore :
         \textbf{Prof. Matteo G.A. Paris}\\
-        Correlatore: 
+        Correlatore:
         \textbf{Prof. Stefano Olivares}\\
-        Correlatrice: 
+        Correlatrice:
         \textbf{Dott.sa Claudia Benedetti}
     \end{flushleft}
     \vspace{12pt}
@@ -106,7 +107,18 @@ In this thesis we study the properties of quantum walks with time dependent hami
 %%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \thispagestyle{empty}
+\doublespacing
 \tableofcontents
+\singlespacing
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%CONCLUSIONS%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%PRELIMINARIES%%%%%%%
@@ -195,7 +207,7 @@ The quantum search routine works as follow:
 
 The objective is to find the optimal value of $\gamma$ so that the probability of the system of finding itself in $|w\rangle$ is as close as possible to 1 for the smallest T.
 
-\section{Search on Complete Graph}
+\subsection{Search on Complete Graph}
 We now look at the search on a complete graph. This case is particularly interesting since it can be solved analitically\\
 \red{to be continued}
 
@@ -230,6 +242,7 @@ where
     \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle l=1;s\Big| \frac{dH(s)}{dt} \Big| l=0;s\Big\rangle\Big|
 \end{equation}
 
+\subsection{Computation by Adiabatic Evolution}
 Let's now discuss how to take advantage of the adiabatic theorem introducting the usual way in which the adiabatic evolution is implemented. It is often presented a problem hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in abeginning hamiltonian $H_B$ whose ground state is known. The problem hamiltonian encodes the solution of the problem, while the beginning hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic implementation then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent hamiltonian $H(s)$ such that
 \begin{equation}
     H(s) = (1-s)H_B + s H_P
@@ -239,15 +252,24 @@ In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so th
 
 
 %%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%METHODS AND RESULTS%%%%%%%
+%%%%%%%%%%QUANTUM WALKS WITH TIME DEPENDENT HAMILTONIANS%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\newpage 
+\newpage
 \thispagestyle{empty}
-\chapter{Methods and Results}
+\chapter{Quantum Walks with Time-Dependent Hamiltonians}
 
-Nella ricca bibliografia disponibile sul legame tra teoria ergodica e meccanica statistica è possibile rintracciare una serie di argomenti comuni, divenuti classici e ormai presenti nella maggior parte dei libri di testo. Seppure all'interno di questa linea non si sia raggiunto un consenso universale, secondo l'autore del presente lavoro è possibile identificare un numero minimo di \textit{sei ipotesi fondamentali} (logicamente indipendenti) caratteristiche di questo approccio. In questo capitolo, dopo una breve ricapitolazione delle nozioni fondamentali della teoria ergodica, si presenterà un'esposizione critica di queste ipotesi e si discuteranno i loro rapporti sistematici nella costituzione dello schema fondazionale. 
 
-\section{Elementi di teoria ergodica}
+\section{Search with Time-Dependent Hamiltonian}
+\subsection{Comments on the shape of s(t)}
+\subsection{Complete Graph}
+\subsection{Circular Graph}
+
+\section{Results for the circular graph}
+\subsection{Search vs Localization}
+\subsection{Time-Independent Benchmark}
+\subsection{Time-Dependent Results}
+\subsection{Comparing the two approaches}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -257,22 +279,24 @@ Nella ricca bibliografia disponibile sul legame tra teoria ergodica e meccanica 
 \chapter*{Conclusions}
 \addcontentsline{toc}{chapter}{Conclusions}
 
-%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%{}
 %%%%%%%%%%APPENDIX%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\chapter*{Appendix}
-\addcontentsline{toc}{chapter}{Appendix}
+\chapter*{Appendices}
+\section*{Appendix A}
+\section*{Appendix B}
+\addcontentsline{toc}{chapter}{Appendices}
+\addcontentsline{toc}{section}{Appendix A}
+\addcontentsline{toc}{section}{Appendix B}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%BIBLIOGRAPHY%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\chapter*{Bibliography}
+%\chapter*{Bibliography}
+\bibliography{bibliography/my_library}{}
+\bibliographystyle{abbrv}
 \addcontentsline{toc}{chapter}{Bibliography}
 
 \end{document}
-
-
-
-
