@@ -2,6 +2,6 @@
 !.gitignore
 !*thesis.pdf
 !*thesis.tex
-!*/bibliography/*
-!*/figures/*
+!/bibliography/*
+!/figures/*
 !*/
