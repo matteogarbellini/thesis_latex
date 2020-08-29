@@ -391,10 +391,25 @@ The question is now indeed at what time does the probability goes to one? Can we
 \subsubsection*{Search}
 In order to compare the two approaches for the so-called \textit{search} it is clear that we cannot simply consider the time at which the solution is found with unitary probability. We thus introduce a new quantity, namely:
   \begin{equation}
-    \min = \Big(\frac{T}{p}\Big)
+    \min\Big(\frac{T}{p}\Big)
   \end{equation}
 What does this approach mean? \\
-Since for the search we're interested in optimizing the time as well, finding the combination of $\gamma-T$ for which the probability is unitary does not provide any interesting insight. Additionally we've seen that the time-independent approach does not get to unitary probability for large T. It is thus necessary to consider a different approach, namely repeating the \textit{experiment} multiple times. If the combination $\gamma-T$ produces a probability $p<1$, statistically after $1/p$ run of the experiment we should get the correct result. The minimum of $1/p$ produces the smallest number of iterations necessary to get to unitary probability, and combining it with the time should give us the combination of time and probability such that the probability is unitary for the smallest time possible.
+Since for the search we're interested in optimizing the time as well, finding the combination of $\gamma-T$ for which the probability is unitary does not provide any interesting insight. Additionally we've seen that the time-independent approach does not get to unitary probability for large T. It is thus necessary to consider a different approach, namely repeating the \textit{experiment} multiple times. If the combination $\gamma-T$ produces a probability $p<1$, statistically after $1/p$ run of the experiment we should get the correct result. The minimum of $1/p$ produces the smallest number of iterations necessary to get to unitary probability, and combining it with the time should give us the combination of time and probability such that the probability is unitary for the smallest time possible.\\
+
+
+It is necessary to make additional considerations, in particular on the ration $T/p$. Recalling that we're dealing with a grid-evaluated probability, we know that the time $T$ varies linearly. On the other hand, as we can see with the following plot the probability does not increase linearly and thus the quantity $T/p$ (in this case for sampled $\gamma$) is far from a straight line (or as we would have hoped, any distribution that stood under the I quadrant bisector).
+
+\begin{figure}[!ht]
+\centering
+\begin{tabular}{cc}
+  \includegraphics[width=75mm]{./figures/sampled_t_over_p/T_p_lin.pdf} &   \includegraphics[width=75mm]{./figures/sampled_t_over_p/T_p_cerf.pdf} \\
+(a) lin & (b) Ronald-Cerf\\[6pt]
+\end{tabular}
+\caption[Sampled T/p ]{\textbf{Sampled T/p to show that the min(T/p) will always be the smallest T available.}}
+\end{figure}
+
+ \textbf{How does this pose a problem?} The great issue with the quantity $T/p$ is that its minimum will always be found for the smallest time possible, regardless of the fact that for larger time, the probability of a single iteration could be higher.
+
 
 
 
