@@ -1,0 +1,21 @@
+\newpage
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\phantomsection
+\section*{Appendix A: Probability Grid Evaluation}
+\addcontentsline{toc}{section}{Appendix A: Probability Grid Evaluation}
+\phantomsection
+\section*{Appendix B: Computational Routines}
+In this section an overview of the computational methods is presented, focusing the attention on the \textbf{optimization algorithm} and the \textbf{differential equation solver}. Additionally the normalization error is discussed. Lastly computational reasoning for the \textbf{probability grid evaluation} are presented. \\
+
+Most all numerical simulations were performed using \textbf{Python}. Numerical methods such as optimization and ODE Solver come directly from python's native \textbf{Scipy}. In addition, a CPU-multiprocessing library, \textbf{Ray}, has been used to speed up the grid probability evaluation quite noticeably. Heatmap plots were created using python matplotlib, while additional plots were created with gnuplot.
+
+\subsection{Optimization Algorithm}
+In Section III a series of benchmark were performed to compare the time-dependent and time independent hamiltonian approach to the search problem. In order to determine which optimization algorithm fitted the best for the task, a number of possible algorithm were tested, such as \textit{shgo, dualannealing, minimize, LHSBH} and \textit{Basin-Hopping}.\\ \\
+Due to the oscillating nature of the probability (\red{a figure is needed}) the scipy native \textbf{Basinhopping algorithm} was used. As the name suggests the algorithm performs a series of randomized hops, i.e. jumps, of the coordinates in order to find the true maximum This fits particularly well with the series of maxima and minima of the probability function (for fixed $\gamma$) in the time-independent hamiltonian. \\\red{Additional information on the parameter used are needed (e.g. step size, number of iterations)}
+
+\subsection{Schroedinger Solver and Normalization Error}
+In Section II we presented an evolution which is governed by a time-dependent hamiltonian, used to find the evolved state $|\psi(t)\rangle$. This is accomplished by solving the usual Schroedinger equation using Scipy's \textbf{integrate.solve\_ivp}, that provides a wide varieties of integrations methods. \\
+
+As it's routine we used Runge-Kutta RK45, which as stated in the documentation it's a explicit Runge Kutta method of order 4(5). The error is controlled assuming fourth order accuracy, but steps are taken using the fifth-order accurate formula. In addition, the integrator is adaptive, meaning that the time step is chosen for optimal error control. Regarding the error, the algorithm provides two distinct parameters to set a targeted limit, namely the \textbf{relative (rtol)} and \textbf{absolute tolerances (atol)}. The first provides a relative accuracy, i.e. the number of digits, while the latter is used to keep the local error estimate below the threshold \textit{atol + rtol*abs(y)}. Determining the correct combinations of the two parameters is key for achieving the desired error. A few of those are presented in the following table, where a worst case scenario (N=101, T=1000) is used and the error is evaluated on the expected normalized state. The combination of rtol and atol bolded is the one we used in the solver, which gives us a small enough error on the normalization without greater computational expense.\\
+\addcontentsline{toc}{section}{Appendix B: Computational Routines}

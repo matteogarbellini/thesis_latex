@@ -1,0 +1,23 @@
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\textbf{\thepage}}
+\fancyhead[RE]{\textbf{\nouppercase{\leftmark}}}
+\fancyhead[RO]{\textbf{\nouppercase{\rightmark}}}
+\fancyhead[LO]{\textbf{\thepage}}
+
+\fancypagestyle{plain}{%
+  \renewcommand{\headrulewidth}{0pt}%
+  \fancyhf{}%
+}
+
+
+\usepackage{etoolbox}
+\makeatletter
+%\ patchcmd{<cmd>}{<search>}{<replace>}{<success>}{<failure>}
+\patchcmd{\chaptermark}{\@chapapp\ }{}{}{}
+\makeatother
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{\textbf{figure: #1}}}
+\newcommand{\teal}[1]{\textcolor{teal}{\textbf{equation: #1}}}
+\newcommand{\purple}[3]{\textcolor{purple}{\textbf{\textit{#1}, #2, #3}}}
