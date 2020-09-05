@@ -10,10 +10,11 @@
 	\usepackage{subcaption}
 	\usepackage{wrapfig}
 	\usepackage{array}
+	\usepackage{bm} %bold math symbols
 	\usepackage{tocloft}
 	\renewcommand{\cftsecaftersnum}{.}
 	\usepackage{secdot}
-	\usepackage[colorlinks=true, linkcolor = black]{hyperref}
+	\usepackage[colorlinks=true, linkcolor = blue]{hyperref}
 	\usepackage{fancyhdr} %header
 	\usepackage[Lenny]{fncychap}
 	\usepackage[a4paper, portrait, margin = 1.3in]{geometry}
@@ -22,6 +23,7 @@
 	\usepackage{amssymb} %for R of real number
 	\usepackage{amsmath}% for "n times"
 	\usepackage{makeidx} %making index
+	\usepackage{braket} %for bra-ket notation
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -50,27 +52,27 @@
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%INTRODUCTION\textbf{%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\input{Introduction/Introduction}
+\input{Chapters/Introduction}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%PRELIMINARIES%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\input{Chapter_1/Chapter_1}
+\input{Chapters/Chapter_1}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%QUANTUM WALKS WITH TIME DEPENDENT HAMILTONIANS%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\input{Chapter_2/Chapter_2}
+\input{Chapters/Chapter_2}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%CONCLUSIONS%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\input{Conclusions/Conclusions}
+\input{Chapters/Conclusions}
 
 %%%%%%%%%%%%%%%%%%%%%%{}
 %%%%%%%%%%APPENDIX%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%
-\input{Appendix/Appendix}
+\input{Chapters/Appendix}
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%BIBLIOGRAPHY%%%%%%%
