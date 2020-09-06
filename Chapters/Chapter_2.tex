@@ -1,7 +1,7 @@
 \newpage
 \thispagestyle{empty}
 \chapter{Quantum Walks with Time-Dependent Hamiltonians}
-We now turn our attentiont to a time-dependent implementation of the hamiltonian governing the evolution of the quantum walks. In particular we look at the application of such QW to the search problem on two selected graph topology, the complete and the circular graph. These two represent respectively the best and worst case scenario, namely the complete graph is known to work with the time-independent implementation \cite{Childs2004} and the local adiabatic evolution \cite{Roland2002} from which we constructed our work.
+The main purpose of this thesis is to study quantum walks with time dependent hamiltonians, focusing in particular on their application to the spatial search problem on graph. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topology: the circular graph, for which the time-independent approach is not able to solve the search problem, and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the optimized-search, localization - which represents a search without needs to optimize the time - and a measure of robustness. 
 
 \section{Search with Time-Dependent Hamiltonian}
 
@@ -80,18 +80,21 @@ We now turn our attentiont to a time-dependent implementation of the hamiltonian
       Before looking at the results it's necessary to characterize two particular classes of results, the \textbf{search} and the \textbf{localization}, that help us decide whether the time-dependent approach does bring any advantages.
       \begin{itemize}
           \item the (optimized) \textbf{search} describes the usual search, namely the finding of the solution with high probability (possibly unitary) for the smallest time as possible. As previously mentioned we also take into account the possibility of repeating the search multiple times.
-          \item the \textbf{localization} describes the finding of the solution with high probablity without the need to optimize the time. This fenomenological description becomes necessary if we take into account the adiabatic nature of the time-dependent approach, that guarantees unitary probability for large enough $t_f$.
+          \item the \textbf{localization} describes the finding of the solution with high probablity without the need to optimize the time. This description becomes necessary if we take into account the adiabatic nature of the time-dependent approach, that guarantees unitary probability for large enough $t_f$.
       \end{itemize}
 
     \subsection{Robustness}
         We've seen that the probability of a search problem depends on the time $t_f$ at which the quantum state is measured and the parameter $\gamma$. The optimal probability, i.e. highest possible, clearly is given by the optimal combination $t_f-\gamma$, and since the time $t_f$ should not be bound to errors give it's the time at which the state is measured, fluctuations in the probability are necessarily caused by fluctuations in the $\gamma$ parameter. \\
-        Following from \cite{SH.HungS.Hietala2019} we define the \textbf{robustness} as a qualitative measure representing the variation on the probability due to the variation on $\gamma$. Since our work focuses on the comparison between the time-independent and time-dependent approach, and thus we're interesting in improving on the first with the latter, the use of this term will be by describing a particular approach to be \textbf{more robust} or \textbf{less robust}. Additionally we could refer to the approach to \textbf{show (non)-robustness properties}. \\ \\
-        \textbf{How do we measure robustness?} To quantitatively measure robustness we begin by determining the combination of $t_f-\gamma$ that solves the search problem (in a single or multiple run), i.e. the probability is maximum. We then make small changes of $\gamma$ in the order of 1 to 10 percent, and measure the difference of probability produced:
+        Following from \cite{SH.HungS.Hietala2019} we define the \textbf{robustness} as quantitative measure representing the variation on the probability due to some perturbation/noise on $\gamma$.
+        We begin by finding the optimal probability $P$, evaluated with the single or multiple run for one search approach. For the corresponding $(t_f,\gamma)$ combination we evaluate the robustness as follows:
         \begin{equation}
-            P[t_f, \gamma] - P[t_f, \gamma^*]  = \mbox{some-quantity}
+            R ^\pm = P(t_f, \gamma) - P(t_f, \gamma \pm \delta)
         \end{equation}
-        where $\gamma^*$ is the \textit{perturbed} parameter.
-
+        where $\delta$ is some positive perturbation of the $\gamma$ parameter. As we shall later see this quantity is given in terms of some percentage of $\gamma$. To find a unique value for the robustness an average of $R^\pm$ is done:
+        \begin{equation}
+            R = \frac{R^++ R^-}{2}
+        \end{equation}
+        The quantity R should be positive, since the $(t_f,\gamma)$ combination should produce the highest probability possible. We also that the perturbation on the parameter has equal probability of being positive or negative, thus the average ponderates between these two possibilities. \\ \\It is necessary however to remember that the value $R$ does not have any absolute physical significance, but fits well for our specific scenario where the interest is focused on the comparison between two specific approaches. Therefore this quantity will be solely used to characterize a particular approach as \textbf{more} or \textbf{less robust}.
 
 \section{Results for the Circular Graph}
 
@@ -143,7 +146,7 @@ We now turn our attentiont to a time-dependent implementation of the hamiltonian
         \begin{equation}
           \min\Big(\frac{t_f}{p}\Big)
         \end{equation}
-        where $1/p$ is the number of iterations necessary to get to unitary probability (statistically), and combining it with $t_f$ gives the total time necessary. Optimizing over the combination of $t_f$ and $p$ gives the smallest time necessary to get to unitary probability using the multiple search approach.\\ \\  However, this particualar approach poses a few problems. Infact if we look at how the quantity $t_f/p$ varies for varying $t_f$, we discover that the minimum of such quantity will always be for the smallest $t_f$ available, regardless of the type of hamiltonian and step function $s(t)$. The following plot does indeed show, for a few sampled $\gamma$, the shape of $t_f/p$. In addition, in Section ? we mentioned that when dealing with multiple runs for one search we need to take into account an initialization time $t_{init}$. It is thus necessary to consider a lower bound on $t_f$.
+        where $1/p$ is the number of iterations necessary to get to unitary probability (statistically), and combining it with $t_f$ gives the total time necessary. Optimizing over the combination of $t_f$ and $p$ gives the smallest time necessary to get to unitary probability using the multiple search approach. Additionally, the number of iterations $\mbox{iters}=1/P$ might give some useful insights on the performance of the approach, in particular if you take into account the initialization time $t_{init}$\\ \\  However, this particualar approach poses a few problems. Infact if we look at how the quantity $t_f/p$ varies for varying $t_f$, we discover that the minimum of such quantity will always be for the smallest $t_f$ available, regardless of the type of hamiltonian and step function $s(t)$. The following plot does indeed show, for a few sampled $\gamma$, the shape of $t_f/p$. In addition, in Section ? we mentioned that when dealing with multiple runs for one search we need to take into account an initialization time $t_{init}$. It is thus necessary to consider a lower bound on $t_f$.
         \begin{figure}[ht]
         \centering
         \begin{tabular}{cc}
@@ -153,23 +156,47 @@ We now turn our attentiont to a time-dependent implementation of the hamiltonian
         \caption[Sampled T/p ]{\textbf{Sampled T/p to show that the min(T/p) will always be the smallest T available.}}
         \end{figure}
 
-        \subsubsection*{\bm{$\min(t_f/p)$}  and run iterations for increasing lower bound \bm{$t_f$}}
-         We will begin by studying how the quantity $\min(t_f/p)$ varies with increasing lower bound $t_f^*$. Additionally the number of iterations $iters = 1/p$ represent an interesting quantity, since it's clear that the least number of runs are necessary the better.
+        \bpar{\bm{$\min(t_f/p)$}  and run iterations for increasing lower bound \bm{$t_f$}}
+         We will begin by studying how the quantity $\min(t_f/p)$ and $iters$ varies with increasing lower bound $t_f^*$.
          In the following plot we show the shape of $t_f/p$ with the time-independent approach and the time-dependent one; for the time being and for sake of semplicity, we consider only the step function Ronald-Cerf(3).
          \begin{figure}[ht]
          \centering
          \includegraphics[width=90mm]{./figures/min_tp/delta.pdf}
-         \caption[Sampled T/p ]{\textbf{Sampled T/p to show that the min(T/p) will always be the smallest T available.}}
+         \caption[$\min(t_f/P)$ distribution for increasing lower bound time.]{\textbf{\bm{$\min(t_f/P)$} distribution for increasing lower bound time. }The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
+         \label{fig:delta_increasing_time}
          \end{figure} \\
         As we can see from the plot the distribution can be diveded into to section marked by a particular $T^*$ (for the time being the value of such time is not of our interest):
         \begin{itemize}
-            \item for $t_f<T^*$ the time-independent approach performes slightly better than the time-dependent one. In terms of run iterations the two approaches show very similar results.
+            \item for $t_f<T^*$ the time-independent approach performes slightly better than the time-dependent one.
             \item for $t_f>T^*$ however the time-dependent approach performs significantly better, in particular with increasing time $t_f$
         \end{itemize}
-        The behaviour for large T is to be expected, considering that the time-dependent approach shows localization properties and the probability increases with increasing time as we shoed in Figure?, in contrast with the time-independent approach that does not show localization propeties.\\ What this show is that the choice of $t_f$ has great effects on the outcome of our time-dependent approach, making it a successfull or unsuccesfull alternative. Taking into account that we're performing a multiple run search and the initialization time $t_{init}$ previously discussed, it is clear that the time-depedent approch performs better than the time-independent counter part in most of the scenario. In order to determine whether this statement is true, we now study the distribution of min(t/p) for multiple graphs, with the lower bound constrain fixed to certain values.
+        The behaviour for large T is to be expected, considering that the time-dependent approach shows localization properties and the probability increases with increasing time as we shoed in Figure?, in contrast with the time-independent approach that does not show localization propeties.\\ What this show is that the choice of $t_f$ has great effects on the outcome of our time-dependent approach, making it a successfull or unsuccesfull alternative.
+        In terms of iterations the trend is similar to the quantity \quantity, as the following plot shows.
+        \begin{figure}[ht]
+        \centering
+        \includegraphics[width=90mm]{./figures/min_tp/iters.pdf}
+        \caption[$iters$ distribution for increasing lower bound time.]{\textbf{$\bm{iters}$ distribution for increasing lower bound time. }The figure shows the distribution of $iters$ for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). This distribution reflects the probability distribution of the two approaches: for the time-independent hamiltonian the probability does not increase with time, resulting in a (almost) constant $iters$, while the time-dependent hamiltonian showing localization properties requires less iterations to get to unitary probability.}
+        \label{fig:iters_increasing_time}
+        \end{figure} \\
+        The iterations distribution reflects the overall probability distribution of the time-dependent and time-independent hamiltonian approaches. For small lower bound time the two approaches show a similar performance: the probability is very small, thus requiring a large number of iterations to get to unitary probability. As $t_f$ increases we see two very different trends:
+        \begin{itemize}
+            \item The time independent approach requires an almost constant number of iterations (the numerical values is somewhat irrelevant since this distribution reflects only the Cy(53) and Cy(55)). This reflects the non-localization properties of this particular approach, for which the probability does not increase with time
+            \item On the other hand the time-dependent approach, showing localization properties, requires less iterations to solve the search with unitary probability.
+        \end{itemize}
+        Taking into account that we're performing a multiple run search and the initialization time $t_{init}$ previously discussed, it is clear that the time-depedent approch performs better than the time-independent counter part in most of the scenario.
 
-
-        \subsubsection*{\bm{$\min(t_f/p)$} and run iterations for different shapes of s(t)}
+        \bpar{\bm{$\min(t_f/p)$} and run iterations with constrained lower bound time}
+        In order to show that the lower bound time does indeed have such great impact on the performance of the time-dependen approach relative to the time-independent one we now study the distribution of the quantity $\min(t_f/P)$ with a constrain on the lower bound time. \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \cref{fig:delta_increasing_time}. Therefore, to make the choice fair, we consider the lower bound time to be $t_f^* = \sqrt{N}$ which is the time scaling of the standard Grover's Search, the QW Search on the complete graph and so on. In the best case scenario we discover that the number of iterations necessary to get to unitary probability remain constant regardless of the dimension of the graph, making this approach scale as the ones just mentioned; in the most probable scenario we discover that the number of iterations increase with the graph size, thus adding a scaling factor that depends on some power of N. \\ \\ The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71. The quantity is computed using the time-dependent hamiltonian with linear step function and the time-independent one, with constrained time $t_f=2 \sqrt{N}$
+        \begin{figure}[ht]
+        \centering
+        \includegraphics[width=90mm]{./figures/min_tp_sqrt/forced_delta.pdf}
+        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
+        \label{fig:delta_increasing_time}
+        \end{figure}\\ \\
+        \bpar{\bm{$\min(t_f/p)$} and run iterations for different shapes of s(t)}
+        We now investigate the effects of the different step functions discussed in section? in the probability distribution and in particular on the quantity $\min(t_f/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $\sqrt{N}$.
+        The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent hamiltonian with linear, sqrt, Ronald-Cerf(3) step functions:
+        \textbf{include figure}
 
     \subsection{Comparison: Robustness}
     We now address with a semi-quantitative approach the robustness of the time-dependent and time-independent search. Since we're only interested in the comparison of the two approaches, and not an absolute measure of their robustness, as mentioned in Section? we study the difference of probability for a set perturbance of the $\gamma$ parameter. In particular we investigate for fairly small variation on the parameter (1\%), up to quite large variations (5\% and 10\%). \\ \\We begin by finding the quantity $\min(t_f/P)$ with time constrains ($t_f = \sqrt{N}$). For the corresponding $(t_f,\gamma)$ combination we evaluate the robustness as follows:
