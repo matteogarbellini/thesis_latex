@@ -1,51 +1,109 @@
 \newpage
 \thispagestyle{empty}
 \chapter{Preliminaries}
+In this chapter we present the basic theoretical knowledge necessary to understand this thesis. We begin by introducing graph theory, random walks and quantum walks. We then discuss the quantum search problem firstly introduced by Grover and the quantum walks implementation for the unstructured search by Childs and Goldstone. Then we present the adiabatic theorem and its application for computation with adiabatic evolution. Lastly we look at the differences between the quantum walks approach and the adiabatic evolution approach by Ronald and Cerf, which constitutes the basis from which our work is carried on.
 
-\section{Graph Theory}
-A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges, which represent the connection between any two pair of vertices. If indeed any two vertices $(i,j)$ are connected by an edge we define as adjacent, and from this we can construct the \textit{adjacency matrix} A as:
+\section{Introduction to graph theory}
+A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges, which represent the connection between any two pair of vertices. A vertex is usually indicated by the coursive letter $v$, and the corresponding edge connecting $v$ to $w$ is given by $(v,w)$. \\
+
+\noindent
+A graph can be characterized by many properties. Throughout our work we will only consider \textit{simple graphs} characterized by being \textit{undirected}, namely the edges $E$ are symmetric, having no self loops such that $(v,v)\notin G$ and having no multiple equivalent edges. Additionally we require the graph to be \textit{connected}, where each vertex can be reached by any other, following a path through the available edges.
+
+\noindent
+It is then interesting to define the \textit{vertex degree} $d_j$, that represents, given a vertex $j$, the number of edges that are incident to the vertex $j$ (in the case of an undirected graph the degree does not dependend on the edges incident from or to the selected vertex). \\
+
+\noindent
+If indeed any two vertices $(i,j)$ are connected by an edge we define them as \textit{adjacent}, and from this we can construct an analytical representation of a graph, given by an N-dimensional square matrix called \textit{adjacency matrix}, usually referred as A. The adjacency matrix is defined as following \footnote{If we had to define the adjacency matrix for a general graph the value of $A_{ij}$ is not necessarily equal to one, but a general $a_{ij}$ since it takes into account the possibilities of self loops and multiple equivalent edges. For the simple graphs consider in this thesis the given definition suffices.}:
 \begin{equation}
-A_{ij} = \begin{cases} 1 & (i,j)\in G \\ 0 & \mbox{otherwise} \end{cases}
+A_{ij} = \begin{cases} 1 & \mbox{if }(i,j)\in G \\ 0 & \mbox{otherwise} \end{cases}
 \end{equation}
-which represents the connectivity of the graph. We can then describe the degree of each vertex of the graph, namely the number of vertices (excluding itself) connected to it, through the \textit{degree diagonal matrix} $D_{jj} = deg(j)$.\\
-It is also useful to introduce the \textit{laplacian matrix} defined as
+which represents the connectivity of the graph. \\
+Furthermore, we can introduce a diagonal matrix $D$ that encodes the informations of the vertex degrees for a particular graph $G$. Calling the N vertices of the graph as $j=1,2..N$ the matrix D is defined as:
 \begin{equation}
-  L = A-D
+    D = diag(d_1,..., d_N)
 \end{equation}
-which we'll later see describes the quantum walk evolution.\\
-In the quantum realm a vertex is a vector in an N dimensional Hilber space, so that a vertex $|j\rangle$ can be represented in the following way
+where $d_j$ is the degree of the vertex $j$.
+In this particular context a natural operative basis arises, in which one can associate to each ordered vertex of the graph a vector of the standard basis of the N-dimensional vector space. \\ \\
+
+
+In order to study the dynamics of the system we introduce a the \textit{Laplacian matrix L}, also known as the \textit{discrete Laplacian operator}. It is defined as
 \begin{equation}
-  |j\rangle = \begin{pmatrix} 1 \\ 0 \\ 0 \\ .. \\0 \end{pmatrix}
+    L = D-A
 \end{equation}
+where $D$ is the diagonal degrees matrix and $A$ is the adjacenty matrix. The discrete Laplacian operator is the analog of the continous Laplace operator on discrete domain, and for the finite, undirected, simple and connected graphs that we're going to consider throughout our work, we can charactarize it by the following properties:
+\begin{itemize}
+  \item $L$ is symmetric given that both $D$ and $A$ are symmetric
+  \item the sum of all elements over a rom/column equals to zero
+  \item has a null eigenvalue which corresponds to the eigenvector $\ket{\Psi_0} = \frac{1}{\sqrt{N}}\big(1,1,...,1\big)$
+\end{itemize}
+In the following paragraphs, we give a brief description of the graphs that will be consider througout the work. \\
 
-Throughout this work we focus our attention on two particular graph topologies: the \textbf{circular} graph and the \textbf{complete} graph (FIG. 1).
-
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=9.5cm]{./figures/graph.png}%
-\caption[Pictorial representation of circular and complete graph]{Pictorial representation of a circular graph (left) and a complete graph (right) with N=7}
-\end{figure}
+    \subsection*{Cycle Graph}
+    \addcontentsline{toc}{subsection}{Cycle Graph}
+        A N-dimensional cycle graph $Cy(N)$ is a monodimensional structure with periodic boundary conditions $\ket{N+1}=\ket{N}$. The Laplacian is given by
+        \begin{equation}
+            L = 2\sum_{k=1}^{N}\ket{k}\bra{k} - \sum_{k=1}^{N-1}\ket{k}\bra{k+1} - \sum_{k=2}^{N}\ket{k}\bra{k-1}- \ket{N}\bra{1}-\ket{1}\bra{N}
+        \end{equation}
+        A pictorial representation of a cycle graph is given in Fig with the corrisponding laplacian matrix.
+        \begin{figure}[ht]
+          \centering
+          \begin{tabular}{cc}
+            \includegraphics[width=50mm]{./figures/chapter1/cycle} &   \includegraphics[width=50mm]{./figures/chapter1/cycleL} \\
+          (a)  & (b) \\[6pt]
+          \end{tabular}
+          \caption[Pictorial representation of a cycle graph, and matricial representation for the Laplacian]{Pictorial representation of a cycle graph with 5 nodes (a), and the matricial representation for the Laplacian of Cy(5)}
+        \end{figure}
+    \vspace{-0.7cm}
+    \subsection*{Complete Graph}
+    \addcontentsline{toc}{subsection}{Complete Graph}
+        A graph with N vertices is said to be complete if every node is adjacent to all the other N-1 nodes, thus representing a finite bidimensional structure. Its Laplacian matrix is given by:
+        \begin{equation}
+            L = (N-1)\sum_{j=1}^{N}\ket{j}\bra{j} - \sum_{k\neq j}\ket{j}\bra{k}
+        \end{equation}
+        A pictorial representation of a complete graph is given in figure. We will refere to this kind of graph with $C(N)$.
+        \begin{figure}[hb]
+          \centering
+          \includegraphics[width=50mm]{./figures/chapter1/complete}
+          \caption[Pictorial representation of a complete graph]{Pictorial representation of a complete graph with N=7}
+        \end{figure}
 
 \section{Quantum Walks}
-The continous time quantum walk is the direct analougue of the classical random walk. Given a graph G, a random walk is a Markov process with a fixed probability for unit time $\gamma$ of jumping to an adjacent vertex $j$. This particular walk can be described by a linear differential equation in terms of probability, namely
-
+The continous time quantum walk (CTQW) is the direct analougue of the classical continous time random walk (CTRW). We begin by considering the classical one, expanding later on the quantum mechanical counterpart. \nocite{Mulken2011} \\
+Let $j$ be a note of a graph $G$ and the initial node, such date the initial state of the system is $\ket{j}$. Then, we denote the transition probability of the walker to go from node j to a node k in a time t with $p_{k,j}(t)$. The state after time $t$ is given by $\ket{j;t}$, such that the overlap with node $k$ is $\braket{k|j;t}=p_{j,k}(t)$. \\
+The dynamics resulting in the state $\ket{j;t}$ follows from transition rates per unit time between two nodes. In particular these transition rates are the components of the so-called \textit{transfer matrix} $T$, namely $T_{ij}= \bra{k}T\ket{j}$ . If we assume a Markovian process, the following master equation defines the CTRW evolution:
 \begin{equation}
-  \frac{d}{dt}p_j(t) = \gamma\sum_{k}L_{jk}p_k(t)
+  \frac{d}{dt}p_{k,j}(t) = \sum_{l}T_{kl}p_{l,j}(t)
+  \label{rw_master}
 \end{equation}
-
-where $p_j(t)$ is the probability of being on the vertex $j$ at time $t$.\\
-The quantum analogue takes place in an N-dimentional Hilbert space spanned by the states (vertex) $|j\rangle$ of the graph G. Instead of considering the classical probability as we previosuly did, we consider the probability time-dependent amplitudes $q_j(t) = \langle j|\psi(t)\rangle$, where $|\psi\rangle$ is a general time-dependent state. The differential equation takes thus the form of
-
+In the simplest case, where the transitions rates for all edges are equal, the transfer matrix is closely related to the Laplacian matrix through :
 \begin{equation}
-  i\frac{d}{dt}q_j(t) = \sum_{k}H_{jk}q_k(t)
+  T = -\gamma L
 \end{equation}
-The continous-time quantum walk is defined by letting $H=-\gamma L$, where $L$ is the previosuly defined Laplacian matrix.
+where $\gamma$ is the transition rate. The solution of \cref{rw_master}, along with the normalization constrains $\sum_{k=1}^{N}p_{k,j}(t) = 1 \hspace{3pt} \forall t$, is given by
+\begin{equation}
+  p_{ij}(t)= \braket{k|e^{Tt}|j} = \braket{k|e^{-\gamma At}|j}
+\end{equation}
+Turning to quantum mechanics the evolution of any physical system obeys the Schroedinger equation, and QWs represent no exception. The dynamics of the CTQW is governed by a specific Hamiltonian $H$, such that the Schroedinger equation for the transition \textit{amplitudes} $\alpha_{i,j}(t)$ is given by
+\begin{equation}
+  \frac{d}{dt}\alpha_{i,j}(t) = -i \sum_{l}H_{k,l}\alpha_{l,j}(t)
+\end{equation}
+where $H$ is the Hamiltonian of the systemm, and for semplicity we assume $\hbar = 1$. The formal solution of such differential equation is similarly to the CTRW given by
+\begin{equation}
+  \alpha_{l,j}(t) = \braket{k|e^{-iHt}|j}
+  \label{qw_master}
+\end{equation}
+where $e^{-iHt}$ is the quantum mechanical time-evolution operator. We immediately notice the similar structure of equations (\ref{rw_master}) and (\ref{qw_master}), with the only difference apart from the imaginary unit  that the first is a differential equation for transition probabilities while the latter allows to compute transition amplitudes. The similarity is further pushed bu Farhi and Gutmann in 1998 \cite{Childs2001}, when they proposed to identify the Hamiltonian $H$ of the system with the negative of the classical transfer matrix $T$, which as we've seen previously is the Laplacian of the graph \footnote{Please note that in this particular scenario the transition amplitude $\gamma$ is set to one.}:
+\begin{equation}
+  H = -T = L
+\end{equation}
+Therefore the Laplacian matrix completely determines the evolution of the quantum system as well as the classical scenario.
+
+
 
 \section{Grover's Quantum Search}
 \red{This section should include the standard Grover's Quantum Search to give the contex for the quantum walk approach.}
 
-\section{Quantum Search with Continous-Time Quantum Walk}
+\section{Spatial Search by Quantum Walk}
 \purple{Spatial Search by Quantum Walk}{A. Childs, J. Goldstone}{quant-ph/0306054v2}\\
 We now address the quantum search problem firstly formulated as Grover's algorithm and then extending it to the search on a graph using quantum walks. \\
 To approach the Grover problem with quantum walk it's necessary to modify the hamiltonian such that the vertex $|w\rangle$, i.e. the target, is somewhat special. Following Grover's oracle an oracle hamiltonian $H_w$ is introduced

@@ -95,27 +95,28 @@ In Section? we discussed the use of quantum walks for the spatial search problem
         The quantity R should be positive, since the $(t_f,\gamma)$ combination should produce the highest probability possible. We also that the perturbation on the parameter has equal probability of being positive or negative, thus the average ponderates between these two possibilities. \\ \\It is necessary however to remember that the value $R$ does not have any absolute physical significance, but fits well for our specific scenario where the interest is focused on the comparison between two specific approaches. Therefore this quantity will be solely used to characterize a particular approach as \textbf{more} or \textbf{less robust}.
 
 \section{Results for the Circular Graph}
+We now address the results for the circular graph. We begin by computing benchmarks for the time-independent hamiltonian approach; this should give us a good starting point for the comparison. Then we consider the time-dependent hamiltonian and evaluate the necessary data. We compare the two approaches, beginning from the Localization, followed by the Search which requires the introduction of a new quantity that takes into account the possibility of doing multiple runs for one search. Lastly we study the robustness of the time-dependent approach and determine whether the newly introduced hamiltonian makes the search more robust than the time-independent search.
 
     \subsection{Time-Independent Benchmarks}
-        The first step of the analysis is to compute time-independent benchmarks. We computed the probability over a time-beta grid, with $T\in[0,N]$ and $\beta\in[0,2.5]$, where N is the dimension of the graph considered. An initial run of the probability distribution showed that \textit{it is worse than linear in T}, thus the need to see times greater than $T=N$ proved to be unnecessary. In addition Grover algorithm for the unstructured search (and the complete graph) goes like $\sqrt{N}$ and the adiabatic (globally, not locally) goes like $N$, thus focusing on $T \leq N$ made much more sense. \textbf{It's interesting to show a figure with the probability distribution for some sampled $\beta$ even for large time, giving the idea that the probability does indeed not increase with time and we can focus the attention to smaller T (T<N)}.
-        Throughout the analysis we will consider graphs up to N = 71, with only odd dimensions which makes a easier oracle placement (hamiltonian is somewhat symmetric). Additional considerations and reasoning for the time-beta grid can be found in Appendix A. \\
+        The first step of the analysis is to compute time-independent benchmarks. We computed the probability over a time-beta grid, with $T\in[0,N]$ and $\gamma\in[0,2.5]$, where N is the dimension of the graph considered. An initial run of the probability distribution showed that the probability does not increase with time, thus the need to evaluate for $t_f$ greater than $T=N$ proved to be unnecessary. In addition Grover algorithm for the unstructured search (and the complete graph) scales $\sqrt{N}$ and the Farhi and Gutmann's adiabatic evolution scales like $N$, thus focusing on $T \leq N$ made much more sense. \textbf{Figure of probability distribution for sampled $\gamma$} \\
+        Throughout the analysis we will consider graphs up to N = 71, with only odd dimensions which makes a easier oracle placement. Additional considerations and reasoning for the time-gamma grid can be found in Appendix A. \\
 
 
-        To display the results in an intuitive way we used a heatmap plot, which gives a good idea on the probability distribution for varying combinations of $(T,\beta)$:
+        To display the results in an intuitive way we used a heatmap plot, which gives a good idea on the probability distribution for varying combinations of $(T,\gamma)$:
 
           \begin{figure}[ht]
             \centering
             \includegraphics[width=9cm]{./figures/time_independent_benchmark_47}%
-            \caption[Probability heatmap plot for the time-independent hamiltonian, N=47]{\textbf{Probability heatmap plot for the time-independent hamiltonian.} The figure shows the probability distribution for a circular graph of N=47 simulated using the time-independent hamiltonian, providing thus the necessary benchmark. Note that darker color do not represent probabilities close to one, but only higher probability regions.}
+            \caption[Probability heatmap plot for the time-independent hamiltonian, N=47]{\textbf{Probability heatmap plot for the time-independent hamiltonian.} The figure shows the probability distribution for a circular graph of N=47 evaluated using the time-independent hamiltonian, providing thus the necessary benchmark. Note that dark color do not represent probabilities close to one, but only higher probability regions.}
           \end{figure}
 
         \subsubsection*{Comments on the probability distribution}
-        It is quickly noticeable that the probability distribution is not smooth, indeed it shows peaks (darker regions) and valleys (lighter regions). This is both present for fixed $\beta$, i.e. any orizontal line, and for fixed time, i.e. any vertical section considered. We will later see that this is somewhat a weakness of the time-independent approach, since a small variation of the parameter $\beta$, which reperesents as previosly mentioned the deepness of the well or an energy parameter, leads to possibly great variation of the probability. We shall call this fenomena \textbf{non-robustness}.
+        From the heatmap plot we see that the probability distribution does not increase smoothly with increasing time, but shows peaks (dark regions) and valleys (lighter regions). Additionally dark regions are scattered throughout the grid and not necessarily for large $t_f$. We will later see that this is somewhat a weakness of the time-independent approach, since a small variation of the parameter $\beta$, which reperesents as previosly mentioned the deepness of the well or an energy parameter, leads to possibly great variation of the probability.
 
     \subsection{Time-Dependent Results}
-        Similarly we computed the grid probability using the time-dependent hamiltonian previously introduced. To easily comparing the two methods we opted to consider the same time $T=N$, and from an initial run we discovered that the $\gamma$ parameter affected similarly the probability, namely the probability tended to be higher for smaller values of $\gamma$, thus we used approximately the same range. \\
+        Similarly we computed the grid probability using the time-dependent hamiltonian previously introduced. To easily comparing the two methods we opted to consider the same time $T=N$, and from an initial run we discovered that the $\gamma$ parameter affected similarly the probability \textbf{(A plot is needed to support this statement)}, namely the probability tended to be higher for smaller values of $\gamma$, thus we used approximately the same range. \\
 
-        The simulation is then run for all the step functions $s(t)$ previsouly discussed, and an intuitive heatmap plot is outputted.
+        The grid-probability is evaluated for all the interpolating schedules $s(t)$ previsouly discussed, and an intuitive heatmap plot is outputted.
         \begin{figure}[ht]
         \centering
         \begin{tabular}{cc}
@@ -124,19 +125,19 @@ In Section? we discussed the use of quantum walks for the spatial search problem
         \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_cbrt.pdf} &   \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_cerf.pdf} \\
         (c) cbrt & (d) cerf\\[6pt]
         \end{tabular}
-        \caption[Probability heatmap plot for the time-dependent hamiltonian, for different shapes of s(t)]{\textbf{Probability heatmap plot for the time-dependent hamiltonian, for different shapes of s(t).} The figure shows the probability distribution for a circular graph of N=47 evaluated using the time-dependent hamiltonian using the following step functions (a) linear, (b) $\sqrt{t/T}$, (c) $\sqrt[3]{t/T}$ and (d) Ronald-Cerf(3). Note that the probability gradient is normalized to p=0.3 to accentuate the difference in probability between different regions. }
-        \end{figure}
-
+        \caption[Probability heatmap plot for the time-dependent hamiltonian, for different shapes of s(t)]{\textbf{Probability heatmap plot for the time-dependent hamiltonian, for different shapes of s(t).} The figure shows the probability distribution for a circular graph of N=47 evaluated using the time-dependent hamiltonian using the following step functions (a) linear, (b) $\sqrt{t/T}$, (c) $\sqrt[3]{t/T}$ and (d) Ronald-Cerf(3). Note that the color gradient is normalized to p=0.3 to accentuate the difference in probability between different regions. }
+        \label{time_dependent_heatmap}
+        \end{figure}\\
         \subsubsection*{Comments on the probability distribution}
+        Compared to the time-independent hamiltonain approach we can clearly see that the probability distribution is smoother (has no valley and peaks) both for constant $\gamma$ (any orizontal section) and constant $t_f$ (any vertical section). If we look at the different interpolating schedules it's immediately evident that the cbrt and sqrt schedules perform poorly compared to the linear one. On the other hand the Ronald-Cerf schedule performs in a similar way in terms of the highest probability found, but has a significantly different probability distributio, that might affect its robustness.
         \clearpage
-
     \subsection{Comparison: Localization}
         We now compare the localization properties of the two algorithm. As we mentioned in the comments to the probability distributions of the time-independent and time-dependent approaches we discovered the following:
         \begin{itemize}
             \item \textbf{Time-Independent QW}: the time-independent based search is not able to solve the search problem with a single iterations, thus making it necessary to run multiple searches. This implies that the approach does not show any localization properties, in fact the probability does not increase with time as in the time-dependent approach.
             \item \textbf{Time-Dependent QW}: the time-dependent based search on the other hand because of the adiabatic theorem does solve the search problem with a single iterations, although that happens for fairly large $t_f$.
         \end{itemize}
-        Although the time-dependent approach is able to get to unitary probability in a fairly large $t_f$, it is able to produce large enough probabilities in much less time, as we can see from this plot. This is a consequence of the fact that the probability does not grow linearly with time, thus needing larger $t_f$ closer it gets to $P=1$. \textbf{include plot}
+        Although the time-dependent approach is able to get to unitary probability in a fairly large $t_f$, it is able to produce large enough probabilities in much less time, as we can see from this plot. This is a consequence of the fact that the probability does not grow linearly with time, thus needing larger $t_f$ closer it gets to $P=1$. \textbf{A plot is needed}
 
 
     \subsection{Comparison: Search}
@@ -151,18 +152,18 @@ In Section? we discussed the use of quantum walks for the spatial search problem
           \includegraphics[width=75mm]{./figures/sampled_t_over_p/T_p_lin.pdf} &   \includegraphics[width=75mm]{./figures/sampled_t_over_p/T_p_cerf.pdf} \\
         (a) lin & (b) Ronald-Cerf\\[6pt]
         \end{tabular}
-        \caption[Sampled T/p ]{\textbf{Sampled T/p to show that the min(T/p) will always be the smallest T available.}}
+        \caption[$t_f/p$ distribution for sampled $\gamma$ showing that the minimum will always be for the smallest $t$ ]{\textbf{Distribution of the quantity T/p for sampled $\gamma$ showing that tthe min(T/p) will always be the smallest for the smallest $t$.}he figure shows the distribution of the quantity $t_f/p$ for some sampled values of the parameter $\gamma$, using the linear and Ronald-Cerf interpolating schedules. It is clear that the quantity $\min(t_f/p)$ will always be for the smallest $t_f$ available, regardless of the interpolating schedule, requiring therfore a constrain on the time.}
         \end{figure}
 
         \bpar{\bm{$\min(t_f/p)$}  and run iterations for increasing lower bound \bm{$t_f$}}
          We will begin by studying how the quantity $\min(t_f/p)$ and $iters$ varies with increasing lower bound $t_f^*$.
          In the following plot we show the shape of $t_f/p$ with the time-independent approach and the time-dependent one; for the time being and for sake of semplicity, we consider only the step function Ronald-Cerf(3).
-         \begin{figure}[ht]
+         \begin{figure}[h]
          \centering
-         \includegraphics[width=90mm]{./figures/min_tp/delta.pdf}
+         \includegraphics[width=80mm]{./figures/min_tp/delta.pdf}
          \caption[$\min(t_f/P)$ distribution for increasing lower bound time.]{\textbf{\bm{$\min(t_f/P)$} distribution for increasing lower bound time. }The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
          \label{fig:delta_increasing_time}
-         \end{figure} \\
+         \end{figure}
         As we can see from the plot the distribution can be diveded into to section marked by a particular $T^*$ (for the time being the value of such time is not of our interest):
         \begin{itemize}
             \item for $t_f<T^*$ the time-independent approach performes slightly better than the time-dependent one.
@@ -182,31 +183,33 @@ In Section? we discussed the use of quantum walks for the spatial search problem
             \item On the other hand the time-dependent approach, showing localization properties, requires less iterations to solve the search with unitary probability.
         \end{itemize}
         Taking into account that we're performing a multiple run search and the initialization time $t_{init}$ previously discussed, it is clear that the time-depedent approch performs better than the time-independent counter part in most of the scenario.
-
+        \clearpage
         \bpar{\bm{$\min(t_f/p)$} and run iterations with constrained lower bound time}
-        In order to show that the lower bound time does indeed have such great impact on the performance of the time-dependen approach relative to the time-independent one we now study the distribution of the quantity $\min(t_f/P)$ with a constrain on the lower bound time. \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \cref{fig:delta_increasing_time}. Therefore, to make the choice fair, we consider the lower bound time to be $t_f^* = \sqrt{N}$ which is the time scaling of the standard Grover's Search, the QW Search on the complete graph and so on. In the best case scenario we discover that the number of iterations necessary to get to unitary probability remain constant regardless of the dimension of the graph, making this approach scale as the ones just mentioned; in the most probable scenario we discover that the number of iterations increase with the graph size, thus adding a scaling factor that depends on some power of N. \\ \\ The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71. The quantity is computed using the time-dependent hamiltonian with linear step function and the time-independent one, with constrained time $t_f=2 \sqrt{N}$
+        In order to show that the lower bound time does indeed have such great impact on the performance of the time-dependen approach relative to the time-independent one we now study the distribution of the quantity $\min(t_f/P)$ with a constrain on the lower bound time. \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \cref{fig:delta_increasing_time}. Therefore, to make the choice fair, we consider the lower bound time to be $t_f^* = 2\sqrt{N}$ which is (roughly) the time scaling of the standard Grover's Search, the QW Search on the complete graph and so on. In the best case scenario we discover that the number of iterations necessary to get to unitary probability remain constant regardless of the dimension of the graph, making this approach scale as the ones just mentioned; in the most probable scenario we discover that the number of iterations increase with the graph size, thus adding a scaling factor that depends on some power of N. \\ \\ The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71. The quantity is computed using the time-dependent hamiltonian with linear step function and the time-independent one, with constrained time $t_f=2 \sqrt{N}$.
         \begin{figure}[ht]
         \centering
-        \includegraphics[width=90mm]{./figures/min_tp_sqrt/forced_delta.pdf}
-        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
+        \includegraphics[width=80mm]{./figures/min_tp_sqrt/forced_delta.pdf}
+        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
         \label{fig:delta_increasing_time}
-        \end{figure}\\ \\
+        \end{figure} \\ \\ 
         \bpar{\bm{$\min(t_f/p)$} and run iterations for different shapes of s(t)}
-        We now investigate the effects of the different step functions discussed in section? in the probability distribution and in particular on the quantity $\min(t_f/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $\sqrt{N}$.
-        The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent hamiltonian with linear, sqrt, Ronald-Cerf(3) step functions:
-        \textbf{include figure}
+        We now investigate the effects of the different step functions discussed in section? in the probability distribution and in particular on the quantity $\min(t_f/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $2\sqrt{N}$.
+        The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent hamiltonian with linear, sqrt, cbrt and Ronald-Cerf(3) interpolating schedules $s(t)$:
+        \begin{figure}[!h]
+        \centering
+        \includegraphics[width=80mm]{./figures/min_tp_sqrt/forced_sqrt_delta.pdf}
+        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$ and different interpolating schedules.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$ and different interpolating schedules.} The figure shows the distribution of the quantity min(T/p) with constrained lower bound time at $t_f= 2\sqrt{N}$, using the time-independent hamiltonian and time-dependent hamiltonain with different interpolating schedules. The abrupt changes are due to the resolution of the grid-probability evaluation (further discussions can be found in Appendix A)}
+        \label{fig:delta_complete_sqrt}
+        \end{figure}
+
+        \noindent
+        We can see from the plot that, as we might have expected, the Ronald-Cerf interpolating schedule performes better than the linear and sqrt schedules, in particular when we consider larger graph. For small enough N the time-independent approach performs slightly better, while for large N the time-depenedent approach is superior. Please note that the abrupt changes in the plot are due to the resolution of the grid-probability evaluation, discussed in Appendix A. \textit{nota: Additional computations will be run to try to fix this issue}.
+
 
     \subsection{Comparison: Robustness}
-    We now address with a semi-quantitative approach the robustness of the time-dependent and time-independent search. Since we're only interested in the comparison of the two approaches, and not an absolute measure of their robustness, as mentioned in Section? we study the difference of probability for a set perturbance of the $\gamma$ parameter. In particular we investigate for fairly small variation on the parameter (1\%), up to quite large variations (5\% and 10\%). \\ \\We begin by finding the quantity $\min(t_f/P)$ with time constrains ($t_f = \sqrt{N}$). For the corresponding $(t_f,\gamma)$ combination we evaluate the robustness as follows:
-    \begin{equation}
-        R ^\pm = P(t_f, \gamma) - P(t_f, \gamma \pm \delta\gamma)
-    \end{equation}
-    where $\delta\gamma$ is the variation of the parameter (1, 5 or 10\% of $\gamma$), that can be both positive and negative. To find a unique value for the robustness an average of $R^\pm$ is done:
-    \begin{equation}
-        R = \frac{R^++ R^-}{2}
-    \end{equation}
-    In theory the quantity R should be positive, since the $(t_f,\gamma)$ combination should produce the highest probability possible. The average over positive and negative variations ensure that each approach are treated fairly. \\ \\ For the time-dependent search with only consider the linear step function an the Ronal-Cerf(3). As we showed in the previous section the Ronald-Cerf Hamiltonian performs better than the linear conterpart, while from a qualitative point of view the linear hamiltonian has a smoother probability distribution. The following plots show the semi-quantitative robustness for the $\gamma$ variations in the order of 1\% - 5\% - 10\% for the time-independent search and the time-dependent one with linear and Ronald-Cerf step functions s(t).
-    \textbf{Insert figure}
+    We now address the robustness of the time-dependent and time-independent search. As we mentioned in Section? we're only interested in the comparison of the two approaches, and not an absolute measure of their robustness. Therefore we will use this measure solely as a comparison value. \\
+    We proceed by considering small variations on the parameter $\gamma$ in the order of 1\% and 5\% (this numbers still need to be discussed). We begin by finding the quantity $\min(t_f/P)$ with time constrains ($t_f = 2\sqrt{N}$). For the corresponding $(t_f,\gamma)$ combination we evaluate the robustness R as defined in Section?
+    For the time-dependent search with only consider the linear step function an the Ronal-Cerf(3). As we showed in the previous section the Ronald-Cerf Hamiltonian performs better than the linear conterpart, while from a qualitative point of view the linear hamiltonian has a smoother probability distribution (see \cref{time_dependent_heatmap}(a)-(d)). The following plots show the semi-quantitative robustness for the $\gamma$ variations in the order of 1\% - 5\% for the time-independent search and the time-dependent one with linear and Ronald-Cerf step functions s(t). \textbf{Computations are still needed}
 
 
 
