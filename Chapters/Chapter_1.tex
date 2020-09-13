@@ -2,6 +2,8 @@
 \newcommand{\svec}{{\begin{pmatrix}0 \\ 1 \end{pmatrix}}}
 
 
+
+
 \newpage
 \thispagestyle{empty}
 \chapter{Preliminaries}
@@ -187,77 +189,119 @@ recalling that in the 2-dimensional subspace $w = (0,1)$. Thus the walk rotates 
 
 \section{Search by Adiabatic Evolution}
 We now address the computation by adiabatic evolution firstly introduced by Farhi et al., that takes advantage of the adiabatic theorem to find the solution of a computational problem \cite{Farhi2000}. We begin by looking at the \textit{adiabatic theorem} and its implication. Then, an overview of the adiabatic implementation of the algorithm for solving the unstructured search problem is given which has a time scaling of $O(N)$. Lastly, we see how applying the adiabatic theorem \textit{locally} can lead to a time of order $O(\sqrt{N})$ which is optimal.
-\subsection{Adiabatic Theorem}
-A quantum system evolves according to the Schroedinger equation
-\begin{equation}
-    i\frac{d}{dt}|\psi(t)\rangle = H(t)|\psi(t)\rangle
-\end{equation}
-and defining the instantaneous eigenstates and eigenvalues of H(t) by
-\begin{equation}
-    H(t)|l;t\rangle = E_l(t)|l;t\rangle
-\end{equation}
-such that $E_0(t) \geq E_1(t) \geq ... \geq E_{N-1}(t)$. \\
-The adiabatic theorem states that if the gap between the two lowest energy levels, $E_{1}(t) - E_{0}(t) > 0$, is stritcly greater than zero then for $T\rightarrow \infty$ the probability of being in the ground state is equal to one, namely
-\begin{equation}
-    \lim_{T \to \infty} |\langle l=0;t = T | \psi(T)\rangle| = 1
-\end{equation}
-This means that if the system is chosen to evolve at a slow enough rate, the instantaneous hamiltonian will remain in the ground state throught the evolution. It is useful to consider a smooth one-parameter hamiltonian $H(s)$ such that $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
-Let's now define the energy minimum gap by
-\begin{equation}
-    g_{min} = \min_{0 \leq s \leq 1} (E_1(s)-E_0(s))
-\end{equation}
-In addition we can find a time lower bound $T^*$ such that for $T\gg T^{*}$ the probability is arbitrarily close to 1, in detail
-\begin{equation}
-    T \gg \frac{\varepsilon}{g^{2}_{min}}
-\end{equation}
-where
-\begin{equation}
-    \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle l=1;s\Big| \frac{dH(s)}{dt} \Big| l=0;s\Big\rangle\Big|
-\end{equation}
 
-Let's now discuss how to take advantage of the adiabatic theorem introducting the usual way in which the adiabatic evolution is implemented. It is often presented a problem hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in abeginning hamiltonian $H_B$ whose ground state is known. The problem hamiltonian encodes the solution of the problem, while the beginning hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic implementation then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent hamiltonian $H(s)$ such that
-\begin{equation}
-    H(s) = (1-s)H_B + s H_P
-\end{equation}
-In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so that for $s=1$ it reaches $H_P$. Thanks to the adiabatic theorem, if it's made to evolve sufficiently slowly we will find ourself in the ground state of the problem hamiltonian, which is exactly the solution.
-\subsection{Global adiabatic evolution}
-Let's now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in Section? we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
-\begin{equation}
-  \ket{\psi_0}=\frac{1}{\sqrt{N}}\sum_{i=1}^{N-1}\ket{i}
-\end{equation}
-With this in mind we design two particular Hamiltonians $H_0$ and $H_w$ such that $\ket{\psi_0}$ is the ground state of the first while $\ket{w}$ is the ground state of the latter:
-\begin{equation}
-  H_0 = I- \ket{\psi_0}\bra{\psi_0}
-\end{equation}
-\vspace{-1cm}
-\begin{equation}
-  H_w = I- \ket{w}\bra{w}
-\end{equation}
-The time-dependent Hamiltonian follows from the adiabatic implementation discussed in Section?, where $H_0$ is the beginning hamiltonian while $H_w$ is the problem hamiltonian. It thus consists in a linear interpolation between $H_0$ and $H_w$:
-\begin{equation}
-  H(t) = (1-s)H_0 + sH_w
-\end{equation}
-where $s=t/T$ is the linear interpolating schedule.\\ \\
-The search routine runs as usual, beginning with preparing the system in the state $\ket{\psi(0)}=\ket{\psi_0}$ and then applying the Hamiltonian $H(t)$ for a time $T$. We're interested in finding the time-dependent condition such that the system evolves sufficiently slowly, allowing us to find the solution $\ket{w}$ with high probability. First, we determine the quantity $\braket{\frac{dH}{dt}}$:
-\begin{equation}
-  \braket{\frac{dH}{dt}}_{0,1} = \frac{ds}{dt}\braket{\frac{dH}{ds}}_{0,1} = \frac{1}{T}\braket{\frac{dH}{ds}}_{0,1}
-\end{equation}
-We then find the eigenvalues of the Hamiltonian and determine the separation $g$ between the ground state and first excited one, namely $E_1$ and $E_0$, as a function of the interpolating schedule s:
-\begin{equation}
-  g=\sqrt{1-4\frac{N-1}{N}s(1-s)}
-\end{equation}
-We're interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore Eq? becomes:
-\begin{equation}
-  \frac{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}{g_{\min}^2} \leq \varepsilon
-\end{equation}
+    \subsection{Adiabatic Theorem}
+    A quantum system evolves according to the Schroedinger equation
+    \begin{equation}
+        i\frac{d}{dt}|\psi(t)\rangle = H(t)|\psi(t)\rangle
+    \end{equation}
+    and defining the instantaneous eigenstates and eigenvalues of H(t) by
+    \begin{equation}
+        H(t)|l;t\rangle = E_l(t)|l;t\rangle
+    \end{equation}
+    such that $E_0(t) \geq E_1(t) \geq ... \geq E_{N-1}(t)$. \\
+    The adiabatic theorem states that if the gap between the two lowest energy levels, $E_{1}(t) - E_{0}(t) > 0$, is stritcly greater than zero then for $T\rightarrow \infty$ the probability of being in the ground state is equal to one, namely
+    \begin{equation}
+        \lim_{T \to \infty} |\langle l=0;t = T | \psi(T)\rangle| = 1
+    \end{equation}
+    This means that if the system is chosen to evolve at a slow enough rate, the instantaneous hamiltonian will remain in the ground state throught the evolution. It is useful to consider a smooth one-parameter hamiltonian $H(s)$ such that $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
+    Let's now define the energy minimum gap by
+    \begin{equation}
+        g_{min} = \min_{0 \leq s \leq 1} (E_1(s)-E_0(s))
+    \end{equation}
+    In addition we can find a time lower bound $T^*$ such that for $T\gg T^{*}$ the probability is arbitrarily close to 1, in detail
+    \begin{equation}
+        T \gg \frac{\varepsilon}{g^{2}_{min}}
+    \end{equation}
+    where
+    \begin{equation}
+        \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle l=1;s\Big| \frac{dH(s)}{dt} \Big| l=0;s\Big\rangle\Big|
+    \end{equation}
 
+    Let's now discuss how to take advantage of the adiabatic theorem introducting the usual way in which the adiabatic evolution is implemented. It is often presented a problem hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in abeginning hamiltonian $H_B$ whose ground state is known. The problem hamiltonian encodes the solution of the problem, while the beginning hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic implementation then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent hamiltonian $H(s)$ such that
+    \begin{equation}
+        H(s) = (1-s)H_B + s H_P
+    \end{equation}
+    In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so that for $s=1$ it reaches $H_P$. Thanks to the adiabatic theorem, if it's made to evolve sufficiently slowly we will find ourself in the ground state of the problem hamiltonian, which is exactly the solution.
 
+    \subsection{Global adiabatic evolution}
+    Let's now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in Section? we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
+    \begin{equation}
+      \ket{\psi_0}=\frac{1}{\sqrt{N}}\sum_{i=1}^{N-1}\ket{i}
+    \end{equation}
+    With this in mind we design two particular Hamiltonians $H_0$ and $H_w$ such that $\ket{\psi_0}$ is the ground state of the first while $\ket{w}$ is the ground state of the latter:
+    \begin{equation}
+      H_0 = I- \ket{\psi_0}\bra{\psi_0}
+    \end{equation}
+    \vspace{-1cm}
+    \begin{equation}
+      H_w = I- \ket{w}\bra{w}
+    \end{equation}
+    The time-dependent Hamiltonian follows from the adiabatic implementation discussed in Section?, where $H_0$ is the beginning hamiltonian while $H_w$ is the problem hamiltonian. It thus consists in a linear interpolation between $H_0$ and $H_w$:
+    \begin{equation}
+      H(t) = (1-s)H_0 + sH_w
+    \end{equation}
+    where $s=t/T$ is the linear interpolating schedule.\\ \\
+    The search routine runs as usual, beginning with preparing the system in the state $\ket{\psi(0)}=\ket{\psi_0}$ and then applying the Hamiltonian $H(t)$ for a time $T$. We're interested in finding the time-dependent condition such that the system evolves sufficiently slowly, allowing us to find the solution $\ket{w}$ with high probability. First, we determine the quantity $\braket{\frac{dH}{dt}}$:
+    \begin{equation}
+      \braket{\frac{dH}{dt}}_{0,1} = \frac{ds}{dt}\braket{\frac{dH}{ds}}_{0,1} = \frac{1}{T}\braket{\frac{dH}{ds}}_{0,1}
+    \end{equation}
+    We then find the eigenvalues of the Hamiltonian and determine the separation $g$ between the ground state and first excited one, namely $E_1$ and $E_0$, as a function of the interpolating schedule s:
+    \begin{equation}
+      g=\sqrt{1-4\frac{N-1}{N}s(1-s)}
+      \label{separation}
+    \end{equation}
+    We're interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore Eq? becomes:
+    \begin{equation}
+      \frac{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}{g_{\min}^2} \leq \varepsilon
+      \label{adiabatic_condition}
+    \end{equation}
+    so that the adiabatic condition is verified, and thus the hamiltonian stays in the ground state at all times, provided that $T\geq N/\varepsilon$. Therefore the computation time is of order $N$, showing no speed up compared to the classical search.
 
+    \subsection{Local adiabatic evolution}
+    Roland and Cerf showed that the adiabatic evolution can be improved by applying the adiabatic condition of \cref{adiabatic_condition} locally instead of globally \cite{Roland2002}. If we look at the plot of the separation $g$ we see that the adiabatic condition is critical only for $s=1/2$ where it reaches its minimum.
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=80mm]{figures/chapter1/separation}
+      \caption[Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64]{Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
+      \label{separation_figure}
+    \end{figure}
+    At the beginning and at the end of the evolution the separation is large enough so that the adiabatic condition and thus the time necessary for the system to evolve adiabatically is small, allowing for better time scaling. The improvement comes in the form of the interpolating schedule, following the idea that it should be steeper for large separation $g$ and flatter (more than linear) for small separation around $s=1/2$. Let's see how can this be done. \\ \\
+    We divide the interval $[0,t_f]$ into infinitesimal intervals $dt$ and adapt the evolution rate $\frac{ds}{dt}$ to the local adabatic condition. In this way we can find the optimal $s(t)$, with boundary conditions $s(0)=0$ and $s(t_f)=1$. We find the new adiabatic condition for all time $t$:
+    \begin{equation}
+      \Big|\frac{ds}{dt}\Big|\leq\varepsilon\frac{g^2(t)}{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}
+    \end{equation}
+    Using \cref{separation} and $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$ and Hamiltonian is chosen to evolve with the interpolating schedule that is solution of the following differential equation (with $\varepsilon<<1$):
+    \begin{equation}
+      \frac{ds}{dt} = \varepsilon g^2(t) = \varepsilon\Big[1-4\frac{N-1}{N}s(1-s)\Big]
+    \end{equation}
+    After integration we get the following
+    \begin{equation}
+      t =\frac{1}{2\varepsilon}\frac{N}{\sqrt{N-1}}\Big[\arctan\big(\sqrt{N-1}(2s-1)\big) + \arctan{\sqrt{N-1}}\Big]
+    \end{equation}
+    By inverting we find the interpolating schedule $s(t)$ as can be seen in \cref{interpolating_schedule}. In order to determine the computation time of this algorithm. To do so we evaluate $s=1$ and in the approximation that $N>>1$ we get:
+    \begin{equation}
+      T = \frac{\pi}{2\varepsilon}\sqrt{N}
+    \end{equation}
+    which represents a great improvement on Eq?. Indeed we have a quadratic speed up compared to the global adiabatic evolution, and thus this algorithm can be seen as the adiabatic implementation of the Grover's search algorithm.
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=80mm]{figures/chapter1/interpolating_schedule}
+      \caption[Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64]{Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
+      \label{interpolating_schedule}
+    \end{figure}
 
-
-
-\subsection{Local adiabatic evolution}
 
 
 \section{Impossibility of Adiabatic Quantum Walks}
-In this section we show that an \textit{adiabatic quantum walks} based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work takes place.
+In this section we show that an \textit{adiabatic quantum walks} based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work takes place. \\ \\
+In the previous sections we discussed Grover's original discrete-time search algorithm, Farhi and Gutmann's quantum walk analogue and Roland and Cerf's adiabatic analogue. Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$. We this in mind we can visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in fig? (a) and (b) respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane of Fig
+
+\begin{figure}[h]
+     \centering
+     \subfloat[Grover]{\includegraphics{figures/chapter1/blochsphere_Grover}\label{fig:blochsphere_Grover}}
+     \subfloat[Roland-Cerf]{\includegraphics{figures/chapter1/blochsphere_RC}\label{fig:blochsphere_RC}}
+     \subfloat[Farhi-Gutmann]{\includegraphics{figures/chapter1/blochsphere_FG}\label{fig:blochsphere_FG}}
+     \caption{Path evolution \cite{Wong2016} dfjs hfdjsfh}
+     \label{steady_state}
+\end{figure}
