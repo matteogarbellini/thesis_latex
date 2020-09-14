@@ -180,6 +180,7 @@ Applying the time-evolution operator to the initial state $\ket{s}$, the system 
   \frac{1}{\sqrt{N}}\cos(\frac{t}{\sqrt{N}}) +i\sin(\frac{t}{\sqrt{N}})\\
   \sqrt{\frac{N-1}{N}}\cos(\frac{t}{\sqrt{N}})
   \end{pmatrix}
+  \label{eq:qw_state}
 \end{equation}
 and for $t=\pi\sqrt{N}/2$ the system reaches a success probability of 1, namely
 \begin{equation}
@@ -295,13 +296,39 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
 
 \section{Impossibility of Adiabatic Quantum Walks}
 In this section we show that an \textit{adiabatic quantum walks} based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work takes place. \\ \\
-In the previous sections we discussed Grover's original discrete-time search algorithm, Farhi and Gutmann's quantum walk analogue and Roland and Cerf's adiabatic analogue. Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$. We this in mind we can visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in fig? (a) and (b) respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane of Fig
-
+In the previous sections we discussed Grover's original discrete-time search algorithm (GR), Farhi and Gutmann's quantum walk analogue (FG) and Roland and Cerf's adiabatic analogue (RC). Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$.This allows to visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in \Cref{fig:blochsphere_Grover,fig:blochsphere_RC} respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane, see \Cref{fig:blochsphere_FG}.
 \begin{figure}[h]
      \centering
      \subfloat[Grover]{\includegraphics{figures/chapter1/blochsphere_Grover}\label{fig:blochsphere_Grover}}
      \subfloat[Roland-Cerf]{\includegraphics{figures/chapter1/blochsphere_RC}\label{fig:blochsphere_RC}}
      \subfloat[Farhi-Gutmann]{\includegraphics{figures/chapter1/blochsphere_FG}\label{fig:blochsphere_FG}}
-     \caption{Path evolution \cite{Wong2016} dfjs hfdjsfh}
-     \label{steady_state}
+     \caption[Evolution of the quantum algorithms on the bloch sphere]{\textbf{Evolution of the quantum algorithms on the bloch sphere}. The figure shows the evolution of quantum algorithm on the Bloch sphere with marked vertex $\ket{w}$ at the North Pole and the equal superposition of the unmarked vertices $\ket{r}$ at the South Pole, and $N=1024$: (a) Grover's original discrete-time search algorithm, (b) Roland and Cerf's local adiabatic evolution analogue and (c) Farhi and Gutmann's quantum walk analogue. \textit{Wong et al. (2016)} \cite{Wong2016}}
+     \label{fig:blochsphere}
 \end{figure}
+
+\noindent
+This substantial difference of the path taked by the different algorithms is exacly what Wong et al. investigate, in particular with the goal of determine which adiabatic algorithm does follow the same path of the quantum walk algorithm of Farhi and Gutmann in order to implement an adiabatic quantum walk based search algorithm. \\
+
+\noindent
+To do so they constructed an hamiltonian starting from the following states, with the first represents the ground state and the latter the first (and only) excited state - rememeber that the Grover's search rotates the initial state over the final state, thus the first excited state is the orthogonal of the ground state.
+\begin{equation}
+  \ket{\psi_0(t)} = \alpha(t)\ket{w} + \beta(t)\ket{r}
+\end{equation}
+\vspace{-0.5cm}
+\begin{equation}
+  \ket{\psi_1(t)} = \beta(t)\ket{w} - \alpha^*(t)\ket{r}
+\end{equation}
+where the coefficients are given by the components of $\ket{\psi_0(t)}$ of \cref{eq:qw_state}\footnote{Note that the global phase $e^{it}$ is dropped.}.
+The hamiltonian is then given by the linear combination of $\ket{\psi_0(t)}$ and $\ket{\psi_1(t)}$:
+\begin{equation}
+  H(t) = \lambda_0\ket{\psi_0}\bra{\psi_0} + \lambda_1\ket{\psi_1}\bra{\psi_1}
+\end{equation}
+which allows to determine the final time-dependent \textit{adiabatic} hamiltonian - where the time-dependence is given by the interpolating schedule $s(t)$:
+\begin{equation}
+  H(s) = \sqrt[4]{\frac{s(1-s)}{4\varepsilon^2N}}\Big[ (1-s)H_0 + sH_f + \sqrt{s(1-s)}H_e\Big]
+\end{equation}
+where the interpolating schedule is given by $s(t)=\sin^2\big(\frac{t}{\sqrt{N}}\big)$. Indeed the system evolves from $t=0$ to $t=\frac{\pi}{2}\sqrt{N}$ as we would expect. Looking closely the Hamiltonian $H_0$ is the beginning hamiltonian, $H_f$ is the final hamiltonian - encoding the solution of the search problem - and $H_e$ is an \textit{extra} hamiltonian, a common tecnique for manupulating the evolution of the path of adiabatic algorithms\footnote{The extra hamiltonian commonly appears as $s(s-1)$, while the one considered in this scenario is given by the square root of such value \cite{Wong2016}.}. Let's now look at the consequences of this Hamiltonian, looking at $H_0$, $H_f$ and $H_e$ individually. \\
+$H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respective eigenvalues $-1$ and $+1$, thus the hamiltonian can be written as:
+\begin{equation}
+  H_0  = \ket{s^\perp}\bra{s^\perp} - \ket{s}\bra{s}
+\end{equation}
