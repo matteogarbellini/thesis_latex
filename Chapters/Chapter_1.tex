@@ -233,10 +233,12 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     With this in mind we design two particular Hamiltonians $H_0$ and $H_w$ such that $\ket{\psi_0}$ is the ground state of the first while $\ket{w}$ is the ground state of the latter:
     \begin{equation}
       H_0 = I- \ket{\psi_0}\bra{\psi_0}
+      \label{eq:adiabatic_ground}
     \end{equation}
     \vspace{-1cm}
     \begin{equation}
       H_w = I- \ket{w}\bra{w}
+      \label{eq:adiabatic_first}
     \end{equation}
     The time-dependent Hamiltonian follows from the adiabatic implementation discussed in Section?, where $H_0$ is the beginning hamiltonian while $H_w$ is the problem hamiltonian. It thus consists in a linear interpolation between $H_0$ and $H_w$:
     \begin{equation}
@@ -332,3 +334,15 @@ $H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respecti
 \begin{equation}
   H_0  = \ket{s^\perp}\bra{s^\perp} - \ket{s}\bra{s}
 \end{equation}
+Similarly, the final Hamiltonian $H_f$ has ground state $\ket{w}$ and excited state $\ket{r}$ with eigenvalues $+1$ and $-1$:
+\begin{equation}
+  H_f =  \ket{r}\bra{r} - \ket{w}\bra{w}
+\end{equation}
+It's immediate to notice that these two hamiltonian look fairly similar to the initial and final hamiltonian of the standard adiabatic quantum search algorithm of \Cref{eq:adiabatic_ground,eq:adiabatic_first}. Although the similarities look at first sight promising, the extra Hamiltonian $H_e$ and the interpolating schedule $s(t)$ change completely the evolution of the system. In particular, if we look at the Hamiltonian $H_e$ - given by:
+\begin{equation}
+  H_e = 2i\sqrt{\frac{N-1}{N}}\big(\ket{r}\bra{w} - \ket{w}\bra{r}\big)
+\end{equation}
+we see that rather than having the standard yes/no oracle given by $\ket{w}\bra{w}$, this extra hamiltonian introduces a more powerful structure, driving the evolution between $\ket{w}$ and $\ket{r}$ insted of just applying a phase to the targer state $\ket{w}$ like in the standard Grover's algorithm. This is a confirmation that the oracle is no more the usual Grover's yes/no oracle, and althought this a proof that an adiabatic evolution following the quantum walk path does exists it abandons the usual notion of the oracle and does not solve the search problem itself as originally posed by Grover. \\
+
+\noindent
+The difference between the Quantum Walks and the Adiabatic Evolution approach is not a measure of the performance of the algorithms, since both, individually, solve the Grover's problem in $O(\sqrt{N})$ time, but illustrate that the ``\textit{how} they compute is different, even though \textit{what} they compute is the same '' \cite{Wong2016}.\\Althought the worked by Wong et al. showed that is not possible to implement an adiabatic quantum walk algorithm that solves the search problem, it leaves space to a time-dependent algorithm \textit{inspired} by the adiabatic evolution but that it's free from the constrains of the adiabatic condition. From this last consideration we develop the next chapert that summarized the work done and gives some interesting insights and properties of the quantum walks search algorithm with time-dependent hamiltonians.  
