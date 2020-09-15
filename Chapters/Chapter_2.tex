@@ -191,7 +191,7 @@ We now address the results for the circular graph. We begin by computing benchma
         \includegraphics[width=80mm]{./figures/min_tp_sqrt/forced_delta.pdf}
         \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
         \label{fig:delta_increasing_time}
-        \end{figure} \\ \\ 
+        \end{figure} \\ \\
         \bpar{\bm{$\min(t_f/p)$} and run iterations for different shapes of s(t)}
         We now investigate the effects of the different step functions discussed in section? in the probability distribution and in particular on the quantity $\min(t_f/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $2\sqrt{N}$.
         The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent hamiltonian with linear, sqrt, cbrt and Ronald-Cerf(3) interpolating schedules $s(t)$:
@@ -211,6 +211,8 @@ We now address the results for the circular graph. We begin by computing benchma
     We proceed by considering small variations on the parameter $\gamma$ in the order of 1\% and 5\% (this numbers still need to be discussed). We begin by finding the quantity $\min(t_f/P)$ with time constrains ($t_f = 2\sqrt{N}$). For the corresponding $(t_f,\gamma)$ combination we evaluate the robustness R as defined in Section?
     For the time-dependent search with only consider the linear step function an the Ronal-Cerf(3). As we showed in the previous section the Ronald-Cerf Hamiltonian performs better than the linear conterpart, while from a qualitative point of view the linear hamiltonian has a smoother probability distribution (see \cref{time_dependent_heatmap}(a)-(d)). The following plots show the semi-quantitative robustness for the $\gamma$ variations in the order of 1\% - 5\% for the time-independent search and the time-dependent one with linear and Ronald-Cerf step functions s(t). \textbf{Computations are still needed}
 
+    %ROBUSTNESS PLOT
+    \input{Chapters/plotscode/plot6}
 
 
 \section{Results for the Complete Graph}
