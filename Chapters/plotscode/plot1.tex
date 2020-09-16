@@ -1,19 +1,19 @@
-%ROBUSTNESS PLOT
+%TAU DISTRIBUTION FOR INCREASING LOWER BOUND TIME
 
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}
-    \begin{semilogyaxis}[name=plot
-    xmin=0, xmax=80,
-    ymin=0, ymax=0.03,
+    \begin{axis}[name=plot
+    xmin=0, xmax=60,
+    ymin=0, ymax=600,
     width = 120mm,
     xlabel = Dimension $N$,
-    ylabel = Robustness $R$]
-    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a ,y=e] table{./Data/r_static.txt};\addlegendentry{time-independent}
-    \addplot[color=azzurroscuro,mark=*,mark size=2.5pt, x=a ,y=e] table{./Data/r_lin.txt};\addlegendentry{linear}
-    \addplot[color=verdescuro,mark=*, mark size=2.5pt, x=a ,y=e] table{./Data/r_sqrt.txt};\addlegendentry{sqrt}
-    \addplot[color=arancio,mark=*, mark size=2.5pt, x=a ,y=e] table{./Data/r_cerf.txt};\addlegendentry{Roland-Cerf}
-    \end{semilogyaxis}
+    ylabel = $\bm{\tau}$ ]
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a ,y=b] table{./Data/51_tau_lbt_static.txt};\addlegendentry{time-independent}
+    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/51_tau_lbt.txt};\addlegendentry{$s_L(t)$}
+
+    \end{axis}
   \end{tikzpicture}
-  \caption[Robustness distribution for the time-independent hamiltonian]{\textbf{Test plot}}
+  \caption[$\tau$ distribution for increasing lower bound time.]{\textbf{\bm{$\tau$} distribution for increasing lower bound time. }The figure shows the $\tau$ distribution for increasing values of lower bound time, using the time-independent hamiltonian (orange) and time-dependent hamiltonain (red) and evaluated for a Cy(51). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better.}
+  \label{fig:tau_increasing_time}
 \end{figure}

@@ -1,6 +1,6 @@
 \newpage
 \thispagestyle{empty}
-\chapter{Quantum Walks with Time-Dependent Hamiltonians}
+\chapter{Quantum walks with time-dependent Hamiltonians and their application to the search problem on graphs}
 The main purpose of this thesis is to study quantum walks with time dependent hamiltonians, focusing in particular on their application to the spatial search problem on graph. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topology: the circular graph, for which the time-independent approach is not able to solve the search problem, and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the optimized-search, localization - which represents a search without needs to optimize the time - and a measure of robustness.
 
 \section{Search with Time-Dependent Hamiltonian}
@@ -158,12 +158,10 @@ We now address the results for the circular graph. We begin by computing benchma
         \bpar{\bm{$\min(t_f/p)$}  and run iterations for increasing lower bound \bm{$t_f$}}
          We will begin by studying how the quantity $\min(t_f/p)$ and $iters$ varies with increasing lower bound $t_f^*$.
          In the following plot we show the shape of $t_f/p$ with the time-independent approach and the time-dependent one; for the time being and for sake of semplicity, we consider only the step function Ronald-Cerf(3).
-         \begin{figure}[h]
-         \centering
-         \includegraphics[width=80mm]{./figures/min_tp/delta.pdf}
-         \caption[$\min(t_f/P)$ distribution for increasing lower bound time.]{\textbf{\bm{$\min(t_f/P)$} distribution for increasing lower bound time. }The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
-         \label{fig:delta_increasing_time}
-         \end{figure}
+
+         %TAU LOWER BOUND TIME
+         \input{Chapters/plotscode/plot1}
+
         As we can see from the plot the distribution can be diveded into to section marked by a particular $T^*$ (for the time being the value of such time is not of our interest):
         \begin{itemize}
             \item for $t_f<T^*$ the time-independent approach performes slightly better than the time-dependent one.
@@ -171,12 +169,10 @@ We now address the results for the circular graph. We begin by computing benchma
         \end{itemize}
         The behaviour for large T is to be expected, considering that the time-dependent approach shows localization properties and the probability increases with increasing time as we shoed in Figure?, in contrast with the time-independent approach that does not show localization propeties.\\ What this show is that the choice of $t_f$ has great effects on the outcome of our time-dependent approach, making it a successfull or unsuccesfull alternative.
         In terms of iterations the trend is similar to the quantity \quantity, as the following plot shows.
-        \begin{figure}[ht]
-        \centering
-        \includegraphics[width=90mm]{./figures/min_tp/iters.pdf}
-        \caption[$iters$ distribution for increasing lower bound time.]{\textbf{$\bm{iters}$ distribution for increasing lower bound time. }The figure shows the distribution of $iters$ for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). This distribution reflects the probability distribution of the two approaches: for the time-independent hamiltonian the probability does not increase with time, resulting in a (almost) constant $iters$, while the time-dependent hamiltonian showing localization properties requires less iterations to get to unitary probability.}
-        \label{fig:iters_increasing_time}
-        \end{figure} \\
+
+        %PLOT ITERATIONS FOR LOWER BOUND TIME increasing
+        \input{Chapters/plotscode/plot2}
+
         The iterations distribution reflects the overall probability distribution of the time-dependent and time-independent hamiltonian approaches. For small lower bound time the two approaches show a similar performance: the probability is very small, thus requiring a large number of iterations to get to unitary probability. As $t_f$ increases we see two very different trends:
         \begin{itemize}
             \item The time independent approach requires an almost constant number of iterations (the numerical values is somewhat irrelevant since this distribution reflects only the Cy(53) and Cy(55)). This reflects the non-localization properties of this particular approach, for which the probability does not increase with time
@@ -186,21 +182,15 @@ We now address the results for the circular graph. We begin by computing benchma
         \clearpage
         \bpar{\bm{$\min(t_f/p)$} and run iterations with constrained lower bound time}
         In order to show that the lower bound time does indeed have such great impact on the performance of the time-dependen approach relative to the time-independent one we now study the distribution of the quantity $\min(t_f/P)$ with a constrain on the lower bound time. \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \cref{fig:delta_increasing_time}. Therefore, to make the choice fair, we consider the lower bound time to be $t_f^* = 2\sqrt{N}$ which is (roughly) the time scaling of the standard Grover's Search, the QW Search on the complete graph and so on. In the best case scenario we discover that the number of iterations necessary to get to unitary probability remain constant regardless of the dimension of the graph, making this approach scale as the ones just mentioned; in the most probable scenario we discover that the number of iterations increase with the graph size, thus adding a scaling factor that depends on some power of N. \\ \\ The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71. The quantity is computed using the time-dependent hamiltonian with linear step function and the time-independent one, with constrained time $t_f=2 \sqrt{N}$.
-        \begin{figure}[ht]
-        \centering
-        \includegraphics[width=80mm]{./figures/min_tp_sqrt/forced_delta.pdf}
-        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
-        \label{fig:delta_increasing_time}
-        \end{figure} \\ \\
+
+        %TAU STATIC AND CERF WITH CONTRAINED TIME
+        \input{Chapters/plotscode/plot3}
+
         \bpar{\bm{$\min(t_f/p)$} and run iterations for different shapes of s(t)}
         We now investigate the effects of the different step functions discussed in section? in the probability distribution and in particular on the quantity $\min(t_f/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $2\sqrt{N}$.
         The following plot shows the distribution of the quantity $\min(t_f/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent hamiltonian with linear, sqrt, cbrt and Ronald-Cerf(3) interpolating schedules $s(t)$:
-        \begin{figure}[!h]
-        \centering
-        \includegraphics[width=80mm]{./figures/min_tp_sqrt/forced_sqrt_delta.pdf}
-        \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$ and different interpolating schedules.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$ and different interpolating schedules.} The figure shows the distribution of the quantity min(T/p) with constrained lower bound time at $t_f= 2\sqrt{N}$, using the time-independent hamiltonian and time-dependent hamiltonain with different interpolating schedules. The abrupt changes are due to the resolution of the grid-probability evaluation (further discussions can be found in Appendix A)}
-        \label{fig:delta_complete_sqrt}
-        \end{figure}
+
+        \input{Chapters/plotscode/plot4}
 
         \noindent
         We can see from the plot that, as we might have expected, the Ronald-Cerf interpolating schedule performes better than the linear and sqrt schedules, in particular when we consider larger graph. For small enough N the time-independent approach performs slightly better, while for large N the time-depenedent approach is superior. Please note that the abrupt changes in the plot are due to the resolution of the grid-probability evaluation, discussed in Appendix A. \textit{nota: Additional computations will be run to try to fix this issue}.

@@ -1,1 +1,23 @@
+%TAU CONSTRAINED TIME - DIFFERENT INTERPOLATING SCHEDULES
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[name=plot
+    xmin=0, xmax=80,
+    ymin=0, ymax=360,
+    width = 120mm,
+    height = 95mm,
+    xlabel = Dimension $N$,
+    ylabel = $\bm{\tau}$,
+    legend style={at={(0,1)},
+    anchor=north west}]
+    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_linear.txt};\addlegendentry{$s_{L}(t)$}
+    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_sqrt.txt};\addlegendentry{$s_{S}(t)$}
+    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_cbrt.txt};\addlegendentry{$s_{C}(t)$}
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
 
+    \end{axis}
+  \end{tikzpicture}
+  \caption[$\min(t_f/P)$ distribution for Cy(N) up to N=71 with constrained time at $\sqrt(N)$ and different interpolating schedules.]{\textbf{\bm{$\min(t_f/P)$} distribution for Cy(N) up to N=71 with constrained time at $\bm{2\sqrt{N}}$ and different interpolating schedules.} The figure shows the distribution of the quantity min(T/p) with constrained lower bound time at $t_f= 2\sqrt{N}$, using the time-independent hamiltonian and time-dependent hamiltonain with different interpolating schedules. The abrupt changes are due to the resolution of the grid-probability evaluation (further discussions can be found in Appendix A)}
+  \label{fig:delta_complete_sqrt}
+\end{figure}

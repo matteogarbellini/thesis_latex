@@ -1,1 +1,19 @@
+%ITERS I DISTRIBUTION FOR INCREASING LOWER BOUND TIME
 
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{semilogyaxis}[name=plot
+    xmin=0, xmax=60,
+    ymin=0, ymax=55,
+    width = 120mm,
+    xlabel = Dimension $N$,
+    ylabel = $\bm{I}$ ]
+    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a ,y=b] table{./Data/51_iters_lbt_static.txt};\addlegendentry{time-independent}
+    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/51_iters_lbt.txt};\addlegendentry{$s_L(t)$}
+
+    \end{semilogyaxis}
+  \end{tikzpicture}
+  \caption[$I$ distribution for increasing lower bound time.]{\textbf{$\bm{I}$ distribution for increasing lower bound time. }The figure shows the distribution of $I$ for increasing values of lower bound time, using the time-independent hamiltonian (green) and time-dependent hamiltonain (blue) and evaluated for a Cy(51). This distribution reflects the probability distribution of the two approaches: for the time-independent hamiltonian the probability does not increase with time, resulting in a (almost) constant $I$, while the time-dependent hamiltonian showing localization properties requires less iterations to get to unitary probability.}
+  \label{fig:iters_increasing_time}
+\end{figure}
