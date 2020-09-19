@@ -9,11 +9,11 @@
 
 \newpage
 \thispagestyle{empty}
-\chapter{Preliminaries}
-In this chapter we present the basic theoretical knowledge necessary to understand this thesis. We begin by introducing graph theory, random walks and quantum walks. We then discuss the quantum search problem firstly introduced by Grover and the quantum walks implementation for the unstructured search by Childs and Goldstone. Then we present the adiabatic theorem and its application for computation with adiabatic evolution. Lastly we look at the differences between the quantum walks approach and the adiabatic evolution approach by Ronald and Cerf, which constitutes the basis from which our work is carried on.
+\chapter{Preliminaries}\label{chapter one}
+In this chapter we present the basic theoretical knowledge necessary to understand this thesis. We begin by introducing graph theory, random walks and quantum walks. We then discuss the quantum search problem firstly introduced by Grover and the quantum walks implementation for the unstructured search by Childs and Goldstone. Then we present the adiabatic theorem and its application to the adiabatic quantum search, studying the global and local adiabatic evolution. Lastly we look at the differences between the quantum walks approach and the local adiabatic evolution search by Roland and Cerf, which constitutes the basis from which our work is carried on.
 
-\section{Introduction to graph theory}
-A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges, which represent the connection between any two pair of vertices. A vertex is usually indicated by the coursive letter $v$, and the corresponding edge connecting $v$ to $w$ is given by $(v,w)$. \\
+\section{Introduction to graph theory}\label{sec:introduction to graph theory}
+A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges,that represent the connection between any two pair of vertices. A vertex is usually indicated by the coursive letter $v$, and the corresponding edge connecting $v$ to $w$ is given by $(v,w)$. \\
 
 \noindent
 A graph can be characterized by many properties. Throughout our work we will only consider \textit{simple graphs} characterized by being \textit{undirected}, namely the edges $E$ are symmetric, having no self loops such that $(v,v)\notin G$ and having no multiple equivalent edges. Additionally we require the graph to be \textit{connected}, where each vertex can be reached by any other, following a path through the available edges.
@@ -39,15 +39,21 @@ In order to study the dynamics of the system we introduce a the \textit{Laplacia
 \begin{equation}
     L = D-A
 \end{equation}
-where $D$ is the diagonal degrees matrix and $A$ is the adjacenty matrix. The discrete Laplacian operator is the analog of the continous Laplace operator on discrete domain, and for the finite, undirected, simple and connected graphs that we're going to consider throughout our work, we can charactarize it by the following properties:
+where $D$ is the diagonal degrees matrix and $A$ is the adjacenty matrix. The discrete Laplacian operator is the analog of the continous Laplace operator on discrete domain, and for the finite, undirected, simple and connected graphs can charactarized by the following properties:
 \begin{itemize}
   \item $L$ is symmetric given that both $D$ and $A$ are symmetric
-  \item the sum of all elements over a rom/column equals to zero
+  \item the sum of all elements over a row/column equals to zero
   \item has a null eigenvalue which corresponds to the eigenvector $\ket{\Psi_0} = \frac{1}{\sqrt{N}}\big(1,1,...,1\big)$
 \end{itemize}
-In the following paragraphs, we give a brief description of the graphs that will be consider througout the work. \\
+As previosuly mentioned we can associate every vertex to a basis vector of the N-dimensional vector space. Similarly we can expand this notation to an N-dimensional Hilbert space, where we can use the following Dirac notation to describe the vertex. This formalism allows us to write the Laplacian matrix in convenient quantum mechanical form using the projectors $\ket{j}\bra{i}$
+\begin{equation}
+  \ket{1}=\begin{bmatrix} 1 \\ 0 \\ \vdots \\ 0\end{bmatrix}, \hspace{15pt}\ket{2}=\begin{bmatrix}0\\1\\\vdots\\0\end{bmatrix}, \hspace{15pt}\ket{N}=\begin{bmatrix}0\\0\\\vdots\\N\end{bmatrix}
+\end{equation}
 
-    \subsection{Cycle Graph}
+
+In the following paragraphs we give a brief description of the graphs that will be consider throughout the work. \\
+
+    \subsection{Cycle Graph}\label{subsec:cycle graph}
     %\addcontentsline{toc}{subsection}{Cycle Graph}
         A N-dimensional cycle graph $Cy(N)$ is a monodimensional structure with periodic boundary conditions $\ket{N+1}=\ket{N}$. The Laplacian is given by
         \begin{equation}
@@ -56,14 +62,14 @@ In the following paragraphs, we give a brief description of the graphs that will
         A pictorial representation of a cycle graph is given in Fig with the corrisponding laplacian matrix.
         \begin{figure}[ht]
           \centering
-          \begin{tabular}{cc}
-            \includegraphics[width=50mm]{./figures/chapter1/cycle} &   \includegraphics[width=50mm]{./figures/chapter1/cycleL} \\
-          (a)  & (b) \\[6pt]
+          \begin{tabular}{ccc}
+            \includegraphics[width=55mm]{./figures/chapter1/cycle} & \hspace{20pt} &\includegraphics[width=50mm]{./figures/chapter1/Laplacian} \\[0.5cm]
+          (a)  & & (b) \\[6pt]
           \end{tabular}
           \caption[Pictorial representation of a cycle graph, and matricial representation for the Laplacian]{Pictorial representation of a cycle graph with 5 nodes (a), and the matricial representation for the Laplacian of Cy(5)}
         \end{figure}
     \vspace{-0.7cm}
-    \subsection{Complete Graph}
+    \subsection{Complete Graph}\label{subsec:complete graph}
     %\addcontentsline{toc}{subsection}{Complete Graph}
         A graph with N vertices is said to be complete if every node is adjacent to all the other N-1 nodes, thus representing a finite bidimensional structure. Its Laplacian matrix is given by:
         \begin{equation}
@@ -76,8 +82,10 @@ In the following paragraphs, we give a brief description of the graphs that will
           \caption[Pictorial representation of a complete graph]{Pictorial representation of a complete graph with N=7}
         \end{figure}
 
-\section{Quantum Walks}
+\section{Quantum Walks}\label{sec:quantum walks}
 The continous time quantum walk (CTQW) is the direct analougue of the classical continous time random walk (CTRW). We begin by considering the classical one, expanding later on the quantum mechanical counterpart. \nocite{Mulken2011} \\
+
+A continous-time random walk is a stochastic process by which a walker randomly moves on a particular mathematical structure, which in our scenario is a graph $G$.
 Let $j$ be a note of a graph $G$ and the initial node, such date the initial state of the system is $\ket{j}$. Then, we denote the transition probability of the walker to go from node j to a node k in a time t with $p_{k,j}(t)$. The state after time $t$ is given by $\ket{j;t}$, such that the overlap with node $k$ is $\braket{k|j;t}=p_{j,k}(t)$. \\
 The dynamics resulting in the state $\ket{j;t}$ follows from transition rates per unit time between two nodes. In particular these transition rates are the components of the so-called \textit{transfer matrix} $T$, namely $T_{ij}= \bra{k}T\ket{j}$ . If we assume a Markovian process, the following master equation defines the CTRW evolution:
 \begin{equation}
@@ -110,12 +118,12 @@ Therefore the Laplacian matrix completely determines the evolution of the quantu
 
 
 
-\section{Grover's Quantum Search}
+\section{Grover's Quantum Search}\label{sec:grover search}
 In 1997 Lov K. Grover addressed the search problem through a quantum mechanical algorithm \cite{Grover1997}. The search problem itself can be formulated in the following way: given an unsorted database containing N items, with only one satisfing a given condition, that one item has to be retrieved. Once an item is examined, it's possible to determine whether it represents the solution or not in just one step.
-Classically, the most efficient algorithm has to check each and every item in the database individually. If the item checked satisfies the condition the process stops, otherwise it will continue to examine the remaining items until the solution is find. On average, the algorithm will have to check $0.5N$ items before finding the desired one.\\On the other hand, Grover's quantum mechanical approach takes advantage of the \textit{superposition} of states in a quantum system, and by having the input and output in such superposition can find the desired objects in $O(\sqrt{N})$ \textit{quantum mechanical steps}, instead of $O(N)$ classical steps. As we shall see later, this quantum mechanicals steps consists of an elementary unitary operation. \\
+Classically, the most efficient algorithm has to check each and every item in the database individually. If the item checked satisfies the condition the process stops, otherwise it will continue to examine the remaining items until the solution is find. On average, the algorithm will have to check $N/2$ items before finding the desired one.\\On the other hand, Grover's quantum mechanical approach takes advantage of the \textit{superposition} of states in a quantum system, and by having the input and output in such superposition can find the desired objects in $O(\sqrt{N})$ \textit{quantum mechanical steps}, instead of $O(N)$ classical steps. As we shall see later, this quantum mechanicals steps consists of an elementary unitary operation. \\
 
 \noindent
-Let's look at the algorithm to the quantum search problem more in detail, in particular setting the stage for the search algorithm in terms of an \textit{oracle}, which plays a central role in Grover's search and throughout the entire thesis. Additionally, this allows us to present a very general description of the search procedure, and a geometric way to visualize its action \cite{Nielsen2000}. \\
+Let's look at the algorithm to the quantum search problem more in detail, in particular setting the stage for the search algorithm in terms of an \textit{oracle}, which plays a central role in Grover's search and throughout our work. Additionally, this allows us to present a very general description of the search procedure, and a geometric way to visualize its action \cite{Nielsen2000}. \\
 
 \noindent
 Suppose we want to search through a search space of $N$ elements, and let's consider the indices of such elements - instead of the actual elements - which clearly are numbers from 0 to $N-1$. In order to easily store the index in $n$ bits we consider $N=2^n$, and assume that the particular search problem has only one solution. We can now easily represent one instance of the search, i.e. checking if the item satisfies a particular condition, with a function $f(x)$, where $x$ is the index integer ranging from 0 to $N-1$. The function is such that if $x$ represents the solution to the search problem $f(x)=1$, and $f(x)=0$ if not a solution. In particular we suppose that we are supplied by a quantum \textit{oracle} $O$ with the ability to \textit{recognize} the solution of the search problem. The action of the oracle $O$ is to \textit{mark} the solution by applying a phase, namely $\ket{x}\xrightarrow{O}(-1)^{f(x)}\ket{x}$. \\ In a simplified manner, the quantum search algorithm proposed by Grover consists of reapeted application of a quantum subroutine known as the \textit{Grover iteration} or \textit{Grover operator} $G$ defined as:
@@ -147,7 +155,7 @@ The effect of $G$ can be understood by realizing that the oracle $O$ performs a 
 To summerize, G is the rotation in the 2-dimensional space spanned by $\kalpha$ and $\kbeta$. Repeated application of the Grover operator rotate the initial state vector $\kpsi$ close to $\kbeta$. For applications in the order of $O(\sqrt{N})$, a measurement of the state in the computational basis produces with high probability - very close to 1 - $\kbeta$ as the outcome, that is, the solution to the search problem.
 
 
-\section{Search by Quantum Walks}
+\section{Search by Quantum Walks}\label{sec:search quantum walk}
 The search problem first introduced by Grover can be reformulated in terms of search based on a continous-time quantum walk on a graph \cite{Childs2004}. \\In order to do so we need to modify the quantum walk hamiltonian of \cref{qw_hamiltonian} so that the vertex $\ket{w}$ is somewhat special. Therefore, an \textit{oracle hamiltonian} is introduced:
 \begin{equation}
   H_w = -|w\rangle\langle w|
@@ -190,7 +198,7 @@ We expect that for some intermediate $\gamma$ the ground state will transition f
 \end{equation}
 while leaving the other vertices unchanced, thus making this the continous-time version of a yes/no oracle.
 
-\subsection{Search on Complete Graph}
+\subsection{Search on Complete Graph}\label{subsec:search qw complete graph}
 We now look at the complete graph which can be thought of having dimension proportional to N and represents the simples example of the quantum walk search application \cite{Childs2004}. \\We begin by noticing that adding a multiple of the identity matrix to the Laplacian only contributes a global unobservable phase. We add $-NI$ so that:
 \begin{equation}
   L - NI = N\ket{s}\bra{s}
@@ -218,45 +226,49 @@ and for $t=\pi\sqrt{N}/2$ the system reaches a success probability of 1, namely
 \end{equation}
 recalling that in the 2-dimensional subspace $w = (0,1)$. Thus the walk rotates the state from $\ket{s}$ to $\ket{w}$ in $O(\sqrt{N})$.
 
-\section{Search by Adiabatic Evolution}
+\section{Search by Adiabatic Evolution}\label{sec:adiabatic evolution}
 We now address the computation by adiabatic evolution firstly introduced by Farhi et al., that takes advantage of the adiabatic theorem to find the solution of a computational problem \cite{Farhi2000}. We begin by looking at the \textit{adiabatic theorem} and its implication. Then, an overview of the adiabatic implementation of the algorithm for solving the unstructured search problem is given which has a time scaling of $O(N)$. Lastly, we see how applying the adiabatic theorem \textit{locally} can lead to a time of order $O(\sqrt{N})$ which is optimal.
 
-    \subsection{Adiabatic Theorem}
+    \subsection{Adiabatic Theorem}\label{subsec:adiabatic theorem}
     A quantum system evolves according to the Schroedinger equation
     \begin{equation}
         i\frac{d}{dt}|\psi(t)\rangle = H(t)|\psi(t)\rangle
     \end{equation}
     and defining the instantaneous eigenstates and eigenvalues of H(t) by
     \begin{equation}
-        H(t)|l;t\rangle = E_l(t)|l;t\rangle
+        H\ket{\psi_l(t)} = E_l\ket{\psi_l(t)}
     \end{equation}
     such that $E_0(t) \geq E_1(t) \geq ... \geq E_{N-1}(t)$. \\
     The adiabatic theorem states that if the gap between the two lowest energy levels, $E_{1}(t) - E_{0}(t) > 0$, is stritcly greater than zero then for $T\rightarrow \infty$ the probability of being in the ground state is equal to one, namely
     \begin{equation}
-        \lim_{T \to \infty} |\langle l=0;t = T | \psi(T)\rangle| = 1
+        \lim_{T \to \infty} \braket{\psi_0(T)|\psi(T)}= 1
     \end{equation}
-    This means that if the system is chosen to evolve at a slow enough rate, the instantaneous hamiltonian will remain in the ground state throught the evolution. It is useful to consider a smooth one-parameter hamiltonian $H(s)$ such that $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
-    Let's now define the energy minimum gap by
+    This means that if the system is chosen to evolve at a slow enough rate, the instantaneous hamiltonian will remain in the ground state throughout the evolution. Furthermore it's convenient to parametrize the Hamiltonian as $H(s)$, where $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
+    Let's now define the energy minimum gap between the lowest eigenvalues of $H$ by
     \begin{equation}
         g_{min} = \min_{0 \leq s \leq 1} (E_1(s)-E_0(s))
     \end{equation}
-    In addition we can find a time lower bound $T^*$ such that for $T\gg T^{*}$ the probability is arbitrarily close to 1, in detail
+    This allows to find a minimum time $T^*$ such that, for $T\gg T^*$ the probability of being in the ground state is arbitrarily close to 1. In details, $T^*$ is given by:
+
     \begin{equation}
-        T \gg \frac{\varepsilon}{g^{2}_{min}}
+        T^* = \frac{\varepsilon}{g^{2}_{min}}
+        \label{eq:adiabatic_time}
     \end{equation}
     where
     \begin{equation}
         \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle l=1;s\Big| \frac{dH(s)}{dt} \Big| l=0;s\Big\rangle\Big|
     \end{equation}
 
-    Let's now discuss how to take advantage of the adiabatic theorem introducting the usual way in which the adiabatic evolution is implemented. It is often presented a problem hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in abeginning hamiltonian $H_B$ whose ground state is known. The problem hamiltonian encodes the solution of the problem, while the beginning hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic implementation then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent hamiltonian $H(s)$ such that
+
+\noindent
+Let's now discuss how to take advantage of the adiabatic theorem. It is often presented a problem hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in a beginning hamiltonian $H_B$ whose ground state is known. The problem hamiltonian encodes the solution of the problem, while the beginning hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic evolution then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent hamiltonian $H(s)$ such that
     \begin{equation}
         H(s) = (1-s)H_B + s H_P
     \end{equation}
-    In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so that for $s=1$ it reaches $H_P$. Thanks to the adiabatic theorem, if it's made to evolve sufficiently slowly we will find ourself in the ground state of the problem hamiltonian, which is exactly the solution.
+    In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so that for $s=1$ it reaches $H_P$. Therefore, if the system is made to evolve sufficiently slowly we will find ourself in the ground state of the problem hamiltonian, that is exactly the solution.
 
-    \subsection{Global adiabatic evolution}
-    Let's now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in Section? we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
+    \subsection{Global adiabatic evolution}\label{subsec:global adiabatic}
+    Let's now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in \Cref{sec:grover search} we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
     \begin{equation}
       \ket{\psi_0}=\frac{1}{\sqrt{N}}\sum_{i=1}^{N-1}\ket{i}
     \end{equation}
@@ -270,7 +282,7 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
       H_w = I- \ket{w}\bra{w}
       \label{eq:adiabatic_first}
     \end{equation}
-    The time-dependent Hamiltonian follows from the adiabatic implementation discussed in Section?, where $H_0$ is the beginning hamiltonian while $H_w$ is the problem hamiltonian. It thus consists in a linear interpolation between $H_0$ and $H_w$:
+    The time-dependent Hamiltonian follows from the adiabatic implementation discussed in \Cref{sec:adiabatic evolution}, where $H_0$ is the beginning hamiltonian while $H_w$ is the problem hamiltonian. It thus consists in a linear interpolation between $H_0$ and $H_w$:
     \begin{equation}
       H(t) = (1-s)H_0 + sH_w
     \end{equation}
@@ -284,14 +296,19 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
       g=\sqrt{1-4\frac{N-1}{N}s(1-s)}
       \label{separation}
     \end{equation}
-    We're interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore Eq? becomes:
+    We're interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore \Cref{eq:adiabatic_time} becomes:
     \begin{equation}
       \frac{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}{g_{\min}^2} \leq \varepsilon
       \label{adiabatic_condition}
     \end{equation}
-    so that the adiabatic condition is verified, and thus the hamiltonian stays in the ground state at all times, provided that $T\geq N/\varepsilon$. Therefore the computation time is of order $N$, showing no speed up compared to the classical search.
+    so that the adiabatic condition is verified, and thus the hamiltonian stays in the ground state at all times, provided that :
+    \begin{equation}
+      T\geq N/\varepsilon
+      \label{eq:adiabatic_scaling_global}
+    \end{equation}
+    Therefore the computation time is of order $N$, showing no speed up compared to the classical search.
 
-    \subsection{Local adiabatic evolution}
+    \subsection{Local adiabatic evolution}\label{subsec:local adiabatic}
     Roland and Cerf showed that the adiabatic evolution can be improved by applying the adiabatic condition of \cref{adiabatic_condition} locally instead of globally \cite{Roland2002}. If we look at the plot of the separation $g$ we see that the adiabatic condition is critical only for $s=1/2$ where it reaches its minimum.
     \begin{figure}[h]
       \centering
@@ -316,18 +333,18 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     \begin{equation}
       T = \frac{\pi}{2\varepsilon}\sqrt{N}
     \end{equation}
-    which represents a great improvement on Eq?. Indeed we have a quadratic speed up compared to the global adiabatic evolution, and thus this algorithm can be seen as the adiabatic implementation of the Grover's search algorithm.
+    which represents a great improvement on \Cref{eq:adiabatic_scaling_global} Indeed we have a quadratic speed up compared to the global adiabatic evolution, and thus this algorithm can be seen as the adiabatic implementation of the Grover's search algorithm.
     \begin{figure}[h]
       \centering
       \includegraphics[width=80mm]{figures/chapter1/interpolating_schedule}
-      \caption[Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64]{Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
+      \caption[Roland and Cerf interpolating schedule for the unstructured search with N=64]{Roland and Cerf interpolating schedule for the unstructured search with N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
       \label{interpolating_schedule}
     \end{figure}
 
 
 
-\section{Impossibility of Adiabatic Quantum Walks}
-In this section we show that an \textit{adiabatic quantum walks} based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work takes place. \\ \\
+\section{Impossibility of AQW based search}\label{impossibility}
+In this section we show that an \textit{adiabatic quantum walks} (AQW) based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work builds upon. \\ \\
 In the previous sections we discussed Grover's original discrete-time search algorithm (GR), Farhi and Gutmann's quantum walk analogue (FG) and Roland and Cerf's adiabatic analogue (RC). Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$.This allows to visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in \Cref{fig:blochsphere_Grover,fig:blochsphere_RC} respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane, see \Cref{fig:blochsphere_FG}.
 \begin{figure}[h]
      \centering
@@ -375,4 +392,10 @@ It's immediate to notice that these two hamiltonian look fairly similar to the i
 we see that rather than having the standard yes/no oracle given by $\ket{w}\bra{w}$, this extra hamiltonian introduces a more powerful structure, driving the evolution between $\ket{w}$ and $\ket{r}$ insted of just applying a phase to the targer state $\ket{w}$ like in the standard Grover's algorithm. This is a confirmation that the oracle is no more the usual Grover's yes/no oracle, and althought this a proof that an adiabatic evolution following the quantum walk path does exists it abandons the usual notion of the oracle and does not solve the search problem itself as originally posed by Grover. \\
 
 \noindent
-The difference between the Quantum Walks and the Adiabatic Evolution approach is not a measure of the performance of the algorithms, since both, individually, solve the Grover's problem in $O(\sqrt{N})$ time, but illustrate that the ``\textit{how} they compute is different, even though \textit{what} they compute is the same '' \cite{Wong2016}.\\Althought the worked by Wong et al. showed that is not possible to implement an adiabatic quantum walk algorithm that solves the search problem, it leaves space to a time-dependent algorithm \textit{inspired} by the adiabatic evolution but that it's free from the constrains of the adiabatic condition. From this last consideration we develop the next chapert that summarized the work done and gives some interesting insights and properties of the quantum walks search algorithm with time-dependent hamiltonians.
+The difference between the Quantum Walks and the Adiabatic Evolution approach is not a measure of the performance of the algorithms, since both, individually, solve the Grover's problem in $O(\sqrt{N})$ time, but illustrate that the ``\textit{how} they compute is different, even though \textit{what} they compute is the same '' \cite{Wong2016}.\\
+
+\noindent
+Althought the worke by Wong et al. showed that is not possible to implement an adiabatic quantum walk algorithm that solves the search problem, it leaves space to a time-dependent algorithm \textit{inspired} by the adiabatic evolution but that it's free from the constrains of the adiabatic condition. From this last considerations we develop our thesis. In the next chapter we summarize the work done and gives some interesting insights and properties of the quantum walks search algorithm with time-dependent hamiltonians.
+
+
+%\input{Chapters/plotscode/plot5}

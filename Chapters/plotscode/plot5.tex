@@ -1,1 +1,44 @@
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[name=plot
+    zmin=0,zmax=1,
+    view={0}{90},
+    colormap={inferno}{rgb255=(248,251,155) rgb255=(251,179,21) rgb255=(236,103,38) rgb255=(187,54,84) rgb255=(119,29,109) rgb255=(49,9,92) rgb255=(1,1,8)},
+    colorbar,
+    width = 120mm,
+    height=115mm,
+    xlabel = $\bm{T}$,
+    ylabel = $\bm{\gamma}$
+    ]
+    \addplot3 [surf] table[x=a,y=b,z=c]{./Data/55_grid_linear.txt};
 
+    \pgfplotsset{contour/every contour label/.style = {
+               sloped,
+               inner sep=2pt,
+               transform shape,
+               every node/.style={
+                                 mapped color,
+                                 fill=none,
+                                },
+              },}
+    \addplot3[
+            contour gnuplot=
+            {
+            draw color=white,
+            levels={0.1, 0.2},labels=true,
+            labels=true,
+            contour label style={nodes={text=white}},
+            handler/.style=smooth},
+            contour/label distance=160pt,
+            line width=1.5pt,
+            contour/labels over line
+           ] table [
+                    x =a,
+                    y = b,
+                    z = c,
+                   ]{./Data/55_grid_linear.txt};
+
+    \end{axis}
+  \end{tikzpicture}
+\end{figure}
