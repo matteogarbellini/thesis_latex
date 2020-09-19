@@ -55,7 +55,7 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
           \label{cerf}
         \end{figure}
 
-        \subsection{Multiple runs for one search}
+        \subsection{Multiple runs for one search}\label{subsec:multiple_runs}
         To give a complete picture of the usefulness of the time-depedent approach, we consider the possibility of repeating the search multiple times. If the probability at which the solution is found is $p=1$ the search is \textit{perfect} and the problem is solved. However, if the proabability is less than one, i.e. \textit{imperfect search}, the problem can be solved by searching multiple times . Since the results of the search are checked independently, a single successfull search is sufficient, and this kind of routine is efficient as long as the probability $\big|\langle\psi(T)| w\rangle\big|^2$ is greater than $1/poly(N)$ (where N is the dimension of the graph) \cite{Morley2018} - which as we shall later see is verified for all the scenarios considered.
 
         Repeating the search multiple times does however come at a cost. It is indeed necessary to take into account for a non-zero \textit{initialization} time $t_{init}$ to prepare the system in the correct state as well a physical time for the measurement. Therefore, computing multiple searches with small $T$ becomes less efficient than less searches with larger $T$, where the quantity $t_{init}$ makes a lesser contribution to the overall $T$. Clearly this consideration is particularly relevant for increasing graph size.
@@ -126,7 +126,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         \subsubsection*{Comments on the probability distribution}
         From the heatmap plot we see that the probability distribution does not increase smoothly with increasing time, but shows peaks (dark regions) and valleys (lighter regions). Additionally high probability regions are scattered throughout the grid and do not appear necessarily for large $T$. We will later see that this is a weakness of the time-independent approach, since a small variation of the parameter $\gamma$ leads to possibly great variation of the probability.
 
-    \subsection{Time-Dependent Results}
+    \subsection{Time-Dependent Results}\label{subsec:time_dependent_results}
         Similarly we compute the probability with the time-dependent Hamiltonian using the interpolating schedules introduced in \Cref{subsec:interpolating schedules}. To easily compare the two methods we consider the same time $T=N$ and $\gamma$ used for the time-independent benchmarks. Indeed, from an initial run we see that the $\gamma$ parameter affects the probability similarly to the time-independent approach, namely the probability tends to be higher for smaller values of $\gamma$. \\
         \blue{4}
 
@@ -147,7 +147,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         \subsubsection*{Comments on the probability distribution}
         Compared to the time-independent hamiltonain approach we can clearly see that the probability distribution is smoother - has no valley and peaks - for both constant $\gamma$ and $T$ (any orizontal and vertical sections, respectively). In particular we notice that the probability increases for increasing time, and as we shall later see, for large enough $T$ it reaches probability equal to one.\\ If we look at the different interpolating schedules it is immediately evident that $s_S(t)$ and $s_C(t)$ schedules perform poorly compared to the linear $s_L(t)$. On the other hand $s_{RC}(t)$ schedule performs similarly to $s_L(t)$, but has a significantly different probability distribution  that might affect its robustness.
 
-    \subsection{Comparison: Localization}
+    \subsection{Comparison: Localization}\label{subsec:localization_results}
         We now compare the localization properties of the two algorithm. As we have already mentioned, from an intial look at the probability heatmap plots we discovered the following:
         \begin{itemize}
             \item \textbf{Time-Independent QW}: the time-independent based algorithm is not able to solve the search problem with a single iteration, making it necessary to run multiple searches. This implies that the approach does not show any localization properties, in fact the probability does not increase with time as seen in \Cref{fig:heamap-independent}.
@@ -175,7 +175,8 @@ We now address the results for the circular graph. We begin by evaluating the pr
 
 
         \noindent
-        However, this approach poses a few problems. In fact if we look at how the quantity $T/p$ varies for varying $T$, we discover that the minimum of such quantity will always be for the smallest $T$ available, regardless of the type of Hamiltonian and interpolating schedule $s(t)$ considered. The following plot indeed shows, for a few sampled $\gamma$, the shape of $T/p$. In addition, in Section ? we mentioned that when dealing with multiple runs for one search we need to take into account an initialization time $t_{init}$. It is thus necessary to consider a lower bound on $T$.
+        However, this approach poses a few problems. In fact if we look at how the quantity $T/p$ varies for varying $T$, we discover that the minimum of such quantity will always be for the smallest $T$ available, regardless of the type of Hamiltonian and interpolating schedule $s(t)$ considered. The following plot indeed shows, for a sampled $\gamma$, the shape of $T/p$ with increasing time. \\
+        \blue{8}
         \begin{figure}[ht]
         \centering
         \begin{tabular}{cc}
@@ -185,46 +186,51 @@ We now address the results for the circular graph. We begin by evaluating the pr
         \caption[$T/p$ distribution for sampled $\gamma$ showing that the minimum will always be for the smallest $t$ ]{\textbf{Distribution of the quantity T/p for sampled $\gamma$ showing that tthe min(T/p) will always be the smallest for the smallest $t$.}he figure shows the distribution of the quantity $T/p$ for some sampled values of the parameter $\gamma$, using the linear and Roland-Cerf interpolating schedules. It is clear that the quantity $\min(T/p)$ will always be for the smallest $T$ available, regardless of the interpolating schedule, requiring therfore a constrain on the time.}
         \end{figure}
 
-        \bpar{\bm{$\min(T/p)$}  and run iterations for increasing lower bound \bm{$T$}}
-         We will begin by studying how the quantity $\min(T/p)$ and $iters$ varies with increasing lower bound $T^*$.
-         In the following plot we show the shape of $T/p$ with the time-independent approach and the time-dependent one; for the time being and for sake of semplicity, we consider only the interpolating schedule Roland-Cerf(3).
+        \noindent
+        In addition, in \Cref{subsec:multiple_runs}  we mentioned that when dealing with multiple runs we need to take into account an initialization time $t_{init}$. It becomes therefore necessary to introduce a minimum value of time that can be considered, since for small $T$ the contribution given by $t_{init}$ can have a significant impact. We call this particular $T$ as \textbf{lower bound time}, reffered to as $T_{\min}$, and study its effect on $\tau$ and the overall performance of the time-independent and time-dependent algorithms. \\ \\
 
+        \bpar{\bm{$\tau$} and $\bm{I}$ for increasing lower bound time \bm{\tmin}}
+         We begin by studying how $\tau$ and $I$ vary with increasing lower bound time \tmin.
+         In the following plot we show the shape of $T/p$ with the time-independent approach and the time-dependent one; since we're only interested in the general effect of \tmin on $\tau$ and $I$ we only consider the linear interpolating schedule $s_L(t)$\footnote{We have seen in \Cref{subsec:time_dependent_results} the probability distribution for the different interpolating schedules is quite similar, therefore looking only at $s_L(t)$ is sufficient.}. For sake of semplicity we study the cycle graph $Cy(51)$ with time up to $T=N$\\
+         \blue{9}
          %TAU LOWER BOUND TIME
          %\input{Chapters/plotscode/plot1}
 
-        As we can see from the plot the distribution can be diveded into to section marked by a particular $T^*$ (for the time being the value of such time is not of our interest):
+        As we can see from the plot, the distributions can be divided into two sections marked by a particular $T^*$, representing the time at which the two distributions - time-dependendent and time-independent - intersect (for the time being the value of such time is not of our interest):
         \begin{itemize}
-            \item for $T<T^*$ the time-independent approach performes slightly better than the time-dependent one.
-            \item for $T>T^*$ however the time-dependent approach performs significantly better, in particular with increasing time $T$
+            \item for $T_{\min}<T^*$ the time-dependent approach has a comparable performance with the time-independent one, although the latter has a slight advantage.
+            \item for $T_{\min}>T^*$ however the time-dependent approach performs significantly better, in particular with increasing \tmin
         \end{itemize}
-        The behaviour for large T is to be expected, considering that the time-dependent approach shows localization properties and the probability increases with increasing time as we shoed in Figure?, in contrast with the time-independent approach that does not show localization propeties.\\ What this show is that the choice of $T$ has great effects on the outcome of our time-dependent approach, making it a successfull or unsuccesfull alternative.
-        In terms of iterations the trend is similar to the quantity \quantity, as the following plot shows.
+        The behaviour for large T is to be expected, considering that the time-dependent approach shows localization properties and the probability increases with increasing time as we showed in \blue{7} and in \Cref{subsec:localization_results}, in contrast with the time-independent approach that does not show localization properties.\\ What this shows is that the choice of \tmin has a great impact on the outcome of our time-dependent approach, making it a successfull or unsuccesfull alternative. \red{manca qualcosa che dia una conclusione a quest'ultima affermazione}.\\
 
+        \noindent
+        Let's now look at the distribution of the number of iterations $I$. The following plots shows $I$ for increasing \tmin up to N, using the time-independent Hamiltonian and time-dependent one with the linear interpolating schedule $s_L(t)$.
+
+        \blue{10}
         %PLOT ITERATIONS FOR LOWER BOUND TIME increasing
         %\input{Chapters/plotscode/plot2}
 
-        The iterations distribution reflects the overall probability distribution of the time-dependent and time-independent Hamiltonian approaches. For small lower bound time the two approaches show a similar performance: the probability is very small, thus requiring a large number of iterations to get to unitary probability. As $T$ increases we see two very different trends:
+        The iterations distribution reflects the overall probability distribution of the time-dependent and time-independent Hamiltonian approaches. For small lower bound time the two approaches show a similar performance: the probability is very small, thus requiring a large number of iterations to get to unitary probability. As \tmin increases we see two very different trends:
         \begin{itemize}
-            \item The time independent approach requires an almost constant number of iterations (the numerical values is somewhat irrelevant since this distribution reflects only the Cy(53) and Cy(55)). This reflects the non-localization properties of this particular approach, for which the probability does not increase with time
-            \item On the other hand the time-dependent approach, showing localization properties, requires less iterations to solve the search with unitary probability.
+            \item The time independent approach requires an almost constant number of iterations\footnote{The numerical value of $I$ is irrelevant since this distribution reflects only the Cy(51).}. This reflects the non-localization properties of this particular approach, for which the probability does not increase with time. It also shows that the maximum probability found is (almost) equal for all $T$, provided that \tmin is large enough.
+            \item On the other hand the time-dependent approach requires less iterations to solve the search with unitary probability, as expected.
         \end{itemize}
-        Taking into account that we are performing a multiple run search and the initialization time $t_{init}$ previously discussed, it is clear that the time-depedent approch performs better than the time-independent counter part in most of the scenario.
-        \clearpage
-        \bpar{\bm{$\min(T/p)$} and run iterations with constrained lower bound time}
-        In order to show that the lower bound time does indeed have such great impact on the performance of the time-dependen approach relative to the time-independent one we now study the distribution of the quantity $\min(T/P)$ with a constrain on the lower bound time. \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \cref{fig:delta_increasing_time}. Therefore, to make the choice fair, we consider the lower bound time to be $T^* = 2\sqrt{N}$ which is (roughly) the time scaling of the standard Grover's Search, the QW Search on the complete graph and so on. In the best case scenario we discover that the number of iterations necessary to get to unitary probability remain constant regardless of the dimension of the graph, making this approach scale as the ones just mentioned; in the most probable scenario we discover that the number of iterations increase with the graph size, thus adding a scaling factor that depends on some power of N. \\ \\ The following plot shows the distribution of the quantity $\min(T/P)$ for circular graphs Cy(N) with N up to 71. The quantity is computed using the time-dependent Hamiltonian with linear interpolating schedule and the time-independent one, with constrained time $T=2 \sqrt{N}$.
-
-        %TAU STATIC AND CERF WITH CONTRAINED TIME
-        %\input{Chapters/plotscode/plot3}
-
-        \bpar{\bm{$\min(T/p)$} and run iterations for different shapes of s(t)}
-        We now investigate the effects of the different interpolating schedules discussed in section? in the probability distribution and in particular on the quantity $\min(T/P)$. As we did for the general time-dependent and time-independent comparison we constrain the lower bound time to be larger than $2\sqrt{N}$.
-        The following plot shows the distribution of the quantity $\min(T/P)$ for circular graphs Cy(N) with N up to 71, using the time-dependent Hamiltonian with linear, sqrt, cbrt and Roland-Cerf(3) interpolating schedules $s(t)$:
+        Taking into account that we are performing a multiple runs search and the initialization time $t_{init}$ previously discussed, it is clear that the time-depedent approch performs better than the time-independent counter part in most of the scenarios, where imposing a lower bound time \tmin becomes necessary.
 
 
-        %\input{Chapters/plotscode/plot4}
+
+        \bpar{\bm{$\tau$} and run iterations with constrained lower bound time}
+        In order to show that the lower bound time does indeed have such a great impact on the performance of the time-dependent approach relative to the time-independent one, we study the distribution of $\tau$ and $I$ with a constrain on \tmin. It should be noted that in this particular scenario $\tau$ will no longer be a minimization over $T$ since the time is fixed, while the dependance on $\gamma$ remains. \\ \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as we've just shown in \blue{9}. Therefore, to make the choice fair, we consider the lower bound time to be $T_{\min} = \frac{\pi}{2}\sqrt{N}$ which is the same order of magnitude of the standard Grover's time scaling, the time-independent quantum walk search on the complete graph and the unstructured local adiabatic search. In the best-case scenario we might discover that the number of iterations necessary to get to unitary probability remains constant regardless of the dimension of the graph, making this approach have the same time scaling as the ones just mentioned; in the most probable scenario we discover that the number of iterations increases with the graph size, thus adding a scaling factor that depends on some power of N. \\
 
         \noindent
-        We can see from the plot that, as we might have expected, the Roland-Cerf interpolating schedule performes better than the linear and sqrt schedules, in particular when we consider larger graph. For small enough N the time-independent approach performs slightly better, while for large N the time-depenedent approach is superior. Please note that the abrupt changes in the plot are due to the resolution of the grid-probability evaluation, discussed in Appendix A. \textit{nota: Additional computations will be run to try to fix this issue}.
+        We begin by investigating the effects of the interpolating schedule $s(t)$ on the $\tau$ distribution. The following plot shows the results for cycle graphs $Cy(N)$ with N up to 71, using the time-dependent hamiltonian and the interpolating schedules defined in \Cref{subsec:interpolating schedules}.\\
+        \blue{11}
+
+        As we could have expected the Roland-Cerf interpolating schedule $s_{RC}(t)$ performs the best, compared to the linear one. The $s_S(t)$ and $s_C(t)$ show poor performance compared to all the others, therefore are ignored for the next analysis.  This shows indeed that the shape of the interpolating function has a great impact on the performance of the algorithm, in particular when considering large graphs. We now compare the time-independent approach to the time-dependent one using the linear and Roland-Cerf interpolating schedules. Again, the time is constrained as in the previous plot. In particular we look at both the $\tau$ and $I$ distributions \\
+        \blue{12}
+
+        The following plot shows the number of iterations $I$ for the two considered approach. We are able to qualitatively describe the time scaling of the algorithms by superimposing the functions $\sqrt{N}$ and $\sqrt[3]{N}$: if the distribution of the iterations $I$ lies below the $\sqrt{N}$ line the time-dependent algorithm has some speedup compared to the classical search. Remember in fact that the overall time scaling of the multiple runs search is $\tau$, that is given by \\
+        \blue{13}
 
 
     \subsection{Comparison: Robustness}

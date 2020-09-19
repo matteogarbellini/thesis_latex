@@ -343,7 +343,7 @@ Let's now discuss how to take advantage of the adiabatic theorem. It is often pr
 
 
 
-\section{Impossibility of AQW based search}\label{impossibility}
+\section{Impossibility of a search algoritm based on adiabatic quantum walks}\label{impossibility}
 In this section we show that an \textit{adiabatic quantum walks} (AQW) based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work builds upon. \\ \\
 In the previous sections we discussed Grover's original discrete-time search algorithm (GR), Farhi and Gutmann's quantum walk analogue (FG) and Roland and Cerf's adiabatic analogue (RC). Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$.This allows to visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in \Cref{fig:blochsphere_Grover,fig:blochsphere_RC} respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane, see \Cref{fig:blochsphere_FG}.
 \begin{figure}[h]
