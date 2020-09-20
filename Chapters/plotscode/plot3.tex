@@ -4,20 +4,3 @@
 
 
 %TAU CONSTRAINED TIME - TIME INDEPENDENT AND CERF
-\begin{figure}[ht]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[name=plot
-    xmin=0, xmax=80,
-    ymin=0, ymax=360,
-    width = 120mm,
-    xlabel = Dimension $N$,
-    ylabel = $\bm{\tau}$ ]
-    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/tau_static.txt};\addlegendentry{time-independent}
-    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
-
-    \end{axis}
-  \end{tikzpicture}
-  \caption[$\tau$ distribution for Cy(N) up to N=71 with constrained time at $\pi/2\sqrt(N)$.]{\textbf{\bm{$\tau$} distribution for Cy(N) up to N=71 with constrained time at $\bm{\pi/2\sqrt{N}}$.} The figure shows the distribution of the quantity min(T/p) for increasing values of lower bound time, using the time-independent hamiltonian (circles) and time-dependent hamiltonain (solid circles) and evaluated for a Cy(51) and Cy(53). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better. }
-  \label{fig:delta_increasing_time}
-\end{figure}

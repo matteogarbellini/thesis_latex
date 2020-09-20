@@ -1,3 +1,27 @@
 %%
 %I DISTRIBUTION FOR INDEPENDENT - LIN - CERF
 %%
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[name=plot
+    xmin=0, xmax=80,
+    ymin=0, ymax=17,
+    width = 120mm,
+    xlabel = Dimension $N$,
+    ylabel = $\bm{I}$,
+    domain=0:80,
+    legend style={at={(0.05,0.95)},
+    anchor=north west}]
+    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig13/iters_static.txt};\addlegendentry{time-independent}
+    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig13/iters_linear.txt};\addlegendentry{$s_{L}(t)$}
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig13/iters_cerf.txt};\addlegendentry{$s_{RC}(t)$}
+    \addplot[color=black, samples at={0,0.001,0.005,0.01,...,0.2,0.3,0.4,...,2,...,80}]{1.5*x^(1/2)};\addlegendentry{$O(\frac{\pi}{2}\sqrt{N})$}
+
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption[$I$ distribution for Cy(N) up to N=71 with constrained time at $\pi/2\sqrt(N)$.]{\textbf{\bm{$I$} distribution with constrained time at $\bm{\pi/2\sqrt{N}}$.} The figure shows the distribution of $I$ for cycle graphs up to N=71, using the time-independent Hamiltonian (red) and time-dependent Hamiltonian with linear $s_L$ (green) and Roland-Cerf $s_{RC}$ (orange) interpolating schedules. The black line represents a time scaling of $O(\sqrt{N})$. Combining the value of $I$ with the constrained time of $\pi/2\sqrt(N)$ we can estimate the performance of the algorithms: if the distribution is below the black line the algorithm performs better than the classical search $O(N)$. From this plot we can clearly see that for $N$ up to 71 the performance is better than the classical search, although we are not able to make predictions for larger N.}
+  \label{fig:delta_increasing_time}
+\end{figure}

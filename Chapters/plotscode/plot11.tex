@@ -1,3 +1,26 @@
 %%
 %TAU DISTRIBUTION FOR DIFFERENT SHAPES OF S(T)
 %%
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[name=plot
+    xmin=0, xmax=80,
+    ymin=0, ymax=200,
+    width = 120mm,
+    xlabel = Dimension $N$,
+    ylabel = $\bm{\tau}$,
+    domain=0:80,
+    legend style={at={(0.05,0.95)},
+    anchor=north west}]
+
+    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig11/tau_cbrt.txt};\addlegendentry{$s_{C}(t)$}
+    \addplot[color=azzurroscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig11/tau_sqrt.txt};\addlegendentry{$s_{S}(t)$}
+    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig11/tau_linear.txt};\addlegendentry{$s_{L}(t)$}
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig11/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption[$\tau$ distribution for Cy(N) up to N=71 with constrained time at $\pi/2\sqrt(N)$.]{\textbf{\bm{$\tau$} distribution with constrained time for the different intepolating schedules.} The figure shows the distribution of $\tau$ for cycle graphs up to N=71, using the time-dependent hamiltonian with different intepolating schedules: (orange) Roland-Cerf $s_{RC}(t)$, (green) linear $s_{L}(t)$, (light blue) $s_{S}(t)$ and (blue) $s_{C}(t)$. As expected $s_{RC}(t)$ is the best performing intepolating schedule, followed by the linear $s_L(t)$. The other two do not show any advantage compared to the others.}
+  \label{fig:delta_increasing_time}
+\end{figure}
