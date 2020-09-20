@@ -6,7 +6,7 @@
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}
-    \begin{axis}[name=plot
+    \begin{axis}[name=plot,
     xmin=0, xmax=80,
     ymin=0, ymax=360,
     width = 120mm,
@@ -15,10 +15,10 @@
     ylabel = $\bm{\tau}$,
     legend style={at={(0,1)},
     anchor=north west}]
-    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_linear.txt};\addlegendentry{$s_{L}(t)$}
-    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_sqrt.txt};\addlegendentry{$s_{S}(t)$}
-    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_cbrt.txt};\addlegendentry{$s_{C}(t)$}
-    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
+    \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig4/tau_linear.txt};\addlegendentry{$s_{L}(t)$}
+    \addplot[color=bluscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig4/tau_sqrt.txt};\addlegendentry{$s_{S}(t)$}
+    \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig4/tau_cbrt.txt};\addlegendentry{$s_{C}(t)$}
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig4/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
 
     \end{axis}
   \end{tikzpicture}
