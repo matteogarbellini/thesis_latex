@@ -3,4 +3,24 @@
 %%
 
 
-%TAU CONSTRAINED TIME - TIME INDEPENDENT AND CERF
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[name=plot
+    zmin=0,zmax=1,
+    view={0}{90},
+    colormap={inferno}{rgb255=(248,251,155) rgb255=(251,179,21) rgb255=(236,103,38) rgb255=(187,54,84) rgb255=(119,29,109) rgb255=(49,9,92) rgb255=(1,1,8)},
+    colorbar,
+    colorbar style = {ylabel=Probability, ytick={0.02, 0.04, 0.06, 0.08, 0.1}},
+    width = 120mm,
+    height= 120mm,
+    xlabel = $\bm{T}$,
+    ylabel = $\bm{\gamma}$
+    ]
+    \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig3/51_heatmap_static.txt};
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{\textbf{Probability distribution for the time-independent Hamiltonian}. The figure shows the probability distribution for the cycle graph $Cy(51)$ evaluated using the time-independent Hamiltonian, providing the necessary benchmarks. Note that dark color regions do not represent probabilities close to one.}
+  \label{fig:heatmap_time_independent}
+\end{figure}

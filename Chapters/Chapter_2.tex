@@ -110,18 +110,15 @@ We now address the results for the circular graph. We begin by evaluating the pr
 
     \subsection{Time-Independent Benchmarks}
         The first step of the analysis is to compute time-independent benchmarks. We computed the probability over a $(T,\gamma)$ grid, with $T\in[0,N]$ and $\gamma\in[0,2.5]$, where N is the dimension of the graph considered. An initial run of the probability distribution shows that the probability does not increase with time, thus the need to evaluate for $T$ greater than $T=N$ proved to be unnecessary. In addition, Grover's algorithm for the unstructured search has a time scaling of $O(\sqrt{N})$ and the Farhi and Gutmann's global adiabatic evolution is $O(N)$, thus focusing on $T \leq N$ suffices.\\
-        \blue{2} \\
+        \blue{2}
+        \input{Chapters/plotscode/plot2}
+
         Throughout the analysis we will consider graphs up to N = 71, with only odd dimensions which makes a easier oracle placement in the center vertex of the graph\footnote{The position of the oracle is somewhat irrelevant for the graph topologies considered, since every node is equivalent to all the $N-1$ others. Nevertheless odd dimensions allows to place the oracle in the central vertex of the graph, namely $\ket{\frac{N+1}{2}}$.}. Additional considerations and reasoning for the $(T,\gamma)$ grid can be found in the Appendix. \\
 
-
+        \noindent
         To display the results in an intuitive way we used a heatmap plot, which gives a good idea on the probability distribution for varying combinations of $(T,\gamma)$: \\
         \blue{3}
-          \begin{figure}[ht]
-            \centering
-            \includegraphics[width=9cm]{./figures/time_independent_benchmark_47}%
-            \caption[Probability heatmap plot for the time-independent Hamiltonian, N=47]{\textbf{Probability heatmap plot for the time-independent Hamiltonian.} The figure shows the probability distribution for a circular graph of N=47 evaluated using the time-independent Hamiltonian, providing thus the necessary benchmark. Note that dark color do not represent probabilities close to one, but only higher probability regions.}
-            \label{fig:heamap-independent}
-          \end{figure}
+        \input{Chapters/plotscode/plot3}
 
         \subsubsection*{Comments on the probability distribution}
         From the heatmap plot we see that the probability distribution does not increase smoothly with increasing time, but shows peaks (dark regions) and valleys (lighter regions). Additionally high probability regions are scattered throughout the grid and do not appear necessarily for large $T$. We will later see that this is a weakness of the time-independent approach, since a small variation of the parameter $\gamma$ leads to possibly great variation of the probability.
@@ -133,17 +130,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         The probability is then evaluated for all the interpolating schedules $s(t)$ , and the results are again presented with an intuitive heatmap plot.
         \blue{5}
 
-        \begin{figure}[ht]
-        \centering
-        \begin{tabular}{cc}
-          \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_lin.pdf} &   \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_sqrt.pdf} \\
-        (a) lin & (b) sqrt\\[6pt]
-        \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_cbrt.pdf} &   \includegraphics[width=75mm]{./figures/time_dependent_heatmap/47_heatmap_time_dependent_cerf.pdf} \\
-        (c) cbrt & (d) cerf\\[6pt]
-        \end{tabular}
-        \caption[Probability heatmap plot for the time-dependent Hamiltonian, for different shapes of s(t)]{\textbf{Probability heatmap plot for the time-dependent Hamiltonian, for different shapes of s(t).} The figure shows the probability distribution for a circular graph of N=47 evaluated using the time-dependent Hamiltonian using the following interpolating schedules (a) linear, (b) $\sqrt{t/T}$, (c) $\sqrt[3]{t/T}$ and (d) Roland-Cerf(3). Note that the color gradient is normalized to p=0.3 to accentuate the difference in probability between different regions. }
-        \label{fig:heatmap-dependent}
-        \end{figure}
+
         \subsubsection*{Comments on the probability distribution}
         Compared to the time-independent hamiltonain approach we can clearly see that the probability distribution is smoother - has no valley and peaks - for both constant $\gamma$ and $T$ (any orizontal and vertical sections, respectively). In particular we notice that the probability increases for increasing time, and as we shall later see, for large enough $T$ it reaches probability equal to one.\\ If we look at the different interpolating schedules it is immediately evident that $s_S(t)$ and $s_C(t)$ schedules perform poorly compared to the linear $s_L(t)$. On the other hand $s_{RC}(t)$ schedule performs similarly to $s_L(t)$, but has a significantly different probability distribution  that might affect its robustness.
 

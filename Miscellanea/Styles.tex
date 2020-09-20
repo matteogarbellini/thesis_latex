@@ -31,3 +31,10 @@
 \newcommand{\tmin}{$T_{\min}\mbox{ }$}
 
 \usepgfplotslibrary{colormaps}
+\pgfplotsset{
+    legend image with text/.style={
+        legend image code/.code={%
+            \node[anchor=center] at (0.3cm,0cm) {#1};
+        }
+    },
+}
