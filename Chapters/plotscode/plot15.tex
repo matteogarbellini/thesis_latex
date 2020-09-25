@@ -14,6 +14,7 @@
     \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig15/r1_static.txt};\addlegendentry{time-independent}
     \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig15/r1_linear.txt};\addlegendentry{$s_{L}(t)$}
     \addplot[color=arancio,mark=*, mark size=2.5pt, x=a, y=b] table{./Data/fig15/r1_cerf.txt};\addlegendentry{$s_{RC}(t)$}
+  
     \end{semilogyaxis}
   \end{tikzpicture}
   \caption[Robustness for the time-independent hamiltonian]{\textbf{$\bm{\gamma}$-Robustness for the time-independent and time-dependent approaches.} The figure shows the $\gamma$-robustness distribution for the time-independent approach (red), the time-dependent one with linear interpolating schedule $s_L(t)$ (green) and with Roland-Cerf $s_{RC}(t)$ (red). Recalling that the lower $R$ value the highest the robustness, this distribution reflects the probability distribution seen in \Cref{subsec:time_dependent_results}, where the probability distribution was smoother for $s_L(t)$ than $s_{RC}(t)$.}

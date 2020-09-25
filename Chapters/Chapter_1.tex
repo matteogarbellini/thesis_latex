@@ -119,7 +119,7 @@ Therefore the Laplacian matrix completely determines the evolution of the quantu
 
 
 \section{Grover's quantum search}\label{sec:grover search}
-In 1997 Lov K. Grover addressed the search problem through a quantum mechanical algorithm \cite{Grover1997}. The search problem itself can be formulated in the following way: given an unsorted database containing N items, with only one satisfing a given condition, that one item has to be retrieved. Once an item is examined, it's possible to determine whether it represents the solution or not in just one step.
+In 1997 Lov K. Grover addressed the search problem through a quantum mechanical algorithm \cite{Grover1997}. The search problem itself can be formulated in the following way: given an unsorted database containing N items, with only one satisfing a given condition, that one item has to be retrieved. Once an item is examined, it is possible to determine whether it represents the solution or not in just one step.
 Classically, the most efficient algorithm has to check each and every item in the database individually. If the item checked satisfies the condition the process stops, otherwise it will continue to examine the remaining items until the solution is find. On average, the algorithm will have to check $N/2$ items before finding the desired one.\\On the other hand, Grover's quantum mechanical approach takes advantage of the \textit{superposition} of states in a quantum system, and by having the input and output in such superposition can find the desired item in $O(\sqrt{N})$ \textit{quantum mechanical steps}, instead of $O(N)$ classical steps. As we shall see later, this quantum mechanicals steps consists of an elementary unitary operation. \\
 
 \noindent
@@ -249,7 +249,7 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     \begin{equation}
         \lim_{T \to \infty} \braket{\psi_0(T)|\psi(T)}= 1
     \end{equation}
-    This means that if the system is chosen to evolve at a slow enough rate, the instantaneous Hamiltonian will remain in the ground state throughout the evolution. Furthermore it's convenient to parametrize the Hamiltonian as $H(s)$, where $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
+    This means that if the system is chosen to evolve at a slow enough rate, the instantaneous Hamiltonian will remain in the ground state throughout the evolution. Furthermore it is convenient to parametrize the Hamiltonian as $H(s)$, where $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
     Let's now define the energy minimum gap between the lowest eigenvalues of $H$ by
     \begin{equation}
         g_{min} = \min_{0 \leq s \leq 1} (E_1(s)-E_0(s))
@@ -361,10 +361,10 @@ In the previous sections we discussed Grover's original discrete-time search alg
 \end{figure}
 
 \noindent
-This substantial difference of the path taked by the different algorithms is exacly what Wong et al. investigate, in particular with the goal of determine which adiabatic algorithm does follow the same path of the quantum walk algorithm of Farhi and Gutmann in order to implement an adiabatic quantum walk based search algorithm. \\
+This substantial difference of the path taked by the different algorithms is exacly what Wong et al. investigate, in particular with the goal of determine whether it is possible to construct an adiabatic algorithm that follows the path of the quantum walks based algorithm. \\
 
 \noindent
-To do so they constructed an Hamiltonian starting from the following states, with the first represents the ground state and the latter the first (and only) excited state - rememeber that the Grover's search rotates the initial state over the final state, thus the first excited state is the orthogonal of the ground state.
+To do so they construct an Hamiltonian from the following states, with the first represents the ground state and the latter the first (and only) excited state - rememeber that the Grover's search rotates the initial state over the final state, thus the first excited state is the orthogonal of the ground state.
 \begin{equation}
   \ket{\psi_0(t)} = \alpha(t)\ket{w} + \beta(t)\ket{r}
 \end{equation}
@@ -381,8 +381,8 @@ which allows to determine the final time-dependent \textit{adiabatic} Hamiltonia
 \begin{equation}
   H(s) = \sqrt[4]{\frac{s(1-s)}{4\varepsilon^2N}}\Big[ (1-s)H_0 + sH_f + \sqrt{s(1-s)}H_e\Big]
 \end{equation}
-where the interpolating schedule is given by $s(t)=\sin^2\big(\frac{t}{\sqrt{N}}\big)$. Indeed the system evolves from $t=0$ to $t=\frac{\pi}{2}\sqrt{N}$ as we would expect. Looking closely the Hamiltonian $H_0$ is the beginning Hamiltonian, $H_f$ is the final Hamiltonian - encoding the solution of the search problem - and $H_e$ is an \textit{extra} Hamiltonian, a common tecnique for manupulating the evolution of the path of adiabatic algorithms\footnote{The extra Hamiltonian commonly appears as $s(s-1)$, while the one considered in this scenario is given by the square root of such value \cite{Wong2016}.}. Let's now look at the consequences of this Hamiltonian, looking at $H_0$, $H_f$ and $H_e$ individually. \\
-$H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respective eigenvalues $-1$ and $+1$, thus the Hamiltonian can be written as:
+where the interpolating schedule is given by $s(t)=\sin^2\big(\frac{t}{\sqrt{N}}\big)$. Indeed the system evolves from $t=0$ to $t=\frac{\pi}{2}\sqrt{N}$ as we would expect. Looking closely, the Hamiltonian $H_0$ represents the beginning Hamiltonian, $H_f$ the final Hamiltonian - encoding the solution of the search problem - and $H_e$ is an \textit{extra} Hamiltonian, a common tecnique for manupulating the evolution of the path of adiabatic algorithms\footnote{The extra Hamiltonian commonly appears as $s(s-1)$, while the one considered in this scenario is given by the square root of such value \cite{Wong2016}.}. Let's now look at the consequences of this Hamiltonian, looking at $H_0$, $H_f$ and $H_e$ individually. \\
+$H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respective eigenvalues $-1$ and $+1$, thus can be written as:
 \begin{equation}
   H_0  = \ket{s^\perp}\bra{s^\perp} - \ket{s}\bra{s}
 \end{equation}
@@ -390,17 +390,14 @@ Similarly, the final Hamiltonian $H_f$ has ground state $\ket{w}$ and excited st
 \begin{equation}
   H_f =  \ket{r}\bra{r} - \ket{w}\bra{w}
 \end{equation}
-It's immediate to notice that these two Hamiltonian look fairly similar to the initial and final Hamiltonian of the standard adiabatic quantum search algorithm of \Cref{eq:adiabatic_ground,eq:adiabatic_first}. Although the similarities look at first sight promising, the extra Hamiltonian $H_e$ and the interpolating schedule $s(t)$ change completely the evolution of the system. In particular, if we look at the Hamiltonian $H_e$ - given by:
+It is immediate to notice that these two Hamiltonians look fairly similar to the initial and final Hamiltonian of the standard adiabatic quantum search algorithm of \Cref{eq:adiabatic_ground,eq:adiabatic_first}. Although the similarities look at first sight promising, the extra Hamiltonian $H_e$ and the interpolating schedule $s(t)$ change completely the evolution of the system. In particular, if we look at the Hamiltonian $H_e$ - given by:
 \begin{equation}
   H_e = 2i\sqrt{\frac{N-1}{N}}\big(\ket{r}\bra{w} - \ket{w}\bra{r}\big)
 \end{equation}
-we see that rather than having the standard yes/no oracle given by $\ket{w}\bra{w}$, this extra Hamiltonian introduces a more powerful structure, driving the evolution between $\ket{w}$ and $\ket{r}$ insted of just applying a phase to the targer state $\ket{w}$ like in the standard Grover's algorithm. This is a confirmation that the oracle is no more the usual Grover's yes/no oracle, and althought this a proof that an adiabatic evolution following the quantum walk path does exists it abandons the usual notion of the oracle and does not solve the search problem itself as originally posed by Grover. \\
+we see that rather than having the standard yes/no oracle given by $\ket{w}\bra{w}$, it introduces a more powerful structure, driving the evolution between $\ket{w}$ and $\ket{r}$ instead of just applying a phase to the targer state $\ket{w}$ like in the standard Grover's algorithm. This is a confirmation that the oracle is no longer the usual Grover's yes/no oracle, and although this a proof that an adiabatic evolution following the quantum walk path does exists it abandons the usual notion of the oracle and does not solve the search problem itself as originally posed by Grover. \\
 
 \noindent
-The difference between the Quantum Walks and the Adiabatic Evolution approach is not a measure of the performance of the algorithms, since both, individually, solve the Grover's problem in $O(\sqrt{N})$ time, but illustrate that the ``\textit{how} they compute is different, even though \textit{what} they compute is the same '' \cite{Wong2016}.\\
+The difference between the Quantum Walks and the Adiabatic Evolution approach is not a measure of the performance of the algorithms, since both, individually, solve the Grover's problem in $O(\sqrt{N})$ time, but illustrate that ``\textit{how} they compute is different, even though \textit{what} they compute is the same '' \cite{Wong2016}.\\
 
 \noindent
-Althought the worke by Wong et al. showed that is not possible to implement an adiabatic quantum walk algorithm that solves the search problem, it leaves space to a time-dependent algorithm \textit{inspired} by the adiabatic evolution but that it's free from the constrains of the adiabatic condition. From this last considerations we develop our thesis. In the next chapter we summarize the work done and gives some interesting insights and properties of the quantum walks search algorithm with time-dependent Hamiltonians.
-
-
-%\input{Chapters/plotscode/plot5}
+Although the work by Wong et al. shows that is not possible to implement an adiabatic quantum walk algorithm that solves the Grover's search problem, it leaves space to a time-dependent algorithm \textit{inspired} by the adiabatic evolution but that it is free from the constrains of the adiabatic condition. In the next chapter we investigate this possibility, that gives some interesting insights and properties of the quantum walks search algorithm with time-dependent Hamiltonians.

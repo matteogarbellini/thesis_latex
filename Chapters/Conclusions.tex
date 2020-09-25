@@ -1,3 +1,51 @@
 \newpage
 \chapter*{Conclusions}
 \addcontentsline{toc}{chapter}{Conclusions}
+
+
+We conclude our work with a summary of what has been accomplished in this thesis, some thoughts on the results and future perspective. \\ \\
+
+\begin{itemize}
+  \item CHAPTER1 - PRELIMINARIES
+  \item In the preliminaries we reviewd graph theory and quantum walks
+  \item Introduced the search problem as originally posed by grover
+  \item We gave an overview of the various implementation of the search problem, from the quantum walks search on complete graph to the global and local adiabatic search
+  \item Lastly we showed the difference between adiabatic computation and quantum walks based search in order to prove that an adiabatic-quantum-walk search is not possible.
+
+  \item CHAPTER2 - TIME DEPENDENT HAMILTONIAN
+  \item In Chapter 1 we introduced the main topic of our work which is a quantum walks search algorithm with a time-dependent Hamiltonian. It is inspired by the adiabatic implementation but free of the constrains of the adiabatic theorem
+  \item We introduced a few classes of interpolating schedules with the goal of improving the standard linear one of Farhi and Gutmann, drawing from the Roland-Cerf one
+  \item We also considered the possibility of repeating the search multiple times if the search is not perfect, which made us take into account an initialization and measure time.
+
+  \item CHAPTER2 - SELECTED TOPOLOGIES
+  \item We then gave some reasoning on the choice of topologies, namely the cycle graph since it does not work and any improvement is a great results, and for completeness the complete graph since it is known to work without the time-dependent approach.
+
+  \item CHAPTER2 - CHARACTERIZATION OF THE RESULTS
+  \item We then introduced the parameters used for the comparison. We explained the difference between search and localization, and gave a quantitative measure of robustness.
+  \item The search represents the finding of the solution with high probability - as close as unitary as possible - with the smallest time possible
+  \item We called localization the finding of the solution with high probability without the need for the time optimization
+  \item The probability depends on the combination of $\gamma$ and $T$, paramteres that can be affected by noise/perturbation. We call $T$-robustness and $\gamma$-robustness the variation of probability due to noise in the $T$ and $\gamma$ parameteres, respectively
+
+  \item CHAPTER2 - RESULTS FOR THE CYCLE GRAPH
+  \item We then turned our attention to the cycle graph, for which we compared the time-dependent and time-independent approaches using the parameters previously introduced
+  \item In terms of localization we discovered that the probability distribution of the time-independent approach does not increase with time. Therefore we can safely say that it does not show any localization properties.
+  \item On the other hand the time-dependent Hamiltonian, being based on the adiabatic implementation, for large $T$ allows us to reach unitary probability. More interestingly we can acheive high enough probability, in the order of $p=0.8-0.9$ for much less time.
+  \item We then studied the search performance of the two approaches. Since the time-independent approach does not get to unitary probability, and the time-dependent one is not optimized on the time we studied the search in terms of multiple run search. Therefore we introduced a new quantity $\tau$ which represents the minimum time necessary to get to unitary probability.
+  \item We notice that $\tau$ requires to consider a minimum time $T_{\min}$ to be effective at comparing the two approaches. To be consistent with the standard grover search and quantum walks search on complete graph we constrain the time at $T_{\min}=\pi/2\sqrt{N}$
+  \item We discover that for the time-dependent approach the Roland-Cerf interpolating schedules performes the best, followed by the standard linear one. sqrt and cbrt worsen significantly the performance.
+  \item Comparing the time-dependent approch with Roland-Cerf and linear, and the time-independent we see that for small $N\approx 25$ the performance is similar, while for large $N$ it get significantly different.
+  \item If we look at the iterations distribution we can see that both approaches perform slightly better than the classical search up to $N\approx 57$. After that the time-independent approach performs worse than classical, while the time-dependent approach still has some advantage, although we're not able to make predictions for $N$ larger than $71$ which is the maximum graph dimension studied.
+  \item We then studied the robusteness for both time and gamma. The time-independent approach has a very discontinous probability distribution, made of peaks and valley of high and low probability, leading to having the worse $\gamma$-robustness of all the approaches considered. The time-dependent approach in general has a smooth probability distribution regardless of the interpolating schedule considered.
+  \item We discover that the linear interpolating schedule is more $\gamma$-robust compared to the Roland-Cerf one. Overall the time-dependent approach is way more robust then the time-independent one.
+  \item In terms of $T$-robustness surprisingly the time-independent approach is more robust than the other two. However looking at the numberical values, which we remember don't have an absolute physical meaning, we see that the difference is minimal - order of $10^{-2}$, while for the $\gamma$ robustness it is in the order of $10^{0.5 - 1}$.
+
+
+  \item CHAPTER2  - RESULTS FOR THE COMPLETE GRAPH
+  \item For completeness we also consider the complete graph. As discussed in the preliminaries, we're able to solve the search problem with both the adiabatic implementation - though in that scenario it is unstructured search - and the standard quantum walk.
+  \item As mentioned by wong and in the preliminaries an adiabatic-quantum walk search is not possible
+  \item in particular we compared the standard time-independent probability distribution with the time-dependent one. As expected the time-independent performs much better and the time-dependent approach is comparable in terms of performance, even considering the multiple run search.
+  \item In terms of qualitative robustness we find that the time-dependent approach has as smoother probability distribution and therefore better robustness
+  \item This particular case illustrates the importance of the interpolating schedule. In fact, the probability distribution evaluated with the linear interpolating schedule is barely able to acheive probability $p=0.5$ for $T=N$
+
+
+\end{itemize}

@@ -1,12 +1,12 @@
 %%
-%COMPLETE GRAPH HEATMAP PLOTS
+%COMPLETE GRAPH HEATMAP PLOTS - ROLAND-CERF and LINEAR
 %%
 
 \begin{figure}[ht]
   \centering
-  \subfloat[][$s_L(t)$]
+  \subfloat[][]
   {
-    \hspace{-1.5cm}
+    \hspace{-0.8cm}
     \begin{tikzpicture}
       \begin{axis}[name=plot,
       zmin=0,zmax=1,
@@ -16,38 +16,17 @@
       colorbar right,
       point meta min=0,
       point meta max=1,
-      width = 75mm,
-      height= 75mm,
+      width = 65mm,
+      height= 65mm,
       xlabel = $\bm{T}$,
       ylabel = $\bm{\gamma}$
       ]
-      \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig17/51_static_complete.txt};
-      \pgfplotsset{contour/every contour label/.style = {
-                 sloped,
-                 inner sep=2pt,
-                 transform shape,
-                 every node/.style={mapped color,fill=none},
-                },}
-      \addplot3[
-              contour gnuplot=
-              {
-              draw color=white,
-              levels={0.90},
-              labels=true,
-              contour label style={nodes={text=white,font={\large}, yshift=0.5ex, xshift=0.5ex}},
-              handler/.style=smooth},
-              contour/label distance=300pt,
-              line width=1.5pt,
-              contour/labels over line
-             ] table [
-                      x = a,
-                      y = b,
-                      z = c,
-                     ]{./Data/fig17/51_static_complete.txt};
+      \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig17/51_cerf_complete.txt};
+
       \end{axis}
     \end{tikzpicture}
   }
-  \subfloat[][$s_S(t)$]
+  \subfloat[][]
   {
     \begin{tikzpicture}
       \begin{axis}[name=plot,
@@ -56,13 +35,13 @@
       colormap={inferno}{rgb255=(248,251,155) rgb255=(251,179,21) rgb255=(236,103,38) rgb255=(187,54,84) rgb255=(119,29,109) rgb255=(49,9,92) rgb255=(1,1,8)},
       point meta min=0,
       point meta max=1,
-      width = 75mm,
-      height= 75mm,
+      width = 65mm,
+      height= 65mm,
       xlabel = $\bm{T}$,
       ylabel = $\bm{\gamma}$,
       ylabel near ticks, yticklabel pos=right
       ]
-      \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig17/51_cerf_complete.txt};
+      \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig17/51_linear_complete.txt};
       \pgfplotsset{contour/every contour label/.style = {
                  sloped,
                  inner sep=2pt,
@@ -73,9 +52,9 @@
               contour gnuplot=
               {
               draw color=white,
-              levels={0.90},
+              levels={0.5},
               labels=true,
-              contour label style={nodes={text=white,font={\large}, yshift=0.5ex, xshift=-3.5ex}},
+              contour label style={nodes={text=white,font={\large}, yshift=-2.5ex, xshift=3.0ex}},
               handler/.style=smooth},
               contour/label distance=300pt,
               line width=1.5pt,
@@ -84,11 +63,11 @@
                       x = a,
                       y = b,
                       z = c,
-                     ]{./Data/fig17/51_cerf_complete.txt};
+                     ]{./Data/fig17/51_linear_complete.txt};
       \end{axis}
     \end{tikzpicture}
   }
 
-  \caption[]{\textbf{Probability distributions for the complete graph \bm{${C(51)}$}.} The two figures show the probability distribution for the complete graph $C(51)$ with the time-independent Hamiltonian (left) and time-dependent Hamiltonian (right).  }
+  \caption[]{\textbf{Probability distributions for the complete graph \bm{$C(51)$} with the time-dependent Hamiltonian.}The figure shows the probability distribution for a complete graph of $N=51$ using the time-dependent Hamiltonian with the Roland-Cerf $s_{RC}(t)$ (left) and linear $s_L(t)$ (right) interpolating schedules. It illustrates the great impact of the interpolating schedule on the overall performance of the time-dependent algorithm, where the choice of $s(t)$ is critical.}
   \label{fig:heatmap-complete}
 \end{figure}
