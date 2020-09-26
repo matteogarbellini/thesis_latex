@@ -231,7 +231,7 @@ Applying the time-evolution operator to the initial state $\ket{s}$, the system 
   \frac{1}{\sqrt{N}}\cos(\frac{t}{\sqrt{N}}) +i\sin(\frac{t}{\sqrt{N}})\\
   \sqrt{\frac{N-1}{N}}\cos(\frac{t}{\sqrt{N}})
   \end{pmatrix}
-  \label{eq:qw_state}
+  \label{eq:qw_state_ref}
 \end{equation}
 and for $t=\pi\sqrt{N}/2$ the system reaches a success probability of 1, namely
 \begin{equation}
@@ -249,7 +249,7 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     \end{equation}
     The instantaneous eigenstates and eigenvalues of H(t) are
     \begin{equation}
-        H(t)\ket{\psi_l(t)} = E_l\ket{\psi_l(t)}
+        H(t)\ket{\psi_l(t)} = E_l(t)\ket{\psi_l(t)}
     \end{equation}
     such that $E_0(t) \leq E_1(t) \leq ... \leq E_{N-1}(t)$. \\
     The adiabatic theorem states that if the gap between the two lowest energy levels, $E_{1}(t) - E_{0}(t) > 0$, is stritcly greater than zero then for $T\rightarrow \infty$ the probability of being in the ground state is equal to one, namely
@@ -268,10 +268,9 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     \end{equation}
     where
     \begin{equation}
-        \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle \psi_1(s)\Big| \frac{dH(s)}{ds} \Big| \psi_0(s)\Big\rangle\Big|
+        \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle \psi_1(s)\Big| \frac{dH(s)}{ds} \Big| \psi_0(s)\Big\rangle\Big|.
     \end{equation}\\
-
-
+For future convenience we will refer to the matrix element as $\braket{\frac{dH}{ds}}$, with $s\in[0,1]$. \\ \\
 \noindent
 Let us now discuss how to take advantage of the adiabatic theorem. Let us consider a problem Hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in a beginning Hamiltonian $H_B$ whose ground state is known. The problem Hamiltonian encodes the solution of the problem, while the beginning Hamiltonian is a tool to easily prepare the state to be evolved. The adiabatic evolution then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent Hamiltonian $H(s)$ that interpolates between $H_B$ and $H_P$
     \begin{equation}
@@ -280,7 +279,7 @@ Let us now discuss how to take advantage of the adiabatic theorem. Let us consid
     In this way, by tuning the value of $s$, the Hamiltonian changes from $H_B$ to $H_P$. Therefore, if the system evolves sufficiently slowly it reaches the ground state of the problem Hamiltonian, that is exactly the solution.
 
     \subsection{Global adiabatic evolution}\label{subsec:global adiabatic}
-    Let us now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in \Cref{sec:grover search} we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
+    Let us now apply the adiabtic theorem to the unsorted search problem \cite{Roland2002}. As done in \Cref{sec:grover search} we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and the initial state is the superposition of all the elements $\ket{i}$:
     \begin{equation}
       \ket{\psi_0}=\frac{1}{\sqrt{N}}\sum_{i=1}^{N-1}\ket{i}
     \end{equation}
@@ -299,23 +298,23 @@ Let us now discuss how to take advantage of the adiabatic theorem. Let us consid
       H(t) = (1-s)H_0 + sH_w
     \end{equation}
     where $s=t/T$ is the linear interpolating schedule.\\ \\
-    The search routine runs as usual, beginning with preparing the system in the state $\ket{\psi(0)}=\ket{\psi_0}$ and then applying the Hamiltonian $H(t)$ for a time $T$. we are interested in finding the time-dependent condition such that the system evolves sufficiently slowly, allowing us to find the solution $\ket{w}$ with high probability. First, we determine the quantity $\braket{\frac{dH}{dt}}$:
+    The search routine runs as usual, with the system prepared in the state $\ket{\psi(0)}=\ket{\psi_0}$ and then we apply the Hamiltonian $H(t)$ for a time $T$. We are interested in finding the time-dependent condition such that the system evolves sufficiently slowly, allowing us to find the solution $\ket{w}$ with high probability. First, we determine the quantity $\braket{\frac{dH}{dt}}$:
     \begin{equation}
-      \braket{\frac{dH}{dt}}_{0,1} = \frac{ds}{dt}\braket{\frac{dH}{ds}}_{0,1} = \frac{1}{T}\braket{\frac{dH}{ds}}_{0,1}
+      \braket{\frac{dH(t)}{dt}} = \frac{ds}{dt}\braket{\frac{dH(s)}{ds}} = \frac{1}{T}\braket{\frac{dH(s)}{ds}}
     \end{equation}
     We then find the eigenvalues of the Hamiltonian and determine the separation $g$ between the ground state and first excited one, namely $E_1$ and $E_0$, as a function of the interpolating schedule $s$:
     \begin{equation}
-      g=\sqrt{1-4\frac{N-1}{N}s(1-s)}
+      g=\sqrt{1-4\frac{N-1}{N}s(1-s)}.
       \label{separation}
     \end{equation}
-    we are interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore \Cref{eq:adiabatic_time} becomes:
+    We are interested in the minimum gap $g_{\min}$ which is found for $s=1/2$. Additionally we find that $\big|\braket{\frac{dH}{ds}}_{0,1}\big| \leq 1$, therefore \Cref{eq:adiabatic_time} becomes:
     \begin{equation}
       \frac{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}{g_{\min}^2} \leq \varepsilon
       \label{adiabatic_condition}
     \end{equation}
     so that the adiabatic condition is verified, and thus the Hamiltonian stays in the ground state at all times, provided that :
     \begin{equation}
-      T\geq N/\varepsilon
+      T\geq N/\varepsilon.
       \label{eq:adiabatic_scaling_global}
     \end{equation}
     Therefore the computation time is of order $N$, showing no speed up compared to the classical search.
@@ -345,8 +344,8 @@ Let us now discuss how to take advantage of the adiabatic theorem. Let us consid
     \begin{equation}
       T = \frac{\pi}{2\varepsilon}\sqrt{N}
     \end{equation}
-    which represents a great improvement on \Cref{eq:adiabatic_scaling_global} Indeed we have a quadratic speed up compared to the global adiabatic evolution, and thus this algorithm can be seen as the adiabatic implementation of the Grover's search algorithm.
-    \begin{figure}[h]
+    which represents a great improvement on \Cref{eq:adiabatic_scaling_global}. Indeed we have a quadratic speed up compared to the global adiabatic evolution, and thus this algorithm can be seen as the adiabatic implementation of the Grover's search algorithm.
+    \begin{figure}[!htb]
       \centering
       \includegraphics[width=80mm]{figures/chapter1/interpolating_schedule}
       \caption[Roland and Cerf interpolating schedule for the unstructured search with N=64]{Roland and Cerf interpolating schedule for the unstructured search with N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
@@ -354,10 +353,10 @@ Let us now discuss how to take advantage of the adiabatic theorem. Let us consid
     \end{figure}
 
 
-
+\clearpage
 \section{Impossibility of a search algoritm based on adiabatic quantum walks}\label{impossibility}
 In this section we show that an \textit{adiabatic quantum walks} (AQW) based search algorithm cannot be implemented with the usual Grover's oracle and requires a more sophisticated structure. This section, based on a paper by Wong et al. \cite{Wong2016}, sets the basis on which our work builds upon. \\ \\
-In the previous sections we discussed Grover's original discrete-time search algorithm (GR), Farhi and Gutmann's quantum walk analogue (FG) and Roland and Cerf's adiabatic analogue (RC). Throught the discussion we analysized the systems in a 2-dimensional subspace spanned by $\big\{\ket{w}, \ket{r}\big\}$.This allows to visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in \Cref{fig:blochsphere_Grover,fig:blochsphere_RC} respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane, see \Cref{fig:blochsphere_FG}.
+In the previous sections we discussed Grover's original discrete-time search algorithm, Farhi and Gutmann's quantum walk analogue and Roland and Cerf's local adiabatic analogue, where we analyzed the systems in a 2-dimensional subspace spanned by $\big\{\ket{\alpha}, \ket{w}\big\}$. \\This allows to visualize the evolution of the quantum algorithm on the two dimensional Bloch sphere and compare the path taken by each different approach. In particular we notice that the original Grover's algorithm and the Roland and Cerf's local adiabatic evolution follow the same path on the $xz$-plane since they both always have real coefficients, as can be seen in \Cref{fig:blochsphere_Grover,fig:blochsphere_RC} respectively. On the other hand the quantum walk formulation of Farhi and Gutmann has an unmeasurable complex phase thus it evolves on a different path on the $yz$-plane, see \Cref{fig:blochsphere_FG}.
 \begin{figure}[h]
      \centering
      \subfloat[Grover]{\includegraphics{figures/chapter1/blochsphere_Grover}\label{fig:blochsphere_Grover}}
@@ -373,13 +372,13 @@ This substantial difference of the path taked by the different algorithms is exa
 \noindent
 To do so they construct an Hamiltonian from the following states, with the first represents the ground state and the latter the first (and only) excited state - rememeber that the Grover's search rotates the initial state over the final state, thus the first excited state is the orthogonal of the ground state.
 \begin{equation}
-  \ket{\psi_0(t)} = \alpha(t)\ket{w} + \beta(t)\ket{r}
+  \ket{\psi_0(t)} = \alpha(t)\ket{w} + \beta(t)\ket{\alpha}
 \end{equation}
 \vspace{-0.5cm}
 \begin{equation}
-  \ket{\psi_1(t)} = \beta(t)\ket{w} - \alpha^*(t)\ket{r}
+  \ket{\psi_1(t)} = \beta(t)\ket{w} - \alpha^*(t)\ket{\alpha}
 \end{equation}
-where the coefficients are given by the components of $\ket{\psi_0(t)}$ of \cref{eq:qw_state}\footnote{Note that the global phase $e^{it}$ is dropped.}.
+where the coefficients are given by the components of $\ket{\psi_0(t)}$ of \Cref{eq:qw_state_ref} \footnote{Note that the global phase $e^{it}$ is dropped.}.
 The Hamiltonian is then given by the linear combination of $\ket{\psi_0(t)}$ and $\ket{\psi_1(t)}$:
 \begin{equation}
   H(t) = \lambda_0\ket{\psi_0}\bra{\psi_0} + \lambda_1\ket{\psi_1}\bra{\psi_1}
@@ -395,11 +394,11 @@ $H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respecti
 \end{equation}
 Similarly, the final Hamiltonian $H_f$ has ground state $\ket{w}$ and excited state $\ket{r}$ with eigenvalues $+1$ and $-1$:
 \begin{equation}
-  H_f =  \ket{r}\bra{r} - \ket{w}\bra{w}
+  H_f =  \ket{\alpha}\bra{\alpha} - \ket{w}\bra{w}
 \end{equation}
 It is immediate to notice that these two Hamiltonians look fairly similar to the initial and final Hamiltonian of the standard adiabatic quantum search algorithm of \Cref{eq:adiabatic_ground,eq:adiabatic_first}. Although the similarities look at first sight promising, the extra Hamiltonian $H_e$ and the interpolating schedule $s(t)$ change completely the evolution of the system. In particular, if we look at the Hamiltonian $H_e$ - given by:
 \begin{equation}
-  H_e = 2i\sqrt{\frac{N-1}{N}}\big(\ket{r}\bra{w} - \ket{w}\bra{r}\big)
+  H_e = 2i\sqrt{\frac{N-1}{N}}\big(\ket{\alpha}\bra{w} - \ket{w}\bra{\alpha}\big)
 \end{equation}
 we see that rather than having the standard yes/no oracle given by $\ket{w}\bra{w}$, it introduces a more powerful structure, driving the evolution between $\ket{w}$ and $\ket{r}$ instead of just applying a phase to the targer state $\ket{w}$ like in the standard Grover's algorithm. This is a confirmation that the oracle is no longer the usual Grover's yes/no oracle, and although this a proof that an adiabatic evolution following the quantum walk path does exists it abandons the usual notion of the oracle and does not solve the search problem itself as originally posed by Grover. \\
 
