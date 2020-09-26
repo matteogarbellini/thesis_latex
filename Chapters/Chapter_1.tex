@@ -10,24 +10,24 @@
 \newpage
 \thispagestyle{empty}
 \chapter{Preliminaries}\label{chapter one}
-In this chapter we present the basic theoretical knowledge necessary to understand this thesis. We begin by introducing graph theory, random walks and quantum walks. We then discuss the quantum search problem firstly introduced by Grover and the quantum walks implementation for the unstructured search by Childs and Goldstone. Then we present the adiabatic theorem and its application to the adiabatic quantum search, studying the global and local adiabatic evolution. Lastly we look at the differences between the quantum walks approach and the local adiabatic evolution search by Roland and Cerf, which sets the basis from which our work is carried on.
+In this chapter we present the basic theoretical knowledge necessary to understand this thesis. We begin by introducing graph theory, random walks and quantum walks. We then discuss the quantum search problem firstly introduced by Grover and the quantum walks implementation for the unstructured search by Childs and Goldstone. Then we present the adiabatic theorem and its application to the adiabatic quantum search, studying the global and local adiabatic evolution. Lastly we look at the differences between the quantum walks approach and the local adiabatic evolution search by Roland and Cerf, which sets the basis for our work.
 
 \section{Introduction to graph theory}\label{sec:introduction to graph theory}
-A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges, that represents the connection between any two pair of vertices. A vertex is usually indicated by the coursive letter $v$, and the corresponding edge connecting $v$ to $w$ is given by $(v,w)$. \\
+A graph G is defined as a ordered pair $(V,E)$, where V is a set of vertices and E is a set of edges, that represents the connection between any two pair of vertices. A vertex is usually indicated by the coursive letter $j$, and the corresponding edge connecting $j$ to $i$ is given by $(j,i)$. Given a set $V$ of dimension $N$, we refer to a particular vertex with its index, namely $j=1,2,...,N$.\\
 
 \noindent
-A graph can be characterized by many properties. Throughout our work we will only consider \textit{simple graphs} characterized by being \textit{undirected}, namely the edges $E$ are symmetric, having no self loops such that $(v,v)\notin G$ and having no multiple equivalent edges. Additionally we require the graph to be \textit{connected}, i.e. each vertex can be reached by any other following a path through the available edges.
+A graph can be characterized by many properties. Throughout our work we will only consider \textit{simple graphs} characterized by being \textit{undirected}, namely the edges $E$ are symmetric, without self loops such that $(j,j)\notin G$ and having no multiple equivalent edges. Additionally we require the graph to be \textit{connected}, i.e. each vertex can be reached by any other following a path through the available edges.
 
 \noindent
 We then define the \textit{vertex degree} $d_j$, that represents, given a vertex $j$, the number of edges that are incident to the vertex $j$\footnote{For an undirected graph the degree does not dependend on the edges incident from or to the selected vertex, while generally this is not true}. \\
 
 \noindent
-If indeed any two vertices $i$ and $j$ are connected by an edge $(i,j)$ we define them as \textit{adjacent}, and from this we can construct an analytical representation of a graph, given by an N-dimensional square matrix called \textit{adjacency matrix}, usually referred as A. The adjacency matrix is defined as following \footnote{If we had to define the adjacency matrix for an unspecified graph the value of $A_{ij}$ is not necessarily equal to one, but a general $a_{ij}$ since it takes into account the possibilities of self loops and multiple equivalent edges. For the simple graphs consider in this thesis the given definition suffices.}:
+If indeed any two vertices $i$ and $j$ are connected by an edge $(i,j)$ we define them as \textit{adjacent}, and from this we can construct an analytical representation of a graph, given by an $N$-dimensional square matrix called \textit{adjacency matrix}, usually referred as A. The adjacency matrix is defined as following \footnote{If we had to define the adjacency matrix for an unspecified graph the value of $A_{ij}$ is not necessarily equal to one, but a general $a_{ij}$ since it takes into account the possibilities of self loops and multiple equivalent edges. For the simple graphs consider in this thesis the given definition suffices.}:
 \begin{equation}
 A_{ij} = \begin{cases} 1 & \mbox{if }(i,j)\in G \\ 0 & \mbox{otherwise} \end{cases}
 \end{equation}
 which represents the connectivity of the graph. \\
-Furthermore, we can introduce a diagonal matrix $D$ that encodes the informations of the vertex degrees for a particular graph $G$. Calling the N vertices of the graph as $j=1,2..N$ the matrix D is defined as:
+Furthermore, we can introduce a diagonal matrix $D$ that encodes the informations of the vertex degrees for a particular graph $G$. Calling the $N$vertices of the graph as $j=1,2..N$ the matrix D is defined as:
 \begin{equation}
     D = diag(d_1,..., d_N)
 \end{equation}
@@ -39,11 +39,11 @@ In order to study the dynamics of the system we introduce the \textit{Laplacian 
 \begin{equation}
     L = D-A
 \end{equation}
-where $D$ is the diagonal degrees matrix and $A$ is the adjacenty matrix. The discrete Laplacian operator is the analog of the continous Laplace operator on discrete domain, and for the finite, undirected, simple and connected graphs can charactarized by the following properties:
+where $D$ is the diagonal degrees matrix and $A$ is the adjacenty matrix. The discrete Laplacian operator for the finite, undirected, simple and connected graphs can charactarized by the following properties:
 \begin{itemize}
   \item $L$ is symmetric given that both $D$ and $A$ are symmetric
   \item the sum of all elements over a row/column equals to zero
-  \item has a null eigenvalue which corresponds to the eigenvector $\ket{\Psi_0} = \frac{1}{\sqrt{N}}\big(1,1,...,1\big)$
+  \item it has a null eigenvalue which corresponds to the eigenvector $\ket{\Psi_0} = \frac{1}{\sqrt{N}}\big(1,1,...,1\big)$
 \end{itemize}
 As previously mentioned we can associate every vertex to a basis vector of the N-dimensional vector space. Similarly we can expand this notation to an N-dimensional Hilbert space, where we can use the following Dirac notation to describe the vertex. This formalism allows us to write the Laplacian matrix in convenient quantum mechanical form using the projectors $\ket{j}\bra{i}$
 \begin{equation}
@@ -55,11 +55,11 @@ In the following paragraphs we give a brief description of the graphs that will 
 
     \subsection{Cycle graph}\label{subsec:cycle graph}
     %\addcontentsline{toc}{subsection}{Cycle Graph}
-        A N-dimensional cycle graph $Cy(N)$ is a monodimensional structure with periodic boundary conditions $\ket{N+1}=\ket{N}$. The Laplacian is given by
+        A $N$-dimensional cycle graph $Cy(N)$ is a monodimensional structure with periodic boundary conditions $\ket{N+1}=\ket{N}$. The Laplacian is given by
         \begin{equation}
             L = 2\sum_{k=1}^{N}\ket{k}\bra{k} - \sum_{k=1}^{N-1}\ket{k}\bra{k+1} - \sum_{k=2}^{N}\ket{k}\bra{k-1}- \ket{N}\bra{1}-\ket{1}\bra{N}
         \end{equation}
-        A pictorial representation of a cycle graph is given in Fig with the corrisponding laplacian matrix.
+        A pictorial representation of a cycle graph is given in \Cref{fig:cyclegraph_pictorial_laplacian} with the corrisponding Laplacian matrix.
         \begin{figure}[ht]
           \centering
           \begin{tabular}{ccc}
@@ -67,27 +67,29 @@ In the following paragraphs we give a brief description of the graphs that will 
           (a)  & & (b) \\[6pt]
           \end{tabular}
           \caption[Pictorial representation of a cycle graph, and matricial representation for the Laplacian]{Pictorial representation of a cycle graph with 5 nodes (a), and the matricial representation for the Laplacian of Cy(5)}
+          \label{fig:cyclegraph_pictorial_laplacian}
         \end{figure}
     \vspace{-0.7cm}
     \subsection{Complete graph}\label{subsec:complete graph}
     %\addcontentsline{toc}{subsection}{Complete Graph}
-        A graph with N vertices is said to be complete if every node is adjacent to all the other N-1 nodes, thus representing a finite bidimensional structure. Its Laplacian matrix is given by:
+        A graph with $N$ vertices is said to be complete if every node is adjacent to all the other $N-1$ nodes, thus representing a finite bidimensional structure. Its Laplacian matrix is given by:
         \begin{equation}
             L = (N-1)\sum_{j=1}^{N}\ket{j}\bra{j} - \sum_{k\neq j}\ket{j}\bra{k}
         \end{equation}
-        A pictorial representation of a complete graph is given in figure. We will refer to this type of graph with $C(N)$.
+        A pictorial representation of a complete graph is given in \Cref{fig:complete_graph_pictorial}. We will refer to this type of graph with $C(N)$.
         \begin{figure}[hb]
           \centering
           \includegraphics[width=50mm]{./figures/chapter1/complete}
           \caption[Pictorial representation of a complete graph]{Pictorial representation of a complete graph with N=7}
+          \label{fig:complete_graph_pictorial}
         \end{figure}
 
 \section{Quantum walks}\label{sec:quantum walks}
-The continous time quantum walk (CTQW) is the direct analogue of the classical continous time random walk (CTRW). We begin by considering the classical one, expanding later on the quantum mechanical counterpart. \nocite{Mulken2011} \\
+The continous-time quantum walk (CTQW) is the direct analogue of the classical continous-time random walk (CTRW). We begin by considering the classical one, expanding later on the quantum mechanical counterpart. \nocite{Mulken2011} \\
 
-A continous-time random walk is a stochastic process by which a walker randomly moves on a particular mathematical structure, which in our scenario is a graph $G$.
-Let $j$ be a note of a graph $G$ and the initial node, such date the initial state of the system is $\ket{j}$\footnote{With abuse of notation we represent both the classical and the quantum mechanical vertex with the Dirac notation $\ket{j}$}. Then, we denote the transition probability of the walker to go from node j to a node k in a time t with $p_{k,j}(t)$. The state after time $t$ is given by $\ket{j;t}$, such that the overlap with node $k$ is $\braket{k|j;t}=p_{j,k}(t)$. \\
-The dynamics resulting in the state $\ket{j;t}$ follows from transition rates per unit time between two nodes. In particular these transition rates are the components of the so-called \textit{transfer matrix} $T$, namely $T_{ij}= \bra{k}T\ket{j}$ . If we assume a Markovian process, the following master equation defines the CTRW evolution:
+A continous-time random walk is a stochastic process that describes the random motion of a particle on a mathematical structure, which in our scenario is a graph $G$.
+Let $j$ be a node of a graph $G$, such date the initial state of the system is $\ket{j}$\footnote{With abuse of notation we represent both the classical and the quantum mechanical vertex with the Dirac notation $\ket{j}$}. Then, we denote the transition probability of the walker to go from node $j$ to a node $k$ in a time $t$ with $p_{k,j}(t)$. The state after time $t$ is given by $\ket{j;t}$, such that the overlap with node $k$ is $\braket{k|j;t}=p_{j,k}(t)$. \\
+\red{The dynamics resulting in the state $\ket{j;t}$ follows from transition rates per unit time between two nodes}. In particular these transition rates are the components of the so-called \textit{transfer matrix} $T$, namely $T_{ij}= \bra{k}T\ket{j}$ . If we assume a Markovian process, the following master equation defines the CTRW evolution:
 \begin{equation}
   \frac{d}{dt}p_{k,j}(t) = \sum_{l}T_{kl}p_{l,j}(t)
   \label{rw_master}
@@ -100,16 +102,17 @@ where $\gamma$ is the transition rate. The solution of \cref{rw_master}, along w
 \begin{equation}
   p_{ij}(t)= \braket{k|e^{Tt}|j} = \braket{k|e^{-\gamma At}|j}
 \end{equation}
+\red{why is it only the adjacency matrix and not the complete laplacian?}
 Turning to quantum mechanics the evolution of any physical system obeys the Schroedinger equation, and QWs represent no exception. The dynamics of the CTQW is governed by a specific Hamiltonian $H$, such that the Schroedinger equation for the transition \textit{amplitudes} $\alpha_{i,j}(t)$ is given by
 \begin{equation}
   \frac{d}{dt}\alpha_{i,j}(t) = -i \sum_{l}H_{k,l}\alpha_{l,j}(t)
 \end{equation}
-where $H$ is the Hamiltonian of the systemm, and for semplicity we assume $\hbar = 1$. The formal solution of such differential equation is given by
+where $H$ is the Hamiltonian of the system, and for semplicity we assume $\hbar = 1$. The formal solution of such differential equation is given by
 \begin{equation}
   \alpha_{l,j}(t) = \braket{k|e^{-iHt}|j}
   \label{qw_master}
 \end{equation}
-where $e^{-iHt}$ is the quantum mechanical time-evolution operator. We immediately notice the similar structure of equations (\ref{rw_master}) and (\ref{qw_master}), with the only difference - apart from the imaginary unit - that the first is a differential equation for transition probabilities while the latter allows to compute transition amplitudes. The similarity is further pushed by Farhi and Gutmann, proposing to identify the Hamiltonian $H$ of the system with the negative of the classical transfer matrix $T$ \cite{Childs2001}, which as we've seen previously is the Laplacian of the graph \footnote{Please note that in this particular scenario the transition amplitude $\gamma$ is set to one, and assumed to be equal for all vertex transition.}:
+where $e^{-iHt}$ is the quantum mechanical time-evolution operator. We immediately notice the similar structure of equations (\ref{rw_master}) and (\ref{qw_master}), with the only difference - apart from the imaginary unit - that the first is a differential equation for transition probabilities while the latter allows to compute transition amplitudes. The similarity is further pushed by Farhi and Gutmann, proposing to identify the Hamiltonian $H$ of the system with the negative of the classical transfer matrix $T$ \cite{Childs2001}, which as we have seen previously is the Laplacian of the graph \footnote{Please note that in this particular scenario the transition amplitude $\gamma$ is set to one, and assumed to be equal for all vertex transition.}:
 \begin{equation}
   H = -T = L
   \label{qw_Hamiltonian}
@@ -119,19 +122,22 @@ Therefore the Laplacian matrix completely determines the evolution of the quantu
 
 
 \section{Grover's quantum search}\label{sec:grover search}
-In 1997 Lov K. Grover addressed the search problem through a quantum mechanical algorithm \cite{Grover1997}. The search problem itself can be formulated in the following way: given an unsorted database containing N items, with only one satisfing a given condition, that one item has to be retrieved. Once an item is examined, it is possible to determine whether it represents the solution or not in just one step.
-Classically, the most efficient algorithm has to check each and every item in the database individually. If the item checked satisfies the condition the process stops, otherwise it will continue to examine the remaining items until the solution is find. On average, the algorithm will have to check $N/2$ items before finding the desired one.\\On the other hand, Grover's quantum mechanical approach takes advantage of the \textit{superposition} of states in a quantum system, and by having the input and output in such superposition can find the desired item in $O(\sqrt{N})$ \textit{quantum mechanical steps}, instead of $O(N)$ classical steps. As we shall see later, this quantum mechanicals steps consists of an elementary unitary operation. \\
+In 1997 Lov K. Grover addressed the search problem through a quantum mechanical algorithm \cite{Grover1997}. The search problem itself can be formulated in the following way: given an unsorted database containing $N$ items, find one particular item that satisfied a certain condition. Once an item is examined, it is possible to determine whether it represents the solution or not in just one step.
+Classically, the most efficient algorithm has to check each and every item in the database individually. If the item checked satisfies the condition the process stops, otherwise it will continue to examine the remaining items until the solution is found. On average, the algorithm will have to check $N/2$ items before finding the desired one.\\On the other hand, Grover's quantum mechanical approach takes advantage of the \textit{superposition} of states in a quantum system, and by having input and output in such superposition it can find the desired item in $O(\sqrt{N})$ \textit{quantum mechanical steps}, instead of $O(N)$ classical steps. As we shall see later, this quantum mechanicals steps consists of an elementary unitary operation. \red{what are these quantum mechanical steps?} \\
 
 \noindent
-Let's look at the algorithm to the quantum search problem more in detail, in particular setting the stage for the search algorithm in terms of an \textit{oracle}, which plays a central role in Grover's search and throughout our work. Additionally, this allows us to present a very general description of the search procedure, and a geometric way to visualize its action \cite{Nielsen2000}. \\
+Let us look at the quantum search algorithm more in detail, in particular setting the stage for the search algorithm in terms of an \textit{oracle}, which plays a central role in Grover's search and throughout our work. Additionally, this allows us to present a very general description of the search procedure, and a geometric way to visualize its action \cite{Nielsen2000}. \\
 
 \noindent
-Suppose we want to search through a search space of $N$ elements, and let's consider the indices of such elements - instead of the actual elements - that are numbers from 0 to $N-1$. In order to easily store the index in $n$ bits we consider $N=2^n$, and assume that the particular search problem has only one solution. We can now easily represent one instance of the search, i.e. checking if the item satisfies a particular condition, with a function $f(x)$, where $x$ is the index integer ranging from 0 to $N-1$. The function is such that if $x$ represents the solution to the search problem $f(x)=1$, and $f(x)=0$ if not a solution. In particular we suppose that we are supplied by a quantum \textit{oracle} $O$ with the ability to \textit{recognize} the solution of the search problem. The action of the oracle $O$ is to \textit{mark} the solution by applying a phase, namely $\ket{x}\xrightarrow{O}(-1)^{f(x)}\ket{x}$. \\ In a simplified manner, the quantum search algorithm proposed by Grover consists of reapeted application of a quantum subroutine known as the \textit{Grover iteration} or \textit{Grover operator} $G$ defined as:
+Suppose we want to search through a search space of $N$ elements, and let us consider the indices of such elements - instead of the actual elements - that are numbers from 0 to $N-1$. In order to easily store the index in $n$ bits we consider $N=2^n$, and assume that the particular search problem has only one solution. We can now easily represent one instance of the search, i.e. checking if the item satisfies a particular condition, with a function $f(x)$, where $x$ is the index integer ranging from 0 to $N-1$. The function is such that if $x$ represents the solution to the search problem $f(x)=1$, and $f(x)=0$ if $x$ is not a solution. In particular we suppose that we are supplied by a quantum \textit{oracle} $U_w$ with the ability to \textit{recognize} the solution of the search problem. The action of the oracle $U_w$ is to \textit{mark} the solution by applying a phase, namely $\ket{x}\xrightarrow{U_w}(-1)^{f(x)}\ket{x}$. \\ In a simplified manner, the quantum search algorithm proposed by Grover consists of repeated applications of a quantum subroutine known as the \textit{Grover iteration} or \textit{Grover operator} $U_G$ defined as:
 \begin{equation}
-  G = (2\ket{\psi}\bra{\psi}-I)O
+  U_G = (2\ket{\psi}\bra{\psi}-I)U_w
 \end{equation}
-Where $\psi$ is the initial state.
-The questions that arises is what does this Grover operator do. We can show that it can be regarded as a \textit{rotation} in the 2-dimensional space spanned by the beginning vector $\ket{\psi}$ and the vector $\ket{w}$ representing the solution to the search problem. We can then define the normalized state $\ket{\alpha}$ and $\ket{\beta}$:
+Where $I$ the identity matrix and $ket{\psi}$ is the initial state given by the superposition of all the items states:
+\begin{equation}
+  \ket{\psi} = \frac{1}{\sqrt{N}}\sum_x^N\ket{x}
+\end{equation}
+The question that arises is what does this Grover operator do. We can show that it can be regarded as a \textit{rotation} in the 2-dimensional space spanned by the beginning vector $\ket{\psi}$ and the vector $\ket{w}$ representing the solution to the search problem. We can then define the normalized state $\ket{\alpha}$ and $\ket{\beta}$:
 \begin{equation}
     \ket{\alpha} = \frac{1}{\sqrt{N-1}}\sum_{x\neq w}\ket{x}
 \end{equation}
@@ -139,25 +145,25 @@ The questions that arises is what does this Grover operator do. We can show that
 \begin{equation}
   \ket{\beta} = \ket{w}
 \end{equation}
-representing respectively, the superposition of all states that are not a solution and the state of the solution. Therefore the initial state $\ket{\psi}$ can be re-expressed by:
+representing respectively, the superposition of all states that are not a solution and the target state. Therefore the initial state $\ket{\psi}$ can be re-expressed as:
 \begin{equation}
   \ket{\psi}= \sqrt{\frac{N-1}{N}}\ket{\alpha} + \sqrt{\frac{1}{N}}\ket{\beta}
 \end{equation}
-The effect of $G$ can be understood by realizing that the oracle $O$ performs a \textit{reflection} of $\kpsi$ about the vector $\kalpha$ in the plane defined by $\kalpha$ and $\kbeta$. Then, $2\kpsi\bra{\psi}-I$ performs another reflection about the vector $\kpsi$. As can be seen in figure?, the product of these two reflections i a rotation. By applying the grover operator $k$ times we can rotate the initial state vector $\kpsi$ close to $\kbeta$, that is, the solution to the search problem. The number of iterations necessary - for which the derivation is not of our interest in the scope of this thesis - is given by $\frac{\pi}{4}\sqrt{N}$.
+The effect of $U_G$ can be understood by realizing that the oracle $U_w$ performs a \textit{reflection} of $\kpsi$ about the vector $\kalpha$ in the plane defined by $\kalpha$ and $\kbeta$. Then, $2\kpsi\bra{\psi}-I$ performs another reflection about the vector $\kpsi$. As can be seen in \Cref{fig:grover_operator}, the product of these two reflections is a rotation. By applying the Grover operator $k$ times we can rotate the initial state vector $\kpsi$ close to $\kbeta$, that is, the solution to the search problem. The number of necessary iterations - for which the derivation is beyond the scope of this thesis - is given by $\frac{\pi}{4}\sqrt{N}$.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=70mm]{figures/chapter1/grover_reflection}
-  \caption[Action of the Grover operator]{\textbf{Action of the Grover operator }$\bm{G}$: The figure shows the action of the Grover operator $G=(2\kpsi\bra{\psi} -I)O$. Starting from the initial state $\kpsi$ the action of the Oracle $O$ reflects it about the vector $\kalpha$. Then, the action of $(2\kpsi\bra{\psi}-I)$ is an additional reflection about $\kpsi$. The application of the Grover operator for $\pi/4\sqrt{N}$ times rotates the inital state bringing it close to $\kbeta$, that is, the solution of the search problem.}
+  \caption[Action of the Grover operator]{\textbf{Action of the Grover operator }$\bm{U_G}$: The figure shows the action of the Grover operator $U_G=(2\kpsi\bra{\psi} -I)O$. Starting from the initial state $\kpsi$ the action of the Oracle $O$ reflects it about the vector $\kalpha$. Then, the action of $(2\kpsi\bra{\psi}-I)$ is an additional reflection about $\kpsi$. The application of the Grover operator for $\pi/4\sqrt{N}$ times rotates the inital state bringing it close to $\kbeta$, that is, the solution of the search problem.}
   \label{fig:grover_operator}
 \end{figure}
 
 
 \noindent
-To summarize, G is the rotation in the 2-dimensional space spanned by $\kalpha$ and $\kbeta$. Repeated application of the Grover operator rotate the initial state vector $\kpsi$ close to $\kbeta$. For applications of $G$ in the order of $O(\sqrt{N})$, a measurement of the state in the computational basis produces with high probability $\kbeta$ as the outcome, that is, the solution to the search problem.
+To summarize, $U_G$ is the rotation in the 2-dimensional space spanned by $\kalpha$ and $\kbeta$. In particular, Repeated applications of the Grover operator rotate the initial state vector $\kpsi$ close to $\kbeta$. For applications of $U_G$ in the order of $O(\sqrt{N})$, a measurement of the state in the computational basis produces with high probability $\kbeta$ as the outcome, that is, the solution to the search problem.
 
 
 \section{Search by quantum walks}\label{sec:search quantum walk}
-The search problem first introduced by Grover can be reformulated in terms of search based on a continous-time quantum walk on a graph \cite{Childs2004}. \\In order to do so we need to modify the quantum walk Hamiltonian of \cref{qw_Hamiltonian} so that the vertex $\ket{w}$ is somewhat special. Therefore, an \textit{oracle Hamiltonian} is introduced:
+The search problem first introduced by Grover can be reformulated in terms of search based on a continous-time quantum walk on a graph \cite{Childs2004}. \\In order to do so we need to modify the quantum walk Hamiltonian of \cref{qw_Hamiltonian} so that the vertex $\ket{w}$ is special. Therefore, an \textit{oracle Hamiltonian} is introduced:
 \begin{equation}
   H_w = -|w\rangle\langle w|
 \end{equation}
@@ -165,7 +171,7 @@ that has energy zero for all but the vertex $|w\rangle$ for which it has energy 
 \begin{equation}
   H = \gamma L + H_w = \gamma L -|w\rangle\langle w|
 \end{equation}
-where L is the laplacian of the graph $G$, that as we've seen in section? governs the evolution of the quantum walk.\\
+where L is the Laplacian of the graph $G$, that as we have seen in \Cref{sec:quantum walks} governs the evolution of the quantum walk.\\
 The quantum search works as following:
 \begin{itemize}
   \item we consider the balanced superposition of all possible states, namely
@@ -175,13 +181,13 @@ The quantum search works as following:
 
   \item we run the quantum walk for a time $T$ and find the corrisponding evolved state using the Hamiltonian $H$
   \begin{equation}
-  |\psi(T)\rangle = U(T)|s\rangle  = \mbox{exp}\Big\{-\frac{i}{\hbar}HT\Big\}|s\rangle
+  |\psi(T)\rangle = U(T)|s\rangle  = \mbox{exp}\Big\{-iHT\Big\}|s\rangle
   \end{equation}
   (Note that this evolution is valid only for time-independent Hamiltonians.)
 
-  \item we then measure the occupation probability of the targer
+  \item we then measure the occupation probability of the target node
   \begin{equation}
-    p = |\langle w|\psi(T)\rangle|^2
+    p = |\langle w|\psi(T)\rangle|^2.
   \end{equation}
 
 \end{itemize}
@@ -197,26 +203,27 @@ while leaving the other vertices unchanced, thus making this the continous-time 
 \noindent
 We can turn our attention on trying to understand why we should expect this algorithm to give a success probability for some values of $\gamma, T$. To motivate this we need to frame the problem in terms of Hamiltonian spectrum \cite{Childs2004}. In particular we look at the two extremes, namely $\gamma\rightarrow\infty$ and $\gamma\rightarrow 0$.
 \begin{itemize}
-  \item as $\gamma\rightarrow\infty$ the contribution of $H_w$ is somewhat negligible, to the point that the ground state of $H$ is $\ket{s}$\footnote{Note that regardless of the graph topology considered, $\ket{s}$ is the ground state of the Laplacian, with $L\ket{s} = 0$.}
+  \item as $\gamma\rightarrow\infty$ the contribution of $H_w$ is negligible, to the point that the ground state of $H$ is $\ket{s}$\footnote{Note that regardless of the graph topology considered, $\ket{s}$ is the ground state of the Laplacian, with eigenvalue $0$.}
   \item on the other hand, if $\gamma\rightarrow 0$ the contribution of the Laplacian to the overall Hamiltonian $H$ disappears and thus the ground state of $H$ is close to $\ket{w}$
 \end{itemize}
-We expect that for some intermediate $\gamma$ the ground state will transition from $\ket{w}$ to $\ket{s}$ and thus could have substantial overlap on both for a certain value of $\gamma$. Additionally, if the first excited states have substantial overlap at such values of $\gamma$, then the Hamiltonian will drive transitions between two states, thus rotating the state from $\ket{s}$ to one with substantial overlap with $\ket{w}$, giving the success probability that we previously talked about. In particular this transition will happen in a time that dependes on the Hamiltonian eigenvalues separation between the first and ground state, namely $1/(E_1-E_0)$.
+We expect that for some intermediate $\gamma$ the ground state will transition from $\ket{w}$ to $\ket{s}$ and thus could have substantial overlap on both for a certain value of $\gamma$. Additionally, if the first excited states have substantial overlap at such values of $\gamma$, then the Hamiltonian will drive transitions between two states, thus rotating the state from $\ket{s}$ to one with substantial overlap with $\ket{w}$. In particular this transition will happen at a time that dependes on the Hamiltonian eigenvalues separation between the first and ground state, namely $1/(E_1-E_0)$.
 
 %This is a good description of the algorithm if the dimension of the graph is sufficiently high.  However, if we consider a $d$-dimensional lattice with $d$ independent of $N$ we still see that for a critical value of $\gamma$ the state switches from the ground state to the first excited state, but for $d<4$ the $\ket{w}$ state does not have substantial overlap on the ground and fist excited state, thus the algorithm does not work. \\
 
 \subsection{Search on the complete graph}\label{subsec:search qw complete graph}
-We now look at the complete graph which can be thought of having dimension proportional to N and represents the simples example of the quantum walk search application \cite{Childs2004}. \\We begin by noticing that adding a multiple of the identity matrix to the Laplacian only contributes a global unobservable phase. We add $-NI$ so that:
+We now look at the complete graph with $N$ nodes and represents the simples example of the quantum walk search application \cite{Childs2004}. \\We begin by noticing that adding a multiple of the identity matrix to the Laplacian only contributes a global unobservable phase. We add $-NI$ so that:
 \begin{equation}
   L - NI = N\ket{s}\bra{s}
 \end{equation}
 This gives us the following Hamiltonian:
 \begin{equation}
-  H = -\gamma N \ket{s}\bra{s} - \ket{w}\bra{w}
+  H = -\gamma N\ket{s}\bra{s} - \ket{w}\bra{w}
 \end{equation}
-In particular we know that this Hamiltonian acts non-trivially in a two dimensional subspace spanned by $\ket{s}$ and $\ket{w}$, thus making it stright-forward to compute its spectrum. If we use the $\{\ket{w}, \ket{r}\}$ basis, the Hamiltonian can be expressed in the following way:
+In particular we know that this Hamiltonian acts non-trivially in a two dimensional subspace spanned by $\ket{s}$ and $\ket{w}$, thus making it stright-forward to compute its spectrum. If we use the $\{\ket{\alpha}, \ket{w}\}$ basis, the Hamiltonian can be expressed in the following way:
 \begin{equation}
   H = \frac{-1}{N} \begin{pmatrix} N+1 & \sqrt{N-1}\\ \sqrt{N-1} & N-1 \end{pmatrix}
 \end{equation}
+where $\gamma$ is set to $1/N$.
 Applying the time-evolution operator to the initial state $\ket{s}$, the system at time $t$ will be
 \begin{equation}
   \ket{\psi(t)} = e^{it}
@@ -233,16 +240,16 @@ and for $t=\pi\sqrt{N}/2$ the system reaches a success probability of 1, namely
 Thus the walk rotates the state from $\ket{s}$ to $\ket{w}$ in $O(\sqrt{N})$.
 
 \section{Search by adiabatic evolution}\label{sec:adiabatic evolution}
-We now address the computation by adiabatic evolution firstly introduced by Farhi et al., that takes advantage of the adiabatic theorem to find the solution of a computational problem \cite{Farhi2000}. We begin by looking at the \textit{adiabatic theorem} and its implication. Then, an overview of the adiabatic implementation of the algorithm for solving the unstructured search problem is given which has a time scaling of $O(N)$. Lastly, we see how applying the adiabatic theorem \textit{locally} can lead to a time of order $O(\sqrt{N})$ which is optimal.
+We now address the computation by adiabatic evolution firstly introduced by Farhi et al., that takes advantage of the adiabatic theorem to find the solution of a computational problem \cite{Farhi2000}. We begin by looking at the \textit{adiabatic theorem} and its implication. Then, we overview the adiabatic implementation of the algorithm for solving the unstructured search problem which has a time scaling of $O(N)$. Lastly, we see how applying the adiabatic theorem \textit{locally} can find the solution in a time of order $O(\sqrt{N})$ which is optimal.
 
     \subsection{Adiabatic theorem}\label{subsec:adiabatic theorem}
     A quantum system evolves according to the Schroedinger equation
     \begin{equation}
-        i\frac{d}{dt}|\psi(t)\rangle = H(t)|\psi(t)\rangle
+        i\frac{d}{dt}|\psi(t)\rangle = H(t)|\psi(t)\rangle.
     \end{equation}
-    and defining the instantaneous eigenstates and eigenvalues of H(t) by
+    The instantaneous eigenstates and eigenvalues of H(t) are
     \begin{equation}
-        H\ket{\psi_l(t)} = E_l\ket{\psi_l(t)}
+        H(t)\ket{\psi_l(t)} = E_l\ket{\psi_l(t)}
     \end{equation}
     such that $E_0(t) \leq E_1(t) \leq ... \leq E_{N-1}(t)$. \\
     The adiabatic theorem states that if the gap between the two lowest energy levels, $E_{1}(t) - E_{0}(t) > 0$, is stritcly greater than zero then for $T\rightarrow \infty$ the probability of being in the ground state is equal to one, namely
@@ -250,7 +257,7 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
         \lim_{T \to \infty} \braket{\psi_0(T)|\psi(T)}= 1
     \end{equation}
     This means that if the system is chosen to evolve at a slow enough rate, the instantaneous Hamiltonian will remain in the ground state throughout the evolution. Furthermore it is convenient to parametrize the Hamiltonian as $H(s)$, where $s=t/T$, with $t \in [0,T]$ so that $s \in [0,1]$.
-    Let's now define the energy minimum gap between the lowest eigenvalues of $H$ by
+    Let us now define the minimum energy gap between the lowest eigenvalues of $H$ by
     \begin{equation}
         g_{min} = \min_{0 \leq s \leq 1} (E_1(s)-E_0(s))
     \end{equation}
@@ -261,19 +268,19 @@ We now address the computation by adiabatic evolution firstly introduced by Farh
     \end{equation}
     where
     \begin{equation}
-        \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle \psi_1(s)\Big| \frac{dH(s)}{d} \Big| \psi_0(s)\Big\rangle\Big|
+        \varepsilon = \max_{0 \leq s \leq 1} \Big| \Big\langle \psi_1(s)\Big| \frac{dH(s)}{ds} \Big| \psi_0(s)\Big\rangle\Big|
     \end{equation}\\
 
 
 \noindent
-Let's now discuss how to take advantage of the adiabatic theorem. It is often presented a problem Hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in a beginning Hamiltonian $H_B$ whose ground state is known. The problem Hamiltonian encodes the solution of the problem, while the beginning Hamiltonian is a tool for easily preparing the state to be evolved. The adiabatic evolution then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent Hamiltonian $H(s)$ that interpolates between $H_B$ and $H_P$
+Let us now discuss how to take advantage of the adiabatic theorem. Let us consider a problem Hamiltonian $H_P$ whose ground state is not so straight forward to find; on the other hand we can prepare the system in a beginning Hamiltonian $H_B$ whose ground state is known. The problem Hamiltonian encodes the solution of the problem, while the beginning Hamiltonian is a tool to easily prepare the state to be evolved. The adiabatic evolution then consists, assuming that the ground state of $H_P$ is unique, in having a time dependent Hamiltonian $H(s)$ that interpolates between $H_B$ and $H_P$
     \begin{equation}
         H(s) = (1-s)H_B + s H_P
     \end{equation}
-    In this way we can prepare for $s=0$ the system in $H_B$ and let it evolve so that for $s=1$ it reaches $H_P$. Therefore, if the system is made to evolve sufficiently slowly we will find ourself in the ground state of the problem Hamiltonian, that is exactly the solution.
+    In this way, by tuning the value of $s$, the Hamiltonian changes from $H_B$ to $H_P$. Therefore, if the system evolves sufficiently slowly it reaches the ground state of the problem Hamiltonian, that is exactly the solution.
 
     \subsection{Global adiabatic evolution}\label{subsec:global adiabatic}
-    Let's now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in \Cref{sec:grover search} we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
+    Let us now apply what just seen to the unsorted search problem \cite{Roland2002}. As done in \Cref{sec:grover search} we consider an unsorted database of $N$ elements such that $N=2^n$, so that the elements in this particular basis can be written as $\ket{i}$, with $i=0,...,N-1$. The marked state can be then denoted as $\ket{w}$, and we begin by considering the initial state as the superposition of all the elements $\ket{i}$:
     \begin{equation}
       \ket{\psi_0}=\frac{1}{\sqrt{N}}\sum_{i=1}^{N-1}\ket{i}
     \end{equation}
@@ -321,7 +328,7 @@ Let's now discuss how to take advantage of the adiabatic theorem. It is often pr
       \caption[Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64]{Eigenvalue separation of the time-dependent Hamiltonian $H(s)$ as a function of the reduced time $s$, for N=64. \textit{Figure from Roland and Cerf} \cite{Roland2002}}
       \label{separation_figure}
     \end{figure}
-    At the beginning and at the end of the evolution the separation is large enough so that the adiabatic condition and thus the time necessary for the system to evolve adiabatically is small, allowing for better time scaling. The improvement comes in the form of the interpolating schedule, following the idea that it should be steeper for large separation $g$ and flatter for small separation around $s=1/2$. Let's see how can this be done. \\ \\
+    At the beginning and at the end of the evolution the separation is large enough so that the adiabatic condition and thus the time necessary for the system to evolve adiabatically is small, allowing for better time scaling. The improvement comes in the form of the interpolating schedule, following the idea that it should be steeper for large separation $g$ and flatter for small separation around $s=1/2$. Let us see how can this be done. \\ \\
     We divide the interval $[0,T]$ into infinitesimal intervals $dt$ and adapt the evolution rate $\frac{ds}{dt}$ to the local adabatic condition. In this way we can find the optimal $s(t)$, with boundary conditions $s(0)=0$ and $s(T)=1$. We find the new adiabatic condition for all time $t$:
     \begin{equation}
       \Big|\frac{ds}{dt}\Big|\leq\varepsilon\frac{g^2(t)}{\big|\braket{\frac{dH}{ds}}_{0,1}\big|}
@@ -381,7 +388,7 @@ which allows to determine the final time-dependent \textit{adiabatic} Hamiltonia
 \begin{equation}
   H(s) = \sqrt[4]{\frac{s(1-s)}{4\varepsilon^2N}}\Big[ (1-s)H_0 + sH_f + \sqrt{s(1-s)}H_e\Big]
 \end{equation}
-where the interpolating schedule is given by $s(t)=\sin^2\big(\frac{t}{\sqrt{N}}\big)$. Indeed the system evolves from $t=0$ to $t=\frac{\pi}{2}\sqrt{N}$ as we would expect. Looking closely, the Hamiltonian $H_0$ represents the beginning Hamiltonian, $H_f$ the final Hamiltonian - encoding the solution of the search problem - and $H_e$ is an \textit{extra} Hamiltonian, a common tecnique for manupulating the evolution of the path of adiabatic algorithms\footnote{The extra Hamiltonian commonly appears as $s(s-1)$, while the one considered in this scenario is given by the square root of such value \cite{Wong2016}.}. Let's now look at the consequences of this Hamiltonian, looking at $H_0$, $H_f$ and $H_e$ individually. \\
+where the interpolating schedule is given by $s(t)=\sin^2\big(\frac{t}{\sqrt{N}}\big)$. Indeed the system evolves from $t=0$ to $t=\frac{\pi}{2}\sqrt{N}$ as we would expect. Looking closely, the Hamiltonian $H_0$ represents the beginning Hamiltonian, $H_f$ the final Hamiltonian - encoding the solution of the search problem - and $H_e$ is an \textit{extra} Hamiltonian, a common tecnique for manupulating the evolution of the path of adiabatic algorithms\footnote{The extra Hamiltonian commonly appears as $s(s-1)$, while the one considered in this scenario is given by the square root of such value \cite{Wong2016}.}. Let us now look at the consequences of this Hamiltonian, looking at $H_0$, $H_f$ and $H_e$ individually. \\
 $H_0$ has ground state $\ket{s}$ and excited state $\ket{s^\perp}$ with respective eigenvalues $-1$ and $+1$, thus can be written as:
 \begin{equation}
   H_0  = \ket{s^\perp}\bra{s^\perp} - \ket{s}\bra{s}
