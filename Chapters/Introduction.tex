@@ -1,16 +1,23 @@
 \newpage
+\vspace{-1cm}
 \chapter*{\textbf{Introduction}}
 \addcontentsline{toc}{chapter}{Introduction}
 
-\vspace{-1cm}
-In this thesis we study the application of quantum walks with time-dependent Hamiltonian to the search problem on graph.\\ \\
+\vspace{-2cm}
+Grover's quantum search algorithm has become one of the most celebrated algorithms in quantum computing and quantum information. It enables to outperform classical algorithms by achieving a quadratic speed up in the unstructured database search. Moreover, the search algorithm is \textit{general} in the sense that it can be applied to a broad range of scenarios beyond the database search \cite{Nielsen2000}, from the \textit{collision problem} \cite{Brassard2015} to solving  NP-complete problems \cite{10.1007/978-3-540-78773-0_67}.\\
+
+
+The original Grover's algorithm was formulated in a time when the quantum circuit model was the mainstream tool in quantum computation, consisting in a series of quantum gates applied in discrete time \cite{Wong2016}. In 1998 Farhi and Gutmann introduced the idea of analog quantum computing, where the system evolves in continous-time following the Schroedinger equation \cite{Farhi1998}. Later on, when quantum walks were popularized as algorithmic tools and the adiabatic evolution with time-dependent Hamiltonians emerged, the search problem was soon investigated \cite{Childs2004, Farhi2000}. Therefore, when new models for quantum computing are introduced, new formulations of Grover's algorithm soon follow. It came as a natural consequence the idea of comparing its different formulations, highlighting their differences and similarities \cite{Wong2016}. \\
+
+
+In this thesis we study the application of quantum walks with time-dependent Hamiltonian to the search problem on graph. We compare the standard time-independent quantum walks search with the time-dependent one, with the goal of understanding if this implementation can lead to an improvement in performance for selected graphs. In particular we study its application to the cycle graph, where the search problem is not solved with the standard quantum walk of Farhi and Gutmann, and for completeness we give some results for the complete graph, for which the quantum walk search is a perfect search. In order to do so we compare the two approaches in terms of search, localization and a measure of robustness.\\ \\
 
 \noindent
 Our work can be summarized as follows:
 \begin{itemize}
-  \item In Chapter 1  we recall the minimum theoretical knowledge necessary to follow the work done in this thesis. We introduce some basic notion of graph theory and quantum walks and the main characteristic of the graph considered. We then introduce the quantum search problem as firstly posed by Grover, followed by its quantum walks implementation. Then we discuss the adiabatic theorem and its application to the search problem, focusing in particular on the difference between global and local adiabatic evolution. Lastly we show that an adiabatic-quantum walks search algorithm is not possible
+  \item In Chapter 1  we recall the minimum theoretical knowledge necessary to follow the work done in this thesis. We review some basic notion of graph theory, quantum walks and the main characteristics of the graph considered. We then introduce the quantum search problem as firstly posed by Grover, followed by its quantum walks implementation. Then we discuss the adiabatic theorem and its application to the search problem, focusing in particular on the difference between global and local adiabatic evolution. Lastly we show that an adiabatic-quantum walks search algorithm is not possible.
 
-  \item In Chapter 2 we study quantum walks with time-dependent Hamiltonians, focusing on the application to the search problem. In particular we study the cycle graph and the complete graph. The goal of this section is to determine if a time-dependent Hamiltonian, inspired by the adiabatic implementation can bring any advantages to the search problem on graph.
+  \item In Chapter 2 we study quantum walks with time-dependent Hamiltonians, focusing on the application to the search problem on graph. In particular we focus on the cycle graph and the complete graph. The goal of this section is to determine if a time-dependent Hamiltonian, inspired by the adiabatic implementation, can bring any advantages to the search problem on selected graphs.
 
 
 \end{itemize}
