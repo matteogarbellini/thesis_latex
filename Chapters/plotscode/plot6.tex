@@ -15,10 +15,10 @@
     legend style={at={(0.95,0.05)},
     anchor=south east}]
     \addplot[color=verdescuro,no marks, thick, x=a, y=b] table{./Data/fig6/fig6_21_lin.txt};\addlegendentry{$N=21$, $\gamma=1.5$, $s_L(t)$}
-    \addplot[color=verdescuro,dashed, no marks, thick, x=a, y=b] table{./Data/fig6/fig6_21_cerf.txt};\addlegendentry{$N=21$, $\gamma=1.05$, $s_{RC}(t)$}
+    \addplot[color=verdescuro,dashed, no marks, thick, x=a, y=b] table{./Data/fig6/fig6_21_cerf.txt};\addlegendentry{$N=21$, $\gamma=1.05$, $s_{NL}(t)$}
 
     \end{axis}
   \end{tikzpicture}
-  \caption{\textbf{Probability distibution for a $\bm{Cy(21)}$ with sampled $\bm{\gamma}$}: The figure shows the probability distribution for the cycle graph $Cy(21)$, evaluated with the time-dependent hamiltonian using the interpolating schedules (solid) linear $s_L$ and (dashed) Roland-Cerf $S_{RC}$. We can see that the probability increases with time, as expected. }
+  \caption{\textbf{Probability for a $\bm{Cy(21)}$ with sampled $\bm{\gamma}$ up to large \bm{$T$}.}: The figure shows the probability distribution for the cycle graph $Cy(21)$, evaluated with the time-dependent Hamiltonian using linear $s_L$ (solid) and non-linear $s_{NL}$ (dashed) interpolating schedules. We can see that the probability increases with time, as expected.}
   \label{fig:probability_sampled_gamma}
 \end{figure}

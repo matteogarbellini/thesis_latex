@@ -22,13 +22,13 @@
     width = 100mm,
     xlabel = Dimension $N$,
     ylabel = Probability $p$]
-    \addlegendimage{mark=*,color=rossoscuro}\addlegendentry{Iterations}
+    \addlegendimage{mark=*,mark size=2.5pt, color=rossoscuro}\addlegendentry{Iterations}
     \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig18/probability.txt};\addlegendentry{Probability}
 
     \end{axis}
 
 
   \end{tikzpicture}
-  \caption[]{\textbf{Iterations \bm{$I$} and probability distributino for the multiple run search.}The figure shows the probability distribution and the number of iterations $I$ for the multiple run search with the time-dependent Hamiltonian. The time is constrained to $\pi/2\sqrt{N}$ as in the solution of the standard quantum walks search. It is clear that the number of iterations increases linearly, although very slowly. Notice in fact that N goes all the way up to $N=101$. For the limit of large $N$ the time-dependent approach is therefore not a valid alternative, nor of comparable performance.}
+  \caption[]{\textbf{Iterations \bm{$I$} and probability \bm{$p$} for the multiple run search on complete graph.} The plot shows the probability $p$ and the number of iterations $I$ for the multiple run search with the time-dependent Hamiltonian. The time is constrained to $\pi/2\sqrt{N}$ as in the solution of the standard quantum walks search. It is clear that the number of iterations increases linearly, although very slowly. Notice in fact that $N$ goes all the way up to $N=101$. For the limit of large $N$ the time-dependent approach is therefore not a valid alternative, nor of comparable performance.}
   \label{fig:iterations_complete_graph}
 \end{figure}

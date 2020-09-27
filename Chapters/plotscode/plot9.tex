@@ -6,15 +6,15 @@
   \begin{tikzpicture}
     \begin{axis}[name=plot,
     xmin=0, xmax=60,
-    ymin=0, ymax=600,
-    width = 120mm,
-    xlabel = Lower bound time $T_{\min}$,
+    ymin=0, ymax=630,
+    width = 100mm,
+    xlabel = Lower bound time \bm{$T_{\min}$},
     ylabel = $\bm{\tau}$ ]
     \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a ,y=b] table{./Data/fig9/51_tau_lbt_static.txt};\addlegendentry{time-independent}
     \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig9/51_tau_lbt_linear.txt};\addlegendentry{$s_L(t)$}
 
     \end{axis}
   \end{tikzpicture}
-  \caption[$\tau$ distribution for increasing lower bound time.]{\textbf{\bm{$\tau$} distribution for increasing lower bound, $\bm{Cy(51)}$. }The figure shows the $\tau$ distribution for increasing values of lower bound time $T_{\min}$, using the time-independent Hamiltonian (red) and time-dependent Hamiltonian (green) with $s_L(t)$ and evaluated for a Cy(51). We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better.}
+  \caption{\textbf{\bm{$\tau$} for increasing lower bound time \bm{$T_{\min}$}, $\bm{Cy(51)}$.} The plot shows $\tau$ for increasing values of lower bound time $T_{\min}$, using the time-independent Hamiltonian (red) and time-dependent Hamiltonian (green) with $s_L(t)$ and evaluated for a $Cy(51)$. We see that for times smaller than a characteristic time $T^*$ the time-independent approach performs slightly better, while for large time the time-dependent one performs significantly better.}
   \label{fig:tau_increasing_time}
 \end{figure}

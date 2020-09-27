@@ -3,7 +3,7 @@
 \singlespacing
 \chapter{Quantum walks with time-dependent Hamiltonians and their application to the search problem on graphs}
 \onehalfspacing
-The main goal of this thesis is to study quantum walks with time dependent Hamiltonians, focusing in particular on their application to the spatial search problem on graph. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent Hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topologies: the circular graph, for which the time-independent approach is not able to solve the search problem, and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the \textit{optimized-search}, \textit{localization} - which represents a search without needs to optimize the time - and a measure of \textit{robustness}.
+The main goal of this thesis is to study quantum walks with time dependent Hamiltonians, focusing in particular on their application to the spatial search problem on graph. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent Hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topologies: the cycle graph, for which the time-independent approach is not able to solve the search problem, and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the \textit{optimized-search}, \textit{localization} - which represents a search without needs to optimize the time - and a measure of \textit{robustness}.
 
 \section{Search with time-dependent Hamiltonian}
 In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the spatial search problem \cite{Childs2004} and the application to the complete graph where the search problem is solved. We then illustrated how the adiabatic theorem can be used to solve computational problems with an adiabatic evolution of a quantum system \cite{Farhi2000}. Efforts to combine the two approaches showed that the search problem can be solved only with structures stronger than the usual Grover's oracle \cite{Wong2016}, thus making an \textit{Adiabatic-Quantum-Walk-Search} impossible. However this leaves space to a merely time-dependent quantum walk search, that takes advantage of a time-dependent implementation similar to the adiabatic evolution but that is not bounded to the strict adiabatic-theorem conditions and the limitation of the standard Grover's oracle.
@@ -51,7 +51,7 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
         Repeating the search multiple times does however come at a cost. It is indeed necessary to take into account for a non-zero \textit{initialization} time $t_{init}$ to prepare the system in the correct state as well a physical time for the measurement. Therefore, computing multiple searches with small $T$ becomes less efficient than less searches with larger $T$, where the quantity $t_{init}$ makes a lesser contribution to the overall $T$. Clearly this consideration is particularly relevant for increasing graph size.
 
 \clearpage
-\section{Selected topologies: circular and complete graph}
+\section{Selected topologies: cycle and complete graph}
     Throughout our analysis we will focus on two selected graph topology, the cycle graph $Cy(N)$ and the complete graph $C(N)$. \\
 
     As previously discussed in \Cref{subsec:search qw complete graph, subsec:local adiabatic} the \textbf{complete graph} represents the best case scenario since it has been shown to solve the search problem both for the standard time-independent quantum walk approach \cite{Childs2004} and the local adiabatic evolution \cite{Roland2002}, with a quadratic speed up. An adiabatic implementation of the quantum walk search does not work with the usual Grover's oracle, requiring a more elaborate structure \cite{Wong2016}, however as we shall later see a merely time-dependent approach might give interesting results in terms of robustness and localization.  \\
@@ -72,7 +72,7 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
     \subsection{Robustness}\label{subsec:robustness}
         We have seen that the probability of a search problem depends on the time $T$ at which the quantum state is measured and the parameter $\gamma$. The optimal highest probability clearly is given by the optimal combination of $T$ and $\gamma$. These two parameters might be affected by noise or perturbation, leading to variation from the maximum probability. Therefore it is interesting to define a quantity that is able to quantify this phenomenon.
 
-        Following from \citet{SH.HungS.Hietala2019} we define the \textbf{robustness}, a quantitative measure representing the variation on the probability due to some perturbation/noise on $\gamma$.
+        Following from \cite{SH.HungS.Hietala2019} we define the \textbf{robustness}, a quantitative measure representing the variation on the probability due to some perturbation/noise on $\gamma$.
         We begin by finding the highest probability $p$, evaluated with the single or multiple run for one search approach. For the corresponding $(T,\gamma)$ combination we evaluate the robustness as follows:
         \begin{equation}
             R ^\pm = p(T, \gamma) - p(T, \gamma \pm \delta)
@@ -96,9 +96,9 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
         Although the value of $R$ does not have any absolute physical significance, it fits well for our specific scenario where the interest is focused on the comparison between two specific approaches. Therefore this quantity will be used to characterize a particular approach as \textbf{more} or \textbf{less robust}, where the first is characterized by a smaller value of $R$ compared to the latter.
 
 \clearpage
-\section{Results for the Circular Graph}
-We now address the results for the circular graph. We begin by evaluating the probabilities for the time-independent and the time-dependent Hamiltonians. We compare the localization of the two approaches, followed by the search - which requires the introduction of a new quantity that takes into account the possibility of doing multiple runs for one search. Lastly we study the robustness of the time-dependent approach and determine whether the newly introduced Hamiltonian makes the search more robust than the time-independent one.
-    \subsection{Time-Independent Benchmarks}
+\section{Results for the cycle graph}
+We now address the results for the cycle graph. We begin by evaluating the probabilities for the time-independent and the time-dependent Hamiltonians. We compare the localization of the two approaches, followed by the search - which requires the introduction of a new quantity that takes into account the possibility of doing multiple runs for one search. Lastly we study the robustness of the time-dependent approach and determine whether the newly introduced Hamiltonian makes the search more robust than the time-independent one.
+    \subsection{Time-independent benchmarks}
         The first step of the analysis is to compute time-independent benchmarks. We comput the probability over a $(T,\gamma)$ grid, with $T\in[0,N]$ and $\gamma\in[0,2.5]$, where N is the dimension of the graph considered. An initial run shows that the probability does not increase with time (\Cref{fig:time_independent_sampled_gamma}), thus the need to evaluate for $T$ greater than $T=N$ proves to be unnecessary. In addition, Grover's algorithm for the unstructured search has a time scaling of $O(\sqrt{N})$ and the Farhi and Gutmann's global adiabatic evolution is $O(N)$, thus focusing on $T \leq N$ suffices.\\
         \input{Chapters/plotscode/plot2}
 
@@ -113,7 +113,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         \subsubsection*{Comments on the probability distribution}
         In \Cref{fig:heatmap_time_independent} we see that the probability does not increase smoothly with increasing time, but shows peaks (dark regions) and valleys (lighter regions). Additionally high probability regions are scattered throughout the grid and do not appear necessarily for large $T$. We will later see that this is a weakness of the time-independent approach, since a small variation of the parameter $\gamma$ leads to possibly great variation of the probability.
 
-    \subsection{Time-Dependent Results}\label{subsec:time_dependent_results}
+    \subsection{Time-dependent results}\label{subsec:time_dependent_results}
         Similarly we compute the probability with the time-dependent Hamiltonian using the interpolating schedules introduced in \Cref{subsec:interpolating schedules}. To easily compare the two methods we consider the same time $T=N$ and $\gamma$ used for the time-independent benchmarks. Indeed, from an initial run we see that the $\gamma$ parameter affects the probability similarly to the time-independent approach, namely the probability tends to be higher for smaller values of $\gamma$.\\
         The probability is then evaluated for all the interpolating schedules $s(t)$ , and the results are again presented with an intuitive heatmap plot.\\
         \input{Chapters/plotscode/plot5}
@@ -122,7 +122,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         Compared to the time-independent Hamiltonian approach we can clearly see that the probability distribution is smoother - has no valley and peaks - for both constant $\gamma$ and $T$ (any orizontal and vertical sections, respectively). In particular we notice that the probability increases for increasing time, and as we shall later see, for large enough $T$ it reaches probability equal to one.\\ If we look at the different interpolating schedules it is immediately evident that $s_S(t)$ and $s_C(t)$ schedules perform poorly compared to the linear $s_L(t)$. On the other hand $s_{NL}(t)$ schedule performs similarly to $s_L(t)$, but it has a significantly different probability distribution that might affect its robustness.
 
     \clearpage
-    \subsection{Comparison: Localization}\label{subsec:localization_results}
+    \subsection{Comparison: localization}\label{subsec:localization_results}
         We now compare the localization properties of the two algorithm. As we have already mentioned, from an intial look at the probability heatmap plots we discovered the following:
         \begin{itemize}
             \item \textbf{Time-Independent QW}: the time-independent based algorithm is not able to solve the search problem with a single iteration, making it necessary to run multiple searches. This implies that the approach does not show any localization properties, in fact the probability does not increase with time as seen in \Cref{fig:heatmap_time_independent}.
@@ -136,7 +136,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         \input{Chapters/plotscode/plot7}
 
         \clearpage
-    \subsection{Comparison: Search}
+    \subsection{Comparison: search}
         In order to compare the two approaches for the search it is clear that we cannot simply consider the time at which the solution is found with unitary probability, since that particular $T$ does not exist for the time-independent approach and is not optimized for the time-dependent one as seen for the localization results. Therefore, as previously mentioned, we consider the possibility of doing multiple runs for one search. For this reason we introduce the following quantity
         \begin{equation}
           \tau = \min\bigg(\frac{T}{p}\bigg)_{T, \gamma}
@@ -204,7 +204,7 @@ We now address the results for the circular graph. We begin by evaluating the pr
         Clearly this plot reflects what We have just seen for the $\tau$ distribution, but it is able to give an immediate idea on the number of run iterations necessary to solve the search problem. For all the graph considered - with $N$ up to $59$ - both the time-dependent and time-independent perform better than the classical search algorithm. However, for $N>59$ and up to 71, the time-independent approach starts to perform worse than the classical counterpart, while the time-dependent still has a better performance. It it difficult however to predict with confidence the trend for larger graph. Nevertheless the time-dependent approach, in particular with the Roland-Cerf $s_{NL}(t)$ interpolating schedule shows promising results.
 
         \clearpage
-    \subsection{Comparison: Robustness}\label{subsec:comparison_robustness}
+    \subsection{Comparison: robustness}\label{subsec:comparison_robustness}
     We now address the robustness of the time-dependent and time-independent search. As we mentioned in \Cref{subsec:robustness} we are only interested in the comparison of the two approaches, and not an absolute measure of their robustness. Therefore we will use this measure as a comparison value. \\
     We proceed by evaluating the $\gamma$-robustness considering small variations on the parameter $\gamma$. Recalling that we evaluated the probability on a grid, we consider the variations in the order of $2$ \textit{square}. We begin by finding the quantity $\tau$ with time constrains $T = \pi/2\sqrt{N}$. For the corresponding $(T,\gamma)$ combination we evaluate the robustness $R_\gamma$.
     For the time-dependent search with only consider the linear interpolating schedule and the Roland-Cerf $s_{NL}(t)$. As we showed in the previous section the Roland-Cerf Hamiltonian performs better than the linear conterpart, while from a qualitative point of view the linear Hamiltonian has a smoother probability distribution (see \Cref{fig:heatmap_time_dependent}(a)-(d)). The following plots show the $\gamma$-robustness for the time-independent and time-dependent search.
@@ -212,6 +212,6 @@ We now address the results for the circular graph. We begin by evaluating the pr
     Indeed \Cref{fig:gamma_robustness} shows that the time-dependent approach is more robust than the time-independent one. In particular, the linear interpolating schedule $s_L(t)$ leads to a greater robustness compared to the non-linear $s_{NL}(t)$. It is to be noted however that the difference in robustness between the time-independent and time-dependent approach is much greater than the difference between the interpolating schedules. \\
 
     \noindent
-    We now turn our attention the $T$-robustness, evaluated similarly to the $\gamma$-robustness. From \Cref{fig:time_robustness} we see that, in contrast with the $\gamma$ counterpart, the time-indipendent approach performs better compared to the time-dependent one. However, if we compare the $R$ values with the $R_\gamma$ values we notice that the difference between the two approaches is much smaller for the $T$-robustness. For this reason we can safely say that the search with time-dependent Hamiltonian is more robust than the time-independent one. Additionally, the improved performance acheived with the non-linear interpolating schedule $s_{NL}(t)$ comes at the cost of less robustness. 
+    We now turn our attention the $T$-robustness, evaluated similarly to the $\gamma$-robustness. From \Cref{fig:time_robustness} we see that, in contrast with the $\gamma$ counterpart, the time-indipendent approach performs better compared to the time-dependent one. However, if we compare the $R$ values with the $R_\gamma$ values we notice that the difference between the two approaches is much smaller for the $T$-robustness. For this reason we can safely say that the search with time-dependent Hamiltonian is more robust than the time-independent one. Additionally, the improved performance acheived with the non-linear interpolating schedule $s_{NL}(t)$ comes at the cost of less robustness.
 
     \input{Chapters/plotscode/plot18}

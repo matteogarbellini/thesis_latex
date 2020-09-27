@@ -16,7 +16,7 @@
     anchor=north west}]
     \addplot[color=verdescuro,no marks, very thick, x=a, y=b] table{./Data/fig8/51_lin_gamma12.txt};\addlegendentry{$s_L(t)$ $\gamma=1.2$}
     \addplot[color=verdescuro,dashed, no marks,very thick, x=a, y=b] table{./Data/fig8/51_lin_gamma043.txt};\addlegendentry{\hspace{40pt}$\gamma=0.42$}
-    \addplot[color=arancio,no marks, very thick, x=a, y=b] table{./Data/fig8/51_cerf_gamma13.txt};\addlegendentry{$s_{RC}(t)$ $\gamma=1.3$}
+    \addplot[color=arancio,no marks, very thick, x=a, y=b] table{./Data/fig8/51_cerf_gamma13.txt};\addlegendentry{$s_{NL}(t)$ $\gamma=1.3$}
     \addplot[color=arancio,dashed, no marks,very thick, x=a, y=b] table{./Data/fig8/51_cerf_gamma076.txt};\addlegendentry{\hspace{40pt}$\gamma=0.76$}
     \addlegendimage{legend image with text=}
     \addlegendentry{$\hspace{10pt}$}
@@ -31,6 +31,6 @@
   \end{tikzpicture}
 
 
-  \caption{\textbf{Distribution of \bm{$T/p$} for sampled \bm{$\gamma$} showing that \bm{$\tau$} will always be for the smallest \bm{$T$}}. The figure shows the distribution of $T/p$ for some sampled values of the $\gamma$ parameter, using the linear $s_L$ (green) and Roland-Cerf $s_{RC}$ (orange) interpolating schedules for the time-dependent Hamiltonian and the time-independent Hamiltonian (red). It is clear that $\tau = \min(T/p)$ will always be for the smallest $T$ available, regardless of the interpolating schedule and the type of Hamiltonian, requiring therefore a constrain on the time.}
+  \caption{\textbf{\bm{$T/p$} for sampled \bm{$\gamma$}, showing that \bm{$\tau$} always corresponds to the smallest \bm{$T$}}. The plot shows $T/p$ for some sampled values of the $\gamma$ parameter, using the linear $s_L$ (green) and non-linear $s_{NL}$ (orange) interpolating schedules for the time-dependent Hamiltonian, and the time-independent Hamiltonian (red). It is clear that $\tau = \min(T/p)$ will always correspond to the smallest $T$ available, regardless of the interpolating schedule and the type of Hamiltonian, requiring therefore a constrain on the time.}
   \label{fig:time_independent_sampled_gamma}
 \end{figure}
