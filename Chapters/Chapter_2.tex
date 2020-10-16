@@ -1,9 +1,9 @@
 \newpage
 \thispagestyle{empty}
 \singlespacing
-\chapter{Quantum walks with time-dependent Hamiltonians and their application to the search problem on graphs}
+\chapter[Quantum walks with time-dependent Hamiltonians]{\textbf{Quantum walks with time-dependent Hamiltonians and their application to the search problem on graphs}}
 \onehalfspacing
-The main goal of this thesis is to study quantum walks with time dependent Hamiltonians, focusing in particular on their application to the spatial search problem on graph. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent Hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topologies: the cycle graph, for which the time-independent approach is not able to solve the search problem, and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the \textit{optimized-search}, \textit{localization} - which represents a search without needs to optimize the time - and a measure of \textit{robustness}.
+The main goal of this thesis is to study quantum walks with time dependent Hamiltonians, focusing in particular on their application to the spatial search problem on graphs. The general idea is trying to improve a time-independent implementation of quantum walks search using a time-dependent Hamiltonian analogous to the one used in the adiabatic evolution. In order to determine whether this new approach produces successfull results we study two selected graph topologies: the cycle graph -- for which the time-independent approach is not able to solve the search problem -- and the complete graph for which the search problem is solved for both the time-independent and adiabatic evolution approaches. \\ We compare the two methods for the \textit{search}, \textit{localization} -- which represents a search without the needs to optimize the time -- and a measure of \textit{robustness}.
 
 \section{Search with time-dependent Hamiltonian}
 In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the spatial search problem \cite{Childs2004} and the application to the complete graph where the search problem is solved. We then illustrated how the adiabatic theorem can be used to solve computational problems with an adiabatic evolution of a quantum system \cite{Farhi2000}. Efforts to combine the two approaches showed that the search problem can be solved only with structures stronger than the usual Grover's oracle \cite{Wong2016}, thus making an \textit{Adiabatic-Quantum-Walk-Search} impossible. However this leaves space to a merely time-dependent quantum walk search, that takes advantage of a time-dependent implementation similar to the adiabatic evolution but that is not bounded to the strict adiabatic-theorem conditions and the limitation of the standard Grover's oracle.
@@ -18,52 +18,51 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
         \begin{equation}
           S(t,t_0) = \mbox{T } \mbox{exp}\Big\{ -i\int_{t_0}^{t} dt' H(t')\Big\}
         \end{equation}
-        where T is the time-ordering operator. Since we are only interested in the evolved state, having the exact evolution operator is somewhat irrelevant. We therefore proceed by solving the differential Schroedinger equation:
+        where T is the time-ordering operator. Since we are only interested in the evolved state, having the exact evolution operator is irrelevant. We therefore proceed by solving the differential Schroedinger equation:
         \begin{equation}
           i\frac{d}{dt}|\psi(t)\rangle = H |\psi(t)\rangle
         \end{equation}
-        Recalling that we are dealing with matrices and vectors in an N-dimensional Hilbert space, we solve N-differential equations of the form
+        Recalling that we are dealing with matrices and vectors in an $N$-dimensional Hilbert space, we solve $N$-differential equations of the form
         \begin{equation}
         \frac{d}{dt}|\psi_i(t)\rangle = \sum_jH_{ij}|\psi_i(t)\rangle
         \end{equation}
         with the boundary conditions $|\psi(0)\rangle = |\psi_0\rangle$, where the latter is the ground state of the Laplacian.\\
 
-    \clearpage
     \subsection{Interpolating schedule s(t)}\label{subsec:interpolating schedules}
         As pointed by Wong the interpolating schedule s(t) plays a crucial role in the evolution of the system and in the overall scaling of the algorithm.
-        The original adiabatic evolution by Farhi and Gutmann \cite{Farhi2000} uses a linear interpolating schedule defined as $s_L(t) =\equiv \frac{t}{T}$. Roland and Cerf show that in order to obtain a quadratic speedup for the complete graph a non linear schedule is essential \cite{Roland2002}\cite{Morley2018}.
+        The original adiabatic evolution by Farhi and Gutmann \cite{Farhi2000} uses a linear interpolating schedule defined as $s_L(t) \equiv \frac{t}{T}$. Roland and Cerf show that in order to obtain a quadratic speedup for the complete graph a non linear schedule is essential \cite{Roland2002}.
 
         Thus, from a linear interpolating schedule we consider also quadratic and cubic schedules:
         \begin{equation}
           s_S(t) \equiv \sqrt{\frac{t}{T}} \hspace{30pt} s_C(t) \equiv \sqrt[3]{\frac{t}{T}}
         \end{equation}
-        We then consider the interpolating schedule analitically derived by Roland and Cerf for the unstructured search discussed in \Cref{subsec:local adiabatic}. As we have already mentioned the shape of this interpolating schedule follows from gap $g(s)$ between the lowest two eigenvalues, changing faster when the gap is large, while it evolves slower when the gap is small. We therefore take these key aspects of $s(t)$ - derived for the unstructured search - and consider a similar non-linear interpolating schedule defined as follows
+        We then consider the interpolating schedule analitically derived by Roland and Cerf for the unstructured search discussed in \Cref{subsec:local adiabatic}. As we have already mentioned the shape of this interpolating schedule follows from gap $g(s)$ between the lowest two eigenvalues, changing faster when the gap is large, while it evolves slower when the gap is small. We therefore take these key aspects of $s(t)$ -- derived for the unstructured search -- and consider a similar non-linear interpolating schedule defined as follows
         \begin{equation}
             s_{NL}(t) = \frac{1}{2}\Big[\Big(2\frac{t}{T}-1\Big)^{3}+1\Big]
         \end{equation}
-
         \input{Chapters/plotscode/interpolating_schedules}
 
 
         \subsection{Multiple runs for one search}\label{subsec:multiple_runs}
-        To give a complete picture of the usefulness of the time-depedent approach, we consider the possibility of repeating the search multiple times. If the probability at which the solution is found is $p=1$ the search is \textit{perfect} and the problem is solved. However, if the proabability is less than one, i.e. \textit{imperfect search}, the problem can be solved by searching multiple times . Since the results of the search are checked independently, a single successfull search is sufficient, and this kind of routine is efficient as long as the probability $\big|\langle\psi(T)| w\rangle\big|^2$ is greater than $1/poly(N)$ (where N is the dimension of the graph) \cite{Morley2018} - which as we shall later see is verified for all the scenarios considered.
+        To give a complete picture of the usefulness of the time-depedent approach, we consider the possibility of repeating the search multiple times. If the probability at which the solution is found is $p=1$ the search is \textit{perfect} and the problem is solved. However, if the proabability is less than one, i.e. \textit{imperfect search}, the problem can be solved by searching multiple times . Since the results of the search are checked independently, a single successfull search is sufficient, and this kind of routine is efficient as long as the probability $\big|\langle\psi(T)| w\rangle\big|^2$ is greater than $1/poly(N)$ (where $N$ is the dimension of the graph) \cite{Morley2018} -- which as we shall later see is verified for all the scenarios considered.
 
-        Repeating the search multiple times does however come at a cost. It is indeed necessary to take into account for a non-zero \textit{initialization} time $t_{init}$ to prepare the system in the correct state as well a physical time for the measurement. Therefore, computing multiple searches with small $T$ becomes less efficient than less searches with larger $T$, where the quantity $t_{init}$ makes a lesser contribution to the overall $T$. Clearly this consideration is particularly relevant for increasing graph size.
+        Repeating the search multiple times does however come at a cost. It is indeed necessary to take into account for a non-zero \textit{initialization} time $t_{init}$ to prepare the system in the correct state as well a physical time for the measurement. Therefore, computing multiple searches with small $T$ becomes less efficient than less searches with larger $T$, where the quantity $t_{init}$ makes a lesser contribution to the overall $T$.
 
 \clearpage
 \section{Selected topologies: cycle and complete graph}
     Throughout our analysis we will focus on two selected graph topology, the cycle graph $Cy(N)$ and the complete graph $C(N)$. \\
 
-    As previously discussed in \Cref{subsec:search qw complete graph, subsec:local adiabatic} the \textbf{complete graph} represents the best case scenario since it has been shown to solve the search problem both for the standard time-independent quantum walk approach \cite{Childs2004} and the local adiabatic evolution \cite{Roland2002}, with a quadratic speed up. An adiabatic implementation of the quantum walk search does not work with the usual Grover's oracle, requiring a more elaborate structure \cite{Wong2016}, however as we shall later see a merely time-dependent approach might give interesting results in terms of robustness and localization.  \\
+    As previously discussed in \Cref{subsec:search qw complete graph, subsec:local adiabatic} the \textbf{complete graph} represents the best case scenario since it has been shown to solve the search problem both for the standard time-independent quantum walk approach \cite{Childs2004} and the local adiabatic evolution \cite{Roland2002} with a quadratic speed up. An adiabatic implementation of the quantum walk search does not work with the usual Grover's oracle, requiring a more elaborate structure \cite{Wong2016}, however as we shall later see a merely time-dependent approach might give interesting results in terms of robustness and localization.  \\
 
     The \textbf{cycle graph} on the other hand is not able to solve the search problem with the time-independent approach, and can give some interesting insights on the performance of the time-dependent quantum walk search.  \\
-    The goal is therefore to study the time-dependent approach on a non-working topology - the cycle graph - and for completeness show its application to the already perfect search on the complete graph.
 
-\section{Characterization of the results: Search, Localization and Robustness}
+    The goal is therefore to study the time-dependent approach on a non-working topology -- the cycle graph -- and for completeness show its application to the already perfect search on the complete graph.
+
+\section[Search, localization and robustness]{Characterization of the results: Search, Localization and Robustness}
     Firstly it is necessary to define what type of results we are looking for. We begin by showing the difference between \textbf{search} and \textbf{localization}. Then we introduce a measure for the \textbf{robustness} of the search algorithm.
 
     \subsection{Search vs Localization}
-      In order to study the performance of the search algorithms we have to characterize two particular classes of results, the (optimized)\textbf{search} and the \textbf{localization}, that help us decide whether the time-dependent approach brings any advantages.
+      In order to study the performance of the search algorithms we have to characterize two particular classes of results, the (optimized) \textbf{search} and the \textbf{localization}, that help us determine whether the time-dependent approach brings any advantages.
       \begin{itemize}
           \item the (optimized) \textbf{search} describes the usual search, namely the finding of the solution with high probability (possibly unitary) for the smallest time as possible. As previously mentioned we also take into account the possibility of repeating the search multiple times.
           \item we call \textbf{localization} the finding of the solution with high probablity without the need to optimize the time. This description becomes necessary if we take into account the adiabatic nature of the time-dependent approach, that guarantees unitary probability for large $T$.
@@ -72,7 +71,7 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
     \subsection{Robustness}\label{subsec:robustness}
         We have seen that the probability of a search problem depends on the time $T$ at which the quantum state is measured and the parameter $\gamma$. The optimal highest probability clearly is given by the optimal combination of $T$ and $\gamma$. These two parameters might be affected by noise or perturbation, leading to variation from the maximum probability. Therefore it is interesting to define a quantity that is able to quantify this phenomenon.
 
-        Following from \cite{SH.HungS.Hietala2019} we define the \textbf{robustness}, a quantitative measure representing the variation on the probability due to some perturbation/noise on $\gamma$.
+        Following S. Hung \textit{et. al} \cite{SH.HungS.Hietala2019} we define the \textbf{robustness}, a quantitative measure representing the variation on the probability due to some perturbation/noise on $\gamma$.
         We begin by finding the highest probability $p$, evaluated with the single or multiple run for one search approach. For the corresponding $(T,\gamma)$ combination we evaluate the robustness as follows:
         \begin{equation}
             R ^\pm = p(T, \gamma) - p(T, \gamma \pm \delta)
@@ -87,9 +86,9 @@ In \Cref{sec:search quantum walk} we discussed the use of quantum walks for the 
         \noindent
         As we mentioned, the variation in probability could also be due to some error on the time $T$ at which the state is measured. We can extend the measure of robustness to this particular scenario, where the value is similarly evaluated:
         \begin{equation}
-            R = p(T, \gamma) - p(T \pm \tilde{\delta}, \gamma )
+            R^{\pm} = p(T, \gamma) - p(T \pm \tilde{\delta}, \gamma )
         \end{equation}
-        and $R$ follows directly from \Cref{eq:robustness}. In this scenario the robustness in respect to $T$ is not necessarily positive, in particular for the time-dependent approach, since due to the consequences of the adiabatic theorem the probability increases with time.
+        and $R$ follows directly from \Cref{eq:robustness}. In this scenario the robustness in respect to $T$ is not necessarily positive, in particular for the time-dependent approach, since -- given the adiabatic nature of the algorithm -- the probability increases with time.
         In order to differentiate between these two measures of robustness we call them \textbf{$\bm{\gamma}$-robustness} and \textbf{$\bm{T}$-robustness} respectively.
 
 
@@ -104,13 +103,13 @@ We now address the results for the cycle graph. We begin by evaluating the proba
 
         \clearpage
         \noindent
-        Throughout the analysis we will consider graphs up to $N = 71$, with only odd dimensions which makes a easier oracle placement in the center vertex of the graph\footnote{The position of the oracle is irrelevant for the graph topologies considered, since every node is equivalent to all the $N-1$ others. Nevertheless odd dimensions allows to place the oracle in the central vertex of the graph, namely $\ket{\frac{N+1}{2}}$.}. \red{Additional considerations and reasoning for the $(T,\gamma)$ grid can be found in the Appendix.} \\
+        Throughout the analysis we will consider graphs up to $N = 71$, with only odd dimensions which makes a easier oracle placement in the center vertex of the graph\footnote{The position of the oracle is irrelevant for the graph topologies considered, since every node is equivalent to all the $N-1$ others. Nevertheless odd dimensions allows to place the oracle in the central vertex of the graph, namely $\ket{\frac{N+1}{2}}$.}. \\
 
         \noindent
-        To display the results in an intuitive way we used a heatmap plot, which gives a good idea on the probability distribution for varying combinations of $(T,\gamma)$:
+        To display the results in an intuitive way we used a heatmap plot, which gives a good idea on the probability for varying combinations of $(T,\gamma)$:
         \input{Chapters/plotscode/plot3}
 
-        \subsubsection*{Comments on the probability distribution}
+        \subsubsection*{Comments on the probability distribution\footnote{The use of \textit{probability distribution} is not to be intended for the meaning it has in probability theory. In our scenario it describes the distribution of the values of probability for the combinations of the variables $\gamma$ and $T$}}
         In \Cref{fig:heatmap_time_independent} we see that the probability does not increase smoothly with increasing time, but shows peaks (dark regions) and valleys (lighter regions). Additionally high probability regions are scattered throughout the grid and do not appear necessarily for large $T$. We will later see that this is a weakness of the time-independent approach, since a small variation of the parameter $\gamma$ leads to possibly great variation of the probability.
 
     \subsection{Time-dependent results}\label{subsec:time_dependent_results}
@@ -123,9 +122,9 @@ We now address the results for the cycle graph. We begin by evaluating the proba
 
     \clearpage
     \subsection{Comparison: localization}\label{subsec:localization_results}
-        We now compare the localization properties of the two algorithm. As we have already mentioned, from an intial look at the probability heatmap plots we discovered the following:
+        We now compare the localization properties of the two algorithms. As we have already mentioned, from an intial look at the probability heatmap plots we discovered the following:
         \begin{itemize}
-            \item \textbf{Time-Independent QW}: the time-independent based algorithm is not able to solve the search problem with a single iteration, making it necessary to run multiple searches. This implies that the approach does not show any localization properties, in fact the probability does not increase with time as seen in \Cref{fig:heatmap_time_independent}.
+            \item \textbf{Time-Independent QW}: the time-independent based algorithm is unable to solve the search problem with a single iteration, making it necessary to run multiple searches. This implies that the approach does not show any localization properties, in fact the probability does not increase with time as seen in \Cref{fig:heatmap_time_independent}.
             \item \textbf{Time-Dependent QW}: the time-dependent based search on the other hand solves the search problem with a single iteration, although that happens for large values of $T$, as can be seen in \Cref{fig:probability_sampled_gamma}. This is indeed a consequence of the \textit{adiabatic inspired} implementation, for which at large $T$ the probability goes to one.
         \end{itemize}
         \input{Chapters/plotscode/plot6}
@@ -157,7 +156,7 @@ We now address the results for the cycle graph. We begin by evaluating the proba
         \input{Chapters/plotscode/plot8}
 
         \noindent
-        In addition, in \Cref{subsec:multiple_runs}  we mentioned that when dealing with multiple runs we need to take into account an initialization time $t_{init}$. It becomes therefore necessary to introduce a minimum value of time, since for small $T$ the contribution given by $t_{init}$ can have a significant impact. We call this particular $T$ \textbf{lower bound time}, reffered to as $T_{\min}$, and study its effect on $\tau$ and the overall performance of the time-independent and time-dependent algorithms. \\ \\
+        In addition, in \Cref{subsec:multiple_runs}  we mentioned that when dealing with multiple runs we need to take into account an initialization time $t_{init}$. It becomes therefore necessary to introduce a minimum value of time, since for small $T$ the contribution given by $t_{init}$ can have a significant impact. We call this particular $T$ \textbf{lower bound time}, referred to as $T_{\min}$, and study its effect on $\tau$ and the overall performance of the time-independent and time-dependent algorithms. \\ \\
 
         \bpar{\bm{$\tau$} and $\bm{I}$ for increasing lower bound time \bm{\tmin}}
          We begin by studying how $\tau$ and $I$ vary with increasing lower bound time \tmin.
@@ -185,23 +184,25 @@ We now address the results for the cycle graph. We begin by evaluating the proba
 
         \vspace{0.5cm}
         \bpar{\bm{$\tau$} and run iterations with constrained lower bound time}
-        In order to show that the lower bound time does indeed have such a great impact on the performance of the time-dependent approach relative to the time-independent one, we study the distribution of $\tau$ and $I$ with a constrain on \tmin. It should be noted that in this particular scenario $\tau$ will no longer be a minimization over $T$ since the time is fixed, while the dependance on $\gamma$ remains. \\ \\ The choice of constrain is arbitrary and somewhat biased since the larger the constrain the better the performance of the time-dependent approach, as We have just shown in Figure 2.8. Therefore, to make the choice fair, we consider the lower bound time to be $T_{\min} = \frac{\pi}{2}\sqrt{N}$ which is the same order of magnitude of the standard Grover's time scaling, the time-independent quantum walk search on the complete graph and the unstructured local adiabatic search. In the best-case scenario we might discover that the number of iterations necessary to get to unitary probability remains constant regardless of the dimension of the graph, making this approach have the same time scaling as the ones just mentioned; in the most probable scenario we discover that the number of iterations increases with the graph size, thus adding a scaling factor that depends on some power of $N$. \\
+        In order to show that the lower bound time does indeed have such a great impact on the performance of the time-dependent approach relative to the time-independent one, we study the distribution of $\tau$ and $I$ with a constraint on \tmin. It should be noted that in this particular scenario $\tau$ will no longer be a minimization over $T$ since the time is fixed, while the dependance on $\gamma$ remains. \\ \\ The choice of constraint is arbitrary and somewhat biased since the larger the constraint the better the performance of the time-dependent approach, as we have just shown in Figure 2.8. Therefore, to make the choice fair, we consider the lower bound time to be $T_{\min} = \frac{\pi}{2}\sqrt{N}$ which is the same order of magnitude of the standard Grover's time scaling, the time-independent quantum walk search on the complete graph and the unstructured local adiabatic search. In the best-case scenario we might discover that the number of iterations necessary to get to unitary probability remains constant regardless of the dimension of the graph, making this approach have the same time scaling as the ones just mentioned; in the most probable scenario we discover that the number of iterations increases with the graph size, thus adding a scaling factor that depends on some power of $N$. \\
 
         \noindent
-        We begin by investigating the effects of the interpolating schedule $s(t)$ on the $\tau$ distribution. The following plot shows the results for cycle graphs $Cy(N)$ with $N$ up to $71$, using the time-dependent Hamiltonian and the interpolating schedules defined in \Cref{subsec:interpolating schedules}.\\
+        We begin by investigating the effects of the interpolating schedule $s(t)$ on the $\tau$ distribution. \Cref{fig:tau_different_shapes} shows the results for cycle graphs $Cy(N)$ with $N$ up to $71$, using the time-dependent Hamiltonian and the interpolating schedules defined in \Cref{subsec:interpolating schedules}.
+        \clearpage
         \input{Chapters/plotscode/plot11}
 
-        As we could have expected the Roland-Cerf interpolating schedule $s_{NL}(t)$ performs the best, compared to the linear one. The $s_S(t)$ and $s_C(t)$ show poor performance compared to all the others, therefore are ignored for the next analysis.  This shows indeed that the shape of the interpolating function has a great impact on the performance of the algorithm, in particular when considering large graphs. We now compare the time-independent approach to the time-dependent one using the linear and Roland-Cerf interpolating schedules. Again, the time is constrained as in the previous plot. We begin by looking at the $\tau$ distribution. \\
-        \clearpage
+        As we could have expected the non-linear interpolating schedule $s_{NL}(t)$ performs the best, compared to the linear one. The $s_S(t)$ and $s_C(t)$ show poor performance compared to all the others, therefore are ignored for the next analysis.  This shows indeed that the shape of the interpolating function has a great impact on the performance of the algorithm, in particular when considering large graphs. \\
+
+        We now compare the time-independent approach to the time-dependent one using the linear and non-linear interpolating schedules. Again, the time is constrained as in the previous case. We begin by looking at the $\tau$. \\
+        In \Cref{fig:tau_independent_dependent} we can divide the plot  into two sections. For small graph dimension $N<20-25$ the time-dependent approach performs comparably to the time-independent one, although the latter has a slight advantage. On the other hand, for large graphs the time-dependent search distribution deviates considerably from the time-independent, for both the linear $s_L(t)$ and Roland-Cerf $s_{NL}(t)$ interpolating schedules. This is indeed a consequence of the lower bound time $T_{\min}$ that we considered, begin dependent on the dimension of the graph and increasing with $N$. Nevertheless, for large $N$ the mamimum probability found for the time-independent approach decreses, while for the time-dependent Hamiltonian it increases making it a succesfull alternative for larger graph dimensions. \\
         \input{Chapters/plotscode/plot12}
-        Again, we can divide the distribution into two sections. For small graph dimension $N<20-25$ the time-dependent approach performs comparably to the time-independent one, although the latter has a slight advantage. On the other hand, for large graphs the time-dependent search distribution deviates considerably from the time-independent, for both the linear $s_L(t)$ and Roland-Cerf $s_{NL}(t)$ interpolating schedules. This is indeed a consequence of the lower bound time $T_{\min}$ that we considered, begin dependent on the dimension of the graph and increasing with $N$. Nevertheless, for large $N$ the mamimum probability found for the time-independent approach decreses, while for the time-dependent Hamiltonian it increases making it a succesfull alternative for larger graph dimensions.
 
 
-        \noindent
-        The following plot shows the number of iterations $I$ for the two considered approach. We are able to qualitatively describe the time scaling of the algorithms by superimposing the function $\frac{2}{\pi}\sqrt{N}$ (black line): if the distribution of the iterations $I$ lies below the line the time-dependent algorithm performs better than the classical search. Remember in fact that we imposed a lower bound time $T_{\min} = \pi /2 \sqrt{N}$, and combining it with $2/ \pi \sqrt{N}$ gives us the time scaling of the classical search algorithm $O(N)$.
-
+        We now turn our attention to the run iterations. \Cref{fig:iters_independent_dependent} shows the number of iterations $I$ for the two considered approaches. We are able to qualitatively describe the time scaling of the algorithms by superimposing the function $\frac{2}{\pi}\sqrt{N}$ (black line): if the plot of the iterations $I$ lies below the line the time-dependent algorithm performs better than the classical search. Remember in fact that we imposed a lower bound time $T_{\min} = \pi /2 \sqrt{N}$, and combining it with $2/ \pi \sqrt{N}$ gives us the time scaling of the classical search algorithm $O(N)$.
+        \clearpage
         \input{Chapters/plotscode/plot13}
-        Clearly this plot reflects what We have just seen for the $\tau$ distribution, but it is able to give an immediate idea on the number of run iterations necessary to solve the search problem. For all the graph considered - with $N$ up to $59$ - both the time-dependent and time-independent perform better than the classical search algorithm. However, for $N>59$ and up to 71, the time-independent approach starts to perform worse than the classical counterpart, while the time-dependent still has a better performance. It it difficult however to predict with confidence the trend for larger graph. Nevertheless the time-dependent approach, in particular with the Roland-Cerf $s_{NL}(t)$ interpolating schedule shows promising results.
+
+        Clearly this plot reflects what we have just seen for $\tau$ distribution, but it is able to give an immediate idea on the number of run iterations necessary to solve the search problem. For all the graph considered - with $N$ up to $59$ - both the time-dependent and time-independent perform better than the classical search algorithm. However, for $N>59$ and up to 71, the time-independent approach starts to perform worse than the classical counterpart, while the time-dependent still has a better performance. It it difficult however to predict with confidence the trend for larger graph. Nevertheless the time-dependent approach, in particular with the Roland-Cerf $s_{NL}(t)$ interpolating schedule shows promising results.
 
         \clearpage
     \subsection{Comparison: robustness}\label{subsec:comparison_robustness}
@@ -214,4 +215,4 @@ We now address the results for the cycle graph. We begin by evaluating the proba
     \noindent
     We now turn our attention the $T$-robustness, evaluated similarly to the $\gamma$-robustness. From \Cref{fig:time_robustness} we see that, in contrast with the $\gamma$ counterpart, the time-indipendent approach performs better compared to the time-dependent one. However, if we compare the $R$ values with the $R_\gamma$ values we notice that the difference between the two approaches is much smaller for the $T$-robustness. For this reason we can safely say that the search with time-dependent Hamiltonian is more robust than the time-independent one. Additionally, the improved performance acheived with the non-linear interpolating schedule $s_{NL}(t)$ comes at the cost of less robustness.
 
-    \input{Chapters/plotscode/plot18}
+    \input{Chapters/plotscode/plot16}

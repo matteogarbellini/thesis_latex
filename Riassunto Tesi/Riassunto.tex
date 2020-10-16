@@ -1,0 +1,204 @@
+\documentclass[11pt, twoside]{report}
+	\usepackage[a-1b]{pdfx} % for saving as pdf-A
+	\usepackage[utf8]{inputenc}
+	\usepackage[english]{babel}
+	\usepackage{verbatim}
+	\usepackage[table,xcdraw]{xcolor}
+	\usepackage{microtype}
+	\usepackage{titlesec}
+	\usepackage{setspace} %table of contents spacing
+	\usepackage{epsfig}
+	\usepackage{wrapfig}
+	\usepackage{array}
+	\usepackage{bm} %bold math symbols
+	\usepackage{tocloft}
+	\renewcommand{\cftsecaftersnum}{.}
+	\usepackage{secdot}
+
+	\usepackage{fancyhdr} %header
+	\usepackage[Lenny]{fncychap}
+	\usepackage[a4paper, portrait, margin = 1.1in]{geometry}
+	\usepackage[utf8]{inputenc} %For
+	\usepackage[T1]{fontenc}
+	\usepackage{amssymb} %for R of real number
+	\usepackage{makeidx} %making index
+	\usepackage{braket} %for bra-ket notation
+	\usepackage[font=small]{caption} %for figure's caption
+
+	%\usepackage[miktex]{gnuplottex}
+	\usepackage{graphicx}
+	\usepackage{subfig}
+	\usepackage{pgfplots}
+	\pgfplotsset{compat=1.3}
+	\usepackage{tikz}
+	\usetikzlibrary{positioning, arrows}
+
+	\hypersetup{colorlinks=true, linkcolor = black}
+
+	\usepackage{amsmath}
+	\usepackage{cleveref} %for nicer figure referencing
+
+	%\usepackage[sorting=none, style=abbrv]{biblatex}
+	%\addbibresource{bibliography/my_library.bib}
+
+
+
+
+	\definecolor{verdescuro}{RGB}{37,139,34}
+	\definecolor{azzurroscuro}{RGB}{48,127,255}
+	\definecolor{rossoscuro}{RGB}{165,42,42}
+	\definecolor{arancio}{RGB}{248,165,1}
+	\definecolor{bluscuro}{RGB}{11,2,128}
+	\definecolor{rosa}{RGB}{249,128,255}
+
+
+	%\usepackage[sorting=none, style=abbrv]{biblatex}
+	%\addbibresource{bibliography/my_library.bib}
+
+
+
+
+	\definecolor{verdescuro}{RGB}{37,139,34}
+	\definecolor{azzurroscuro}{RGB}{48,127,255}
+	\definecolor{rossoscuro}{RGB}{165,42,42}
+	\definecolor{arancio}{RGB}{248,165,1}
+	\definecolor{bluscuro}{RGB}{11,2,128}
+	\definecolor{rosa}{RGB}{249,128,255}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%STYLES%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\vspace{-4cm}
+\onehalfspacing
+\section*{\centering Quantum walks with time-dependent Hamiltonians \\and their application to the search problem on graphs \\ \textit{\normalfont \normalsize \textit{Matteo Garbellini}}}
+
+
+
+%GENERAL GROVER'S SEARCH OVERVIEW
+Grover's quantum search algorithm has become one of the most celebrated algorithms in quantum computing and quantum information. It enables to outperform classical algorithms by achieving a quadratic speed up in the unstructured database search. Moreover, the search algorithm is \textit{general} in the sense that it can be applied to a broad range of scenarios beyond the database search, from the \textit{collision problem} to solving  NP-complete problems.\\
+
+%GENERAL CONTEXT 
+The original Grover's algorithm was formulated at a time when the quantum circuit model was the mainstream tool in quantum computation, consisting in a series of quantum gates applied in discrete time. In 1998 Farhi and Gutmann introduced the idea of analog quantum computing, where the system evolves in continous-time following the Schroedinger equation. Later on, when quantum walks -- a process that describes the free quantum evolution of a particle on a graph -- were popularized as algorithmic tools and the adiabatic evolution with time-dependent Hamiltonians emerged, the search problem was soon investigated. Therefore, when new models for quantum computing are introduced, new formulations of Grover's algorithm soon follow. It comes as a natural consequence the idea of comparing its different formulations, highlighting their differences and similarities. \\
+
+%ABSTRACT
+In this thesis we studied the application of quantum walks with time-dependent Hamiltonian to the search problem on graphs. We compared the standard time-independent quantum walks search with the time-dependent one, with the goal of understanding if this implementation can lead to an improvement in performance for selected graphs. In particular, we studied its application to the \textit{cycle graph}, where the search problem is not solved with the standard quantum walk approach of Farhi and Gutmann, and for completeness gave some results for the \textit{complete graph}, in which the search may be accomplished exactly. In order to do so, we compared the two approaches in terms of \textit{search}, \textit{localization}, and a measure of \textit{robustness}. 
+
+Next is a summary of what has been accomplished, some thoughts on the topic and future perspectives. \\ 
+
+\noindent
+Firstly, we presented the concept of Laplacian, the matrix that determines the quantum evolution over the graph, followed by a brief description of the graphs considered (cycle and complete). We then introduced the search problem as originally posed by Grover, with particular emphasis on the action of the \textit{oracle} -- a black box able to recognize and mark the solutions. We then looked at the quantum walk approach of Farhi and Gutmann on the complete graph, where an oracle term that marks the solution is added to the Laplacian. 
+We then discussed the adiabatic theorem - which guarantees that if the system is made to evolve slow enough, it will remain in the ground state of the Hamiltonian. It followed an overview of its application to the unstructured search problem, focusing on the difference between the \textit{global} adiabatic evolution of Childs and Goldstone and the \textit{local} adiabatic evolution of Roland and Cerf. This is particularly interesting, since applying the adiabatic theorem \textit{locally} enables to achieve the same quadratic speed up as the original Grover's search.
+To set the basis for our work we then presented the study by Wong \textit{et. al}, where they showed that an adiabatic-quantum walk implementation of the search algorithm is not possible with the structure of the standard Grover's oracle, leaving however space to a merely time-dependent approach. \\
+
+The main purpose of our work was thus to study a quantum walk search algorithm with time-dependent Hamiltonians, \textit{inspired} by the adiabatic implementation, but free from the constraints of the adiabatic theorem. We considered an Hamiltonian based on the adiabatic evolution implementation of the form:
+\begin{equation*}
+H(s) = \big(1-s\big)L -\gamma s\ket{w}\bra{w}
+\end{equation*} 
+where $L$ is the Laplacian of the graph, $\ket{w}\bra{w}$ is the the oracle Hamiltonian and $s$ is the \textit{interpolating schedule} that regulates the time-evolution of the Hamiltonian. In particular, we tried to improve the standard linear interpolating schedule of Farhi and Gutmann by taking the key aspects of the one derived by Roland and Cerf for the local adiabatic evolution, and considered the following non-linear interpolating schedule:
+\begin{equation*}
+  s_{NL}(t)  = \frac{1}{2}\Big[\big(2\frac{t}{T} - 1\big)^3 +1\Big].
+\end{equation*}
+where $T$ is the runtime of the search. We also considered the possibility of repeating the search multiple times if the search is not \textit{perfect} -- that is if the solution is not found with probability close to one. As a consequence, it was necessary to take into account an \textit{initialization} time needed to prepare the system in the correct state and a physical \textit{measure} time, that might affect the overall performance. 
+
+\noindent
+In order to compare the time-independent and time-dependent approach, we differentiated between two types of results, namely the search and localization. The first describes the finding of the solution with high probability for the smallest time possible, while we called \textit{localization} a search without the need to optimize the time. Additionally, we defined the \textit{robustness}, a measure representing the variation on the outcome probability of the search due to noise on the $\gamma$ parameter and runtime $T$. \\
+
+We then turn our attention to the cycle graph, the main graph topology considered. We were able to show that the time-dependent approach has \textit{localization} properties -- it is therefore able to find the solution with high probability, although for a large runtime $T$ -- while the time-independent approach does not, since the outcome probability does not increase with time. This is indeed a consequence of the adiabatic nature of the time-dependent approach.  
+
+We then studied the \textit{search} performance of the two approaches in terms of multiple runs search, since the search is not perfect for the time-independent Hamiltonian and the time is not optimized for the time-dependent one. We discovered that the time-dependent approach is able to outperform the time-independent one for large graph dimension, but is unable to obtain the same speed up as the original Grover's algorithm. Furthermore, the non-linear interpolating schedule $s_{NL}$ shows an improved performance compared to the standard linear one of Farhi and Gutmann. 
+
+In terms of \textit{robustness}, the two approaches showed similar results when considering noise on the runtime $T$, while the time-dependent approach was considerably more robust when studying the noise on the $\gamma$ parameter. Interestingly, the linear interpolating schedule of Farhi and Gutmann proved to be more robust than the non-linear $s_{NL}$ in both scenarios. \\
+
+For completeness we finally turned our attention to the complete graph, qualitatively comparing probability and robustness. As expected, the time-dependent approach was not able to achieve comparable performance with the standard time-independent algorithm. However, we discovered that the time-dependent approach was more robust than the time-independent one, although the improvement in robustness did not justify the much worse time scaling. \\
+
+The complete graph case however illustrated the importance of the interpolating schedule. In fact, although it was not able to achieve the same time scaling as the time-independent approach, it suggested that the improvement on performance comes from the choice of the optimal interpolating schedule. Future investigation on the interpolating schedule can lead to improvements on performance, in particular for the cycle graph. Furthermore, the application of the time-dependent Hamiltonian to other graph topologies might provide additional insights on its performance.
+
+\begin{comment}
+	%CHAPTER 2 - CYCLE GRAPH - Localization results
+	We then turn our attention to the cycle graph, the main graph topology considered. The standard quantum walk is not able to solve the search problem, thus making this graph an interesting starting point.\\
+
+	In terms of localization we discover that the probability evaluated with the time-independent Hamiltonian does not increase with time, therefore it does not show localization properties. On the other hand, the time-dependent approach, given that it is based on the adiabatic implementation, for large $T$ -- far larger than the classical $O(N)$ search -- is able to achieve unitary probability. More interestingly, since the probability does not increase linearly, the solution of the search can be found with probability in the order of $p=0.8\div 0.9$ in much less time . \\
+
+
+	%CHAPTER 2 - CYCLE GRAPH - Search results 
+	We then study the search performance of the two approaches in terms of multiple runs search, since the search is not perfect for the time-independent Hamiltonian and the time is not optimized for the time-dependent one. To do so we introduce a new quantity which represents the minimum time necessary to get to unitary probability:
+	\begin{equation*}
+	  \tau = \min\Big(\frac{T}{p}\Big)_{T,\gamma}
+	\end{equation*}
+	and also consider the number of run iterations $I=\min(p^{-1})_{T,\gamma}$. \\Additionally, since the probability $p$ does not increase linearly with the time $T$, the quantity $\tau$ requires to consider a minimum time $T_{\min}$ to be effective at comparing the two approaches. To be consistent with the standar Grover's and the quantum walks search we set $T_{\min} = \pi/2\sqrt{N}$. \\
+
+
+	After seeing that for the time-dependent approach the linear and non-linear interpolating schedules $s_L$ and $s_{NL}$ perform the best, we compare them to the time-independent approach.\\
+	We discover that both approaches have similar performance up to $N\approx 25$, while for large $N$ it gets significanly different, with the $s_{NL}$ performing the best and the time-independent approach the worst. In terms of run interations $I$ we see that the time-dependent approach, regardless of the interpolating schedules, performs better than the classical search, but still much worse than the optimal time scaling of $O(\sqrt{N})$. Although promising, this result is limited to the dimension considered -- up to $N=71$ in our analysis -- and therefore cannot be generalized in the limit for large $N$. \\
+
+
+	%CHAPTER 2 - CYCLE GRAPH - Robustness
+	We then look at the robustness for both time and $\gamma$. The time-independent approach has a very discontinous probability, made of scattered regions of high and low probability, leading to being less $\gamma$-robust than the time-dependent approach. Indeed the latter has a smooth probability, regardless of the interpolating schedule considered. Nevertheless the linear $s_L$ leads to more robust results than $s_{NL}$. In terms of $T$-robustness the time-independent approach is surprisingly more robust than the others, although the difference in robustness is much smaller than the one encountered for the $\gamma$-robustness. Therefore we can safely say that the time-dependent Hamiltonian-based algorithm is more robust than the time-independent one. \\
+
+
+	%CHAPTER 2 - COMPLETE GRAPH - Qualitative Robustness and probability distribution
+	For completeness we at last turn our attention to the complete graph, qualitatively comparing probability and robustness. As expected the time-dependent approach is not able to achieve comparable performance with the standard time-independent algorithm.  In terms of qualitative robustness we see that the time-dependent algorithm has a smoother probability distribution and therefore better robustness. However the improvement in robustness does not justify the much worse time scaling. \\
+
+
+	The complete graph case however illustrates the importance of the interpolating schedule. In particular, with the time-dependent approach and linear $s_L$, the maximum probability reached is $p=0.5$ in  $T=N$ for a $C(51)$. With the improved non-linear interpolating schedule $s_{NL}$ we are able to achieve in $T=N$ a maximum probability of $p>0.9$.\\
+
+
+	Although it is not able to achieve the same time scaling as the time-independent approach it suggests that the improvement on performance comes from the choice of the optimal interpolating schedule. Future investigation on the interpolating schedule can lead to improvements on performance, in particular for the cycle graph. Additionally one could also apply the time-dependent Hamiltonian to other graph topologies.
+\end{comment}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

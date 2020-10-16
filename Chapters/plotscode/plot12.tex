@@ -15,10 +15,10 @@
     anchor=north west}]
     \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig12/tau_static.txt};\addlegendentry{time-independent}
     \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig12/tau_linear.txt};\addlegendentry{$s_{L}(t)$}
-    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig12/tau_cerf.txt};\addlegendentry{$s_{RC}(t)$}
-
+    \addplot[color=arancio,mark=*,mark size=2.5pt, x=a,y=b] table{./Data/fig12/tau_cerf.txt};\addlegendentry{$s_{NL}(t)$}
+    
     \end{axis}
   \end{tikzpicture}
   \caption{\textbf{\bm{$\tau$} with constrained time at $\bm{\pi/2\sqrt{N}}$, for the time-dependent and time-independent approaches.} The plot shows $\tau$ for cycle graphs up to N=71, using the time-independent Hamiltonian (red) and time-dependent Hamiltonian with linear $s_L$ (green) and non-linear $s_{NL}$ (orange) interpolating schedules. We notice that for small graphs, up to $N\approx 20$, both approaches perform similarly. For large $N$ however the time-dependent algorithm performs significanly better.}
-  \label{fig:delta_increasing_time}
+  \label{fig:tau_independent_dependent}
 \end{figure}

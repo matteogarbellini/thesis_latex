@@ -22,6 +22,28 @@
       ylabel = $\bm{\gamma}$
       ]
       \addplot3 [surf] table[x=a,y=b,z=c]{./Data/fig17/51_cerf_complete.txt};
+      \pgfplotsset{contour/every contour label/.style = {
+                 sloped,
+                 inner sep=2pt,
+                 transform shape,
+                 every node/.style={mapped color,fill=none},
+                },}
+      \addplot3[
+              contour gnuplot=
+              {
+              draw color=white,
+              levels={0.9},
+              labels=true,
+              contour label style={nodes={text=white,font={\large}, yshift=+.4ex, xshift=-3.0ex}},
+              handler/.style=smooth},
+              contour/label distance=300pt,
+              line width=1.5pt,
+              contour/labels over line
+             ] table [
+                      x = a,
+                      y = b,
+                      z = c,
+                     ]{./Data/fig17/51_cerf_complete.txt};
 
       \end{axis}
     \end{tikzpicture}

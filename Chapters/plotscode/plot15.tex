@@ -10,7 +10,7 @@
     ymin=0, ymax=0.04,
     width = 90mm,
     xlabel = Dimension $N$,
-    ylabel = Robustness $R$]
+    ylabel = $\gamma$-robustness]
     \addplot[color=rossoscuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig15/r2_static.txt};\addlegendentry{time-independent}
     \addplot[color=verdescuro,mark=*,mark size=2.5pt, x=a, y=b] table{./Data/fig15/r2_linear.txt};\addlegendentry{$s_{L}(t)$}
     \addplot[color=arancio,mark=*, mark size=2.5pt, x=a, y=b] table{./Data/fig15/r2_cerf.txt};\addlegendentry{$s_{NL}(t)$}
@@ -18,4 +18,5 @@
     \end{axis}
   \end{tikzpicture}
   \caption{\textbf{$\bm{\gamma}$-Robustness for the time-independent and time-dependent approaches.} The figure shows the $\gamma$-robustness for the time-independent approach (red), the time-dependent one with linear $s_L(t)$ (green) and non-linear $s_{NL}(t)$ (red) interpolating schedules. Recalling that the lower $R$ value the highest the robustness, this distribution reflects the probability seen in \Cref{subsec:time_dependent_results}, where the probability distribution was smoother for $s_L(t)$ than $s_{NL}(t)$.}
+  \label{fig:gamma_robustness}
 \end{figure}
